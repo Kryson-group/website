@@ -8,94 +8,127 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" type="image/png" href="Kryson Logos.png">
 <link rel="stylesheet" href="styles.css">
-<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-/* Pre-call specific styles */
-.pc-hero{padding:clamp(100px,12vw,160px) clamp(24px,6vw,100px) clamp(60px,8vw,100px);background:var(--bg2);text-align:center;position:relative;overflow:hidden}
-.pc-hero .hero-glow{opacity:.45}
-.pc-booked{display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:40px;padding:8px 20px;margin-bottom:28px;font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700}
-.pc-booked-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+:root{--red:#DC4848;--green:#25D366}
 
-/* Steps */
-.steps-wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:4px}
-.step-card{background:var(--bg2);border:1px solid rgba(201,168,76,.12);border-radius:12px;padding:clamp(28px,4vw,44px);position:relative;overflow:hidden;transition:border-color .3s}
-.step-card:hover{border-color:rgba(201,168,76,.28)}
-.step-num{font-size:10px;letter-spacing:3px;color:var(--w40);font-weight:700;margin-bottom:12px}
-.step-card h3{font-size:clamp(18px,2.5vw,26px);font-weight:700;color:var(--w95);margin-bottom:12px;line-height:1.25}
-.step-card p{color:var(--w60);line-height:1.75;font-size:clamp(14px,1.5vw,16px)}
-.step-card.urgent{border-color:rgba(220,72,72,.35);background:rgba(220,72,72,.04)}
-.step-card.urgent:hover{border-color:rgba(220,72,72,.6)}
-.step-accent{position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);border-radius:12px 0 0 12px}
-.step-accent.red{background:#DC4848}
+.pc-hero{padding:clamp(110px,13vw,170px) clamp(24px,6vw,100px) clamp(64px,8vw,100px);background:var(--bg2);text-align:center;position:relative;overflow:hidden}
+.pc-hero .hero-glow{opacity:.4}
+.pc-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:40px;padding:9px 22px;margin-bottom:32px;font-size:11px;letter-spacing:2.5px;color:var(--gold);font-weight:700}
+.pc-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
 
-/* Alert box */
-.alert-box{background:rgba(220,72,72,.08);border:1px solid rgba(220,72,72,.3);border-radius:8px;padding:16px 20px;margin-top:20px;display:flex;gap:14px;align-items:flex-start}
-.alert-icon{font-size:18px;flex-shrink:0;margin-top:1px}
-.alert-text{font-size:14px;color:rgba(220,100,100,.9);line-height:1.65}
-.alert-text strong{color:#E05555}
+/* Steps layout */
+.steps-outer{background:var(--bg);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)}
+.steps-wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 
-/* Loom video */
-.loom-placeholder{margin-top:24px;background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.2);border-radius:10px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:border-color .3s}
-.loom-placeholder:hover{border-color:rgba(201,168,76,.5)}
-.loom-play{width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,.15);border:2px solid rgba(201,168,76,.5);display:flex;align-items:center;justify-content:center;transition:background .3s}
-.loom-placeholder:hover .loom-play{background:rgba(201,168,76,.25)}
-.loom-play svg{fill:var(--gold);margin-left:5px}
-.loom-label{font-size:12px;letter-spacing:2px;color:var(--w40);font-weight:700}
-.loom-duration{font-size:11px;color:var(--w20);margin-top:-8px}
+.step-card{border-radius:14px;padding:clamp(28px,4vw,48px);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.step-card:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(0,0,0,.35)}
+.step-card.s-red{background:rgba(220,72,72,.05);border:1px solid rgba(220,72,72,.3)}
+.step-card.s-gold{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18)}
+.step-card.s-green{background:rgba(37,211,102,.04);border:1px solid rgba(37,211,102,.22)}
 
-/* Prep checklist */
-.prep-list{margin-top:20px;display:flex;flex-direction:column;gap:10px}
-.prep-item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:8px}
-.prep-check{width:20px;height:20px;border-radius:4px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* Step header row */
+.step-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:20px}
+.step-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.step-icon-wrap.red{background:rgba(220,72,72,.12)}
+.step-icon-wrap.gold{background:rgba(201,168,76,.1)}
+.step-icon-wrap.green{background:rgba(37,211,102,.1)}
+.step-meta{flex:1}
+.step-num{font-size:10px;letter-spacing:3px;font-weight:700;margin-bottom:6px}
+.step-num.red{color:var(--red)}
+.step-num.gold{color:var(--gold)}
+.step-num.green{color:var(--green)}
+.step-card h3{font-size:clamp(17px,2.2vw,23px);font-weight:700;color:var(--w95);line-height:1.25;margin:0}
+
+.step-card p{color:var(--w60);line-height:1.8;font-size:clamp(14px,1.5vw,15.5px);margin-bottom:0}
+
+/* Alert strip */
+.alert-strip{display:flex;align-items:flex-start;gap:14px;border-radius:8px;padding:16px 20px;margin-top:20px}
+.alert-strip.red{background:rgba(220,72,72,.08);border:1px solid rgba(220,72,72,.25)}
+.alert-strip.green{background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.2)}
+.alert-strip-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.alert-strip-text{font-size:13.5px;line-height:1.65}
+.alert-strip.red .alert-strip-text{color:rgba(220,110,110,.9)}
+.alert-strip.red .alert-strip-text strong{color:#E06060}
+.alert-strip.green .alert-strip-text{color:rgba(80,200,120,.85)}
+.alert-strip.green .alert-strip-text strong{color:#4ade80}
+
+/* Cal add button */
+.cal-btn{display:inline-flex;align-items:center;gap:10px;margin-top:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 20px;color:var(--w95);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s,border-color .2s}
+.cal-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
+
+/* Loom placeholder */
+.loom-box{margin-top:22px;background:rgba(0,0,0,.45);border:1px solid rgba(201,168,76,.18);border-radius:10px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:border-color .25s;text-decoration:none}
+.loom-box:hover{border-color:rgba(201,168,76,.45)}
+.loom-play{width:60px;height:60px;border-radius:50%;background:rgba(201,168,76,.12);border:2px solid rgba(201,168,76,.45);display:flex;align-items:center;justify-content:center;transition:background .25s}
+.loom-box:hover .loom-play{background:rgba(201,168,76,.22)}
+.loom-play svg{fill:var(--gold);margin-left:4px}
+.loom-tag{font-size:11px;letter-spacing:2px;color:var(--w40);font-weight:700}
+.loom-sub{font-size:11px;color:var(--w20)}
+
+/* WhatsApp reminder card */
+.wa-reminder{display:flex;align-items:flex-start;gap:18px;margin-top:22px;background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:20px 22px}
+.wa-icon-col{flex-shrink:0;width:40px;height:40px;border-radius:10px;background:rgba(37,211,102,.15);display:flex;align-items:center;justify-content:center}
+.wa-text strong{display:block;color:#4ade80;font-size:13.5px;margin-bottom:4px}
+.wa-text p{font-size:13px;color:rgba(80,200,120,.8);line-height:1.65;margin:0}
+
+/* Prep */
+.prep-list{margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.prep-item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:8px;transition:border-color .2s}
+.prep-item:hover{border-color:rgba(201,168,76,.22)}
+.prep-check{width:22px;height:22px;border-radius:5px;border:1.5px solid rgba(201,168,76,.5);background:rgba(201,168,76,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .prep-check svg{stroke:var(--gold)}
-.prep-text{font-size:14px;color:var(--w60);line-height:1.6}
+.prep-text{font-size:14px;color:var(--w60);line-height:1.65}
 .prep-text strong{color:var(--w95)}
 
-/* Results snapshot */
-.pc-results{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
-.pc-result-card{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:22px 18px;text-align:center}
-.pc-result-name{font-size:11px;letter-spacing:2px;color:var(--w40);margin-bottom:8px;font-weight:700}
-.pc-result-num{font-size:clamp(16px,2.5vw,22px);font-weight:700;color:var(--gold);margin-bottom:4px}
-.pc-result-meta{font-size:11px;color:var(--w40)}
-@media(max-width:580px){.pc-results{grid-template-columns:1fr}}
+/* Results */
+.pc-results{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.pc-res{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.14);border-radius:10px;padding:24px 18px;text-align:center;transition:border-color .2s,background .2s}
+.pc-res:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.28)}
+.pc-res-label{font-size:10px;letter-spacing:2px;color:var(--w40);margin-bottom:10px;font-weight:700}
+.pc-res-num{font-size:clamp(15px,2.2vw,20px);font-weight:700;color:var(--gold);margin-bottom:5px}
+.pc-res-arrow{font-size:11px;color:var(--w20)}
+.pc-res-meta{font-size:11px;color:var(--w40);margin-top:6px}
+@media(max-width:560px){.pc-results{grid-template-columns:1fr}}
 
 /* Testimonials */
-.pc-testimonials{display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:720px;margin-left:auto;margin-right:auto}
-.pc-testimonial{background:rgba(255,255,255,.02);border-left:3px solid rgba(201,168,76,.5);padding:20px 24px;border-radius:0 8px 8px 0}
-.pc-testimonial p{font-size:clamp(14px,1.5vw,16px);color:var(--w60);line-height:1.75;font-style:italic}
-.pc-testimonial .pc-t-source{font-size:11px;letter-spacing:1.5px;color:var(--gold);margin-top:12px;font-weight:700;font-style:normal}
+.pc-tests{display:flex;flex-direction:column;gap:14px;margin-top:24px;max-width:720px;margin-left:auto;margin-right:auto}
+.pc-test{background:rgba(255,255,255,.02);border-left:3px solid rgba(201,168,76,.45);padding:22px 26px;border-radius:0 10px 10px 0;transition:border-left-color .2s}
+.pc-test:hover{border-left-color:rgba(201,168,76,.8)}
+.pc-test p{font-size:clamp(14px,1.5vw,15.5px);color:var(--w60);line-height:1.8;font-style:italic;margin:0 0 12px}
+.pc-test-src{font-size:10.5px;letter-spacing:1.5px;color:var(--gold);font-weight:700}
 
-/* What happens next timeline */
-.pc-timeline{display:flex;flex-direction:column;gap:0;max-width:600px;margin:24px auto 0;position:relative}
-.pc-timeline::before{content:'';position:absolute;left:18px;top:8px;bottom:8px;width:1px;background:rgba(201,168,76,.2)}
-.pc-tl-item{display:flex;gap:20px;align-items:flex-start;padding:0 0 28px}
-.pc-tl-dot{width:36px;height:36px;border-radius:50%;border:2px solid rgba(201,168,76,.5);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:var(--gold);z-index:1}
-.pc-tl-content h4{font-size:14px;font-weight:700;color:var(--w95);margin-bottom:4px}
-.pc-tl-content p{font-size:13px;color:var(--w40);line-height:1.65}
-.pc-tl-label{font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;font-weight:700}
+/* Timeline */
+.pc-tl{display:flex;flex-direction:column;max-width:600px;margin:28px auto 0;position:relative}
+.pc-tl::before{content:'';position:absolute;left:17px;top:10px;bottom:10px;width:1px;background:rgba(201,168,76,.18)}
+.pc-tl-item{display:flex;gap:22px;align-items:flex-start;padding-bottom:28px}
+.pc-tl-item:last-child{padding-bottom:0}
+.pc-tl-dot{width:34px;height:34px;border-radius:50%;border:2px solid rgba(201,168,76,.45);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:var(--gold);z-index:1}
+.pc-tl-body{padding-top:4px}
+.pc-tl-when{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:5px}
+.pc-tl-body h4{font-size:14px;font-weight:700;color:var(--w95);margin:0 0 4px}
+.pc-tl-body p{font-size:13px;color:var(--w40);line-height:1.65;margin:0}
 
-/* FAQ mini */
-.pc-faqs{max-width:680px;margin:24px auto 0;display:flex;flex-direction:column;gap:8px}
-.pc-faq{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);border-radius:8px;overflow:hidden}
-.pc-faq-q{width:100%;text-align:left;background:none;border:none;padding:18px 20px;font-size:14px;font-weight:600;color:var(--w95);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:inherit}
-.pc-faq-q span{color:var(--gold);font-size:18px;transition:transform .25s;flex-shrink:0}
+/* FAQ */
+.pc-faqs{max-width:700px;margin:24px auto 0;display:flex;flex-direction:column;gap:8px}
+.pc-faq{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);border-radius:8px;overflow:hidden;transition:border-color .2s}
+.pc-faq:hover{border-color:rgba(201,168,76,.22)}
+.pc-faq-q{width:100%;text-align:left;background:none;border:none;padding:18px 22px;font-size:14px;font-weight:600;color:var(--w95);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:inherit;line-height:1.4}
+.pc-faq-q span{color:var(--gold);font-size:20px;line-height:1;transition:transform .25s;flex-shrink:0}
 .pc-faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.pc-faq-a-in{padding:0 20px 18px;font-size:14px;color:var(--w60);line-height:1.75}
+.pc-faq-a-in{padding:0 22px 18px;font-size:14px;color:var(--w60);line-height:1.75}
 .pc-faq.open .pc-faq-q span{transform:rotate(45deg)}
 
-/* Section container */
-.pc-sec{max-width:760px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)}
-.pc-sec-title{font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:700;margin-bottom:20px}
-.pc-sec h2{font-size:clamp(22px,3vw,34px);font-weight:700;color:var(--w95);margin-bottom:16px;line-height:1.25}
-.pc-sec p.sub{color:var(--w40);font-size:14px;line-height:1.7;margin-bottom:24px}
+/* Shared section wrapper */
+.pc-wrap{max-width:780px;margin:0 auto}
+.pc-label{font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:700;margin-bottom:18px}
+.pc-h2{font-size:clamp(22px,3vw,34px);font-weight:700;color:var(--w95);margin-bottom:14px;line-height:1.25}
+.pc-sub{color:var(--w40);font-size:14px;line-height:1.75;margin-bottom:24px}
 </style>
 </head>
 <body>
 
-<!-- Minimal nav — no links to site sections, just logo -->
 <nav id="nav" style="opacity:1;transform:none">
 <a href="index.html" class="logo">
 <svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg"><text x="0" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="120" fill="#FFF" letter-spacing="2">K</text><line x1="62" y1="30" x2="78" y2="10" stroke="#FFF" stroke-width="3.5" stroke-linecap="round"/><polygon points="78,2 85,12 76,14" fill="#FFF"/><text x="82" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="76" fill="#FFF" letter-spacing="16">RYSON</text></svg>
@@ -108,101 +141,140 @@
 <!-- HERO -->
 <section class="pc-hero">
 <div class="hero-glow"></div>
-<div class="pc-booked"><div class="pc-booked-dot"></div>YOU'RE BOOKED</div>
-<h1 class="sh" style="font-size:clamp(28px,5vw,60px);max-width:700px;margin:0 auto 20px">Before we speak — three things you need to do.</h1>
-<p class="sp" style="max-width:520px;margin:0 auto">These are not optional. They are what separates founders who get real value from this call from those who waste their own time.</p>
+<div class="pc-badge"><div class="pc-badge-dot"></div>YOU ARE BOOKED</div>
+<h1 class="sh" style="font-size:clamp(30px,5vw,62px);max-width:680px;margin:0 auto 20px">Before we speak, there are three things you need to do.</h1>
+<p class="sp" style="max-width:500px;margin:0 auto">These are not optional. They separate founders who get real value from this call from those who waste their own time.</p>
 </section>
 <div class="glow-div"></div>
 
 <!-- STEPS -->
-<div style="background:var(--bg);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
+<div class="steps-outer">
 <div class="steps-wrap">
 
-<!-- STEP 1 — CONFIRM -->
-<div class="step-card urgent">
-<div class="step-accent red"></div>
-<div class="step-num">STEP 01</div>
-<h3>Confirm the meeting in your calendar — right now.</h3>
-<p>You should have received a calendar invite. Open it, confirm your attendance, and make sure it is in your calendar. <strong style="color:#E05555">If we do not see a confirmation, the call will be rescheduled without notice.</strong> We do not chase. We hold our time at a premium and expect you to do the same.</p>
-<div class="alert-box">
-<div class="alert-icon">⚠</div>
-<div class="alert-text"><strong>Unconfirmed = cancelled.</strong> This is not a threat — it is how we filter for founders who are ready to move. If you have confirmed, you are already ahead of most.</div>
+<!-- STEP 1: CALENDAR -->
+<div class="step-card s-red">
+<div class="step-head">
+<div class="step-icon-wrap red">
+<!-- Google Calendar SVG -->
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="3" y="4" width="18" height="17" rx="2" fill="white"/>
+<rect x="3" y="4" width="18" height="5" rx="2" fill="#1a73e8"/>
+<rect x="3" y="7" width="18" height="2" fill="#1a73e8"/>
+<circle cx="8" cy="3" r="1.2" fill="#1a73e8"/>
+<circle cx="16" cy="3" r="1.2" fill="#1a73e8"/>
+<rect x="7" y="2" width="1.5" height="3" rx=".75" fill="#1a73e8"/>
+<rect x="15.5" y="2" width="1.5" height="3" rx=".75" fill="#1a73e8"/>
+<text x="12" y="19" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="700" fill="#1a73e8">12</text>
+</svg>
+</div>
+<div class="step-meta">
+<div class="step-num red">STEP 01</div>
+<h3>Confirm the meeting in your calendar right now.</h3>
+</div>
+</div>
+<p>You should have received a calendar invite. Open it, confirm your attendance, and make sure it is saved. <strong style="color:#E06060">If we do not see a confirmation, the call will be rescheduled without notice.</strong> We do not chase. We hold our time at a premium and expect you to do the same.</p>
+<div class="alert-strip red">
+<div class="alert-strip-icon">⚠</div>
+<div class="alert-strip-text"><strong>Unconfirmed means cancelled.</strong> This is not a threat. It is how we filter for founders who are ready to move. If you have confirmed, you are already ahead of most.</div>
 </div>
 </div>
 
-<!-- STEP 2 — WATCH LOOM -->
-<div class="step-card">
-<div class="step-accent"></div>
-<div class="step-num">STEP 02</div>
-<h3>Watch this video before the call.</h3>
-<p>This covers what the Revenue Audit actually involves, what we will be looking at, and what the first week looks like if we move forward. It is under 10 minutes. Watching it means we can skip the context-setting and go straight into your business on the call.</p>
-
-<!-- Loom placeholder — replace href with real Loom URL when available -->
-<a href="#loom-placeholder" class="loom-placeholder" id="loomLink" target="_blank" rel="noopener">
+<!-- STEP 2: LOOM -->
+<div class="step-card s-gold">
+<div class="step-head">
+<div class="step-icon-wrap gold">
+<!-- Loom-style play icon -->
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="14" cy="14" r="13" fill="#C9A84C" opacity=".15"/>
+<circle cx="14" cy="14" r="13" stroke="#C9A84C" stroke-width="1.5"/>
+<path d="M11 9.5l8 4.5-8 4.5V9.5z" fill="#C9A84C"/>
+</svg>
+</div>
+<div class="step-meta">
+<div class="step-num gold">STEP 02</div>
+<h3>Watch the video before the call.</h3>
+</div>
+</div>
+<p>This covers what the Revenue Audit actually involves, what we will be looking at, and what the first week looks like if we move forward. It is under 10 minutes. Watching it means we go straight into your business on the call instead of spending time on context.</p>
+<a href="#loom-placeholder" class="loom-box" id="loomLink" target="_blank" rel="noopener">
 <div class="loom-play">
-<svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+<svg width="20" height="20" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
 </div>
-<div class="loom-label">WATCH: WHAT HAPPENS ON THE CALL</div>
-<div class="loom-duration">Video coming shortly — check back before your call</div>
+<div class="loom-tag">WATCH: WHAT HAPPENS ON THE CALL</div>
+<div class="loom-sub">Video link coming shortly. Check back before your call.</div>
 </a>
-
-<!-- STEP 3 — WHATSAPP -->
-<div style="margin-top:28px">
-<div class="step-num">STEP 03 — AFTER YOU WATCH</div>
-<h3 style="margin-bottom:10px">Confirm in the WhatsApp group that you have watched it.</h3>
-<p>Join the group below and send a message confirming you have watched the video. This tells us you have done the prep. It also means the first 20 minutes of our call are not spent explaining what we do.</p>
-<div class="alert-box" style="margin-top:16px;border-color:rgba(37,211,102,.25);background:rgba(37,211,102,.04)">
-<div class="alert-icon">💬</div>
-<div class="alert-text" style="color:rgba(100,200,120,.85)"><strong style="color:#4ade80">Once you have watched:</strong> send a message in the Kryson WhatsApp group confirming you have watched it. This tells us you have done the prep and means we skip the basics on the call and go straight into your business.</div>
-</div>
-</div>
 </div>
 
-</div><!-- /steps-wrap -->
+<!-- STEP 3: WHATSAPP -->
+<div class="step-card s-green">
+<div class="step-head">
+<div class="step-icon-wrap green">
+<!-- WhatsApp SVG logo -->
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="14" cy="14" r="13" fill="#25D366" opacity=".2"/>
+<path d="M14 3.5C8.2 3.5 3.5 8.2 3.5 14c0 1.9.5 3.7 1.4 5.2L3.5 24.5l5.4-1.4C10.3 23.9 12.1 24.5 14 24.5c5.8 0 10.5-4.7 10.5-10.5S19.8 3.5 14 3.5zm0 19.25c-1.75 0-3.4-.5-4.8-1.35l-.35-.2-3.2.84.86-3.12-.22-.36A8.7 8.7 0 015.25 14c0-4.83 3.92-8.75 8.75-8.75S22.75 9.17 22.75 14 18.83 22.75 14 22.75zm4.8-6.56c-.26-.13-1.55-.77-1.79-.86-.24-.09-.41-.13-.59.13-.17.26-.67.86-.83 1.03-.15.17-.31.2-.57.07-.26-.13-1.1-.41-2.1-1.3-.78-.7-1.3-1.56-1.46-1.82-.15-.26-.01-.4.12-.53.11-.11.26-.3.39-.46.13-.15.17-.26.26-.44.09-.17.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.59-.45-.15-.01-.33-.01-.5-.01-.17 0-.46.06-.7.33-.24.26-.92.9-.92 2.19s.94 2.54 1.07 2.72c.13.17 1.85 2.83 4.49 3.97.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.07 1.55-.63 1.77-1.25.22-.61.22-1.14.15-1.25-.07-.11-.24-.17-.5-.3z" fill="#25D366"/>
+</svg>
+</div>
+<div class="step-meta">
+<div class="step-num green">STEP 03 &nbsp;·&nbsp; AFTER YOU WATCH</div>
+<h3>Confirm in the Kryson WhatsApp group.</h3>
+</div>
+</div>
+<p>Once you have watched the video, send a message in the Kryson WhatsApp group confirming you have done it. This tells us you are prepared. It means the first 20 minutes of our call are not spent explaining what we do.</p>
+<div class="wa-reminder">
+<div class="wa-icon-col">
+<svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 3.5C8.2 3.5 3.5 8.2 3.5 14c0 1.9.5 3.7 1.4 5.2L3.5 24.5l5.4-1.4C10.3 23.9 12.1 24.5 14 24.5c5.8 0 10.5-4.7 10.5-10.5S19.8 3.5 14 3.5zm4.8 14.69c-.26-.13-1.55-.77-1.79-.86-.24-.09-.41-.13-.59.13-.17.26-.67.86-.83 1.03-.15.17-.31.2-.57.07-.26-.13-1.1-.41-2.1-1.3-.78-.7-1.3-1.56-1.46-1.82-.15-.26-.01-.4.12-.53.11-.11.26-.3.39-.46.13-.15.17-.26.26-.44.09-.17.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.59-.45-.15-.01-.33-.01-.5-.01-.17 0-.46.06-.7.33-.24.26-.92.9-.92 2.19s.94 2.54 1.07 2.72c.13.17 1.85 2.83 4.49 3.97.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.07 1.55-.63 1.77-1.25.22-.61.22-1.14.15-1.25-.07-.11-.24-.17-.5-.3z" fill="#25D366"/></svg>
+</div>
+<div class="wa-text">
+<strong>Message the Kryson WhatsApp group</strong>
+<p>Send a short message confirming you have watched the video. You will already be in the group from when you booked.</p>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 <div class="glow-div"></div>
 
 <!-- PREPARE -->
-<div style="background:var(--bg2);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
-<div class="pc-sec" style="padding:0">
-<div class="pc-sec-title">BEFORE THE CALL</div>
-<h2>Have these ready when we speak.</h2>
-<p class="sub">The more prepared you are, the more specific and useful the audit will be. You do not need to have answers — just have access to the information.</p>
+<div style="background:var(--bg2);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)">
+<div class="pc-wrap">
+<div class="pc-label">BEFORE THE CALL</div>
+<h2 class="pc-h2">Have these ready when we speak.</h2>
+<p class="pc-sub">The more prepared you are, the more specific and useful the audit will be. You do not need to have all the answers. Just have access to the information.</p>
 <div class="prep-list">
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your current monthly revenue</strong> — and what it was 3 months ago. The trend matters as much as the number.</div></div>
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your approximate close rate</strong> — how many of the sales conversations you have end in a signed contract. A rough number is fine.</div></div>
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your average deal value</strong> — what a typical new client pays per month or per project.</div></div>
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Where leads are currently coming from</strong> — inbound, referrals, outbound, paid. Even roughly.</div></div>
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Access to your CRM or pipeline</strong> — or be ready to describe what your current follow-up process actually looks like step by step.</div></div>
-<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>The single biggest revenue problem you want to solve</strong> — in one sentence. If you have not thought about this, think about it now.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your current monthly revenue</strong> and what it was 3 months ago. The trend matters as much as the number.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your approximate close rate.</strong> How many of the sales conversations you have end in a signed contract. A rough number is fine.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Your average deal value.</strong> What a typical new client pays per month or per project.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Where leads are currently coming from.</strong> Inbound, referrals, outbound, paid. Even roughly.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>Access to your CRM or pipeline,</strong> or be ready to describe what your current follow-up process looks like step by step.</div></div>
+<div class="prep-item"><div class="prep-check"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke-width="2.2"><polyline points="2,6 5,9 10,3"/></svg></div><div class="prep-text"><strong>The single biggest revenue problem you want to solve,</strong> in one sentence. If you have not thought about this, think about it now.</div></div>
 </div>
 </div>
 </div>
-
 <div class="glow-div"></div>
 
 <!-- RESULTS -->
-<div style="background:var(--bg);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
-<div class="pc-sec" style="padding:0">
-<div class="pc-sec-title">PROOF</div>
-<h2>What other founders built in 60&ndash;90 days.</h2>
-<p class="sub">These are not projections. These are verified numbers from founder-led agencies who were in the same position you are now.</p>
+<div style="background:var(--bg);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)">
+<div class="pc-wrap">
+<div class="pc-label">PROOF</div>
+<h2 class="pc-h2">What other founders built in 60 to 90 days.</h2>
+<p class="pc-sub">These are not projections. These are verified numbers from founder-led agencies who were in the same position you are now.</p>
 <div class="pc-results">
-<div class="pc-result-card">
-<div class="pc-result-name">WISE ENTERPRISES</div>
-<div class="pc-result-num">&pound;27K &rarr; &pound;127.5K</div>
-<div class="pc-result-meta">3.72x in 60 days</div>
+<div class="pc-res">
+<div class="pc-res-label">WISE ENTERPRISES</div>
+<div class="pc-res-num">&pound;27K &rarr; &pound;127.5K</div>
+<div class="pc-res-meta">3.72x in 60 days</div>
 </div>
-<div class="pc-result-card">
-<div class="pc-result-name">NORTH STAR SOLUTIONS</div>
-<div class="pc-result-num">$12.5K &rarr; $96K</div>
-<div class="pc-result-meta">6.68x in 90 days</div>
+<div class="pc-res">
+<div class="pc-res-label">NORTH STAR SOLUTIONS</div>
+<div class="pc-res-num">$12.5K &rarr; $96K</div>
+<div class="pc-res-meta">6.68x in 90 days</div>
 </div>
-<div class="pc-result-card">
-<div class="pc-result-name">TEAMCTC LTD</div>
-<div class="pc-result-num">&pound;8K &rarr; &pound;61K</div>
-<div class="pc-result-meta">6.63x in 90 days</div>
+<div class="pc-res">
+<div class="pc-res-label">TEAMCTC LTD</div>
+<div class="pc-res-num">&pound;8K &rarr; &pound;61K</div>
+<div class="pc-res-meta">6.63x in 90 days</div>
 </div>
 </div>
 <div style="text-align:center;margin-top:28px">
@@ -210,111 +282,108 @@
 </div>
 </div>
 </div>
-
 <div class="glow-div"></div>
 
 <!-- TESTIMONIALS -->
-<div style="background:var(--bg2);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
-<div class="pc-sec" style="padding:0">
-<div class="pc-sec-title">WHAT FOUNDERS SAY</div>
-<h2>In their words.</h2>
-<div class="pc-testimonials">
-<div class="pc-testimonial">
+<div style="background:var(--bg2);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)">
+<div class="pc-wrap">
+<div class="pc-label">WHAT FOUNDERS SAY</div>
+<h2 class="pc-h2">In their words.</h2>
+<div class="pc-tests">
+<div class="pc-test">
 <p>'I had no idea how much time I was wasting on the wrong conversations. Once the qualification gate was in and the setter was running, I could not believe how much headspace I got back. The revenue almost felt like a side effect of getting the system right.'</p>
-<div class="pc-t-source">— Wise Enterprises &middot; B2B Professional Services &middot; 3.72x in 60 days</div>
+<div class="pc-test-src">Wise Enterprises &nbsp;&middot;&nbsp; B2B Professional Services &nbsp;&middot;&nbsp; 3.72x in 60 days</div>
 </div>
-<div class="pc-testimonial">
+<div class="pc-test">
 <p>'We had no idea what was working and what was not. Kryson gave us the visibility to actually manage the business instead of just hoping. The revenue nearly doubled before we changed anything about our service.'</p>
-<div class="pc-t-source">— North Star Solutions &middot; B2B Services Agency &middot; 6.68x in 90 days</div>
+<div class="pc-test-src">North Star Solutions &nbsp;&middot;&nbsp; B2B Services Agency &nbsp;&middot;&nbsp; 6.68x in 90 days</div>
 </div>
-<div class="pc-testimonial">
+<div class="pc-test">
 <p>'I was generating the leads. I just could not close them consistently. Kryson showed me exactly where I was losing deals and gave me the tools to fix it. Close rate went from 21% to 38% and the revenue followed.'</p>
-<div class="pc-t-source">— TeamCTC Ltd &middot; B2B Marketing Agency &middot; 6.63x in 90 days</div>
+<div class="pc-test-src">TeamCTC Ltd &nbsp;&middot;&nbsp; B2B Marketing Agency &nbsp;&middot;&nbsp; 6.63x in 90 days</div>
 </div>
-<div class="pc-testimonial">
+<div class="pc-test">
 <p>'We stopped losing deals to slow follow-up overnight. The proposal system alone was a game changer.'</p>
-<div class="pc-t-source">— UK Consulting Practice &middot; B2B Consulting Firm &middot; 4.11x in 75 days</div>
+<div class="pc-test-src">UK Consulting Practice &nbsp;&middot;&nbsp; B2B Consulting Firm &nbsp;&middot;&nbsp; 4.11x in 75 days</div>
 </div>
 </div>
 </div>
 </div>
-
 <div class="glow-div"></div>
 
 <!-- WHAT HAPPENS NEXT -->
-<div style="background:var(--bg);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
-<div class="pc-sec" style="padding:0;text-align:center">
-<div class="pc-sec-title">WHAT HAPPENS AFTER THE CALL</div>
-<h2>Here is what the next 90 days look like.</h2>
-<p class="sub">If there is a fit, this is the exact sequence. No surprises.</p>
-<div class="pc-timeline">
+<div style="background:var(--bg);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)">
+<div class="pc-wrap" style="text-align:center">
+<div class="pc-label">WHAT HAPPENS AFTER THE CALL</div>
+<h2 class="pc-h2">Here is what the next 90 days look like.</h2>
+<p class="pc-sub">If there is a fit, this is the exact sequence. No surprises.</p>
+<div class="pc-tl">
 <div class="pc-tl-item">
 <div class="pc-tl-dot">1</div>
-<div class="pc-tl-content">
-<div class="pc-tl-label">TODAY — THE CALL</div>
+<div class="pc-tl-body" style="text-align:left">
+<div class="pc-tl-when">TODAY</div>
 <h4>Strategic Fit Call</h4>
 <p>We align on your goals, bottlenecks, and commercial reality. No pitch. Just diagnosis. If there is a fit, we outline next steps before the call ends.</p>
 </div>
 </div>
 <div class="pc-tl-item">
 <div class="pc-tl-dot">2</div>
-<div class="pc-tl-content">
-<div class="pc-tl-label">WEEK 1</div>
+<div class="pc-tl-body" style="text-align:left">
+<div class="pc-tl-when">WEEK 1</div>
 <h4>Revenue Leak Audit</h4>
-<p>90 minutes with the founder. Full pipeline and CRM review. Call recording analysis. By end of Week 1 you have a Revenue Leak Map — a ranked breakdown of where money is falling out and what to fix first.</p>
+<p>90 minutes with the founder. Full pipeline and CRM review. Call recording analysis. By end of Week 1 you have a Revenue Leak Map: a ranked breakdown of where money is falling out and what to fix first.</p>
 </div>
 </div>
 <div class="pc-tl-item">
 <div class="pc-tl-dot">3</div>
-<div class="pc-tl-content">
-<div class="pc-tl-label">WEEKS 2 TO 6</div>
+<div class="pc-tl-body" style="text-align:left">
+<div class="pc-tl-when">WEEKS 2 TO 6</div>
 <h4>System Rebuild</h4>
-<p>Highest-leverage fixes first. One working deliverable per week — built and tested on your live conversations. CRM, scripts, frameworks, follow-up sequences.</p>
+<p>Highest-leverage fixes first. One working deliverable per week, built and tested on your live conversations. CRM, scripts, frameworks, follow-up sequences.</p>
 </div>
 </div>
 <div class="pc-tl-item">
 <div class="pc-tl-dot">4</div>
-<div class="pc-tl-content">
-<div class="pc-tl-label">MONTH 2</div>
+<div class="pc-tl-body" style="text-align:left">
+<div class="pc-tl-when">MONTH 2</div>
 <h4>Prove It Works</h4>
 <p>The system is live. We measure close rate, show rate, pipeline accuracy, and follow-up compliance weekly. You see the numbers move in real time.</p>
 </div>
 </div>
-<div class="pc-tl-item" style="padding-bottom:0">
+<div class="pc-tl-item">
 <div class="pc-tl-dot">5</div>
-<div class="pc-tl-content">
-<div class="pc-tl-label">MONTH 3</div>
+<div class="pc-tl-body" style="text-align:left">
+<div class="pc-tl-when">MONTH 3</div>
 <h4>Scale or Step Back</h4>
-<p>System is proven. We help you build the team to run it independently — or hand it over to you fully operational.</p>
+<p>System is proven. We help you build the team to run it independently, or hand it over to you fully operational.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-
 <div class="glow-div"></div>
 
-<!-- MINI FAQ -->
-<div style="background:var(--bg2);padding:clamp(48px,6vw,80px) clamp(24px,5vw,48px)">
-<div class="pc-sec" style="padding:0">
-<div class="pc-sec-title">QUICK QUESTIONS</div>
-<h2 style="text-align:center">Things founders usually ask before the call.</h2>
+<!-- FAQ -->
+<div style="background:var(--bg2);padding:clamp(56px,7vw,96px) clamp(24px,5vw,48px)">
+<div class="pc-wrap">
+<div class="pc-label" style="text-align:center">QUICK QUESTIONS</div>
+<h2 class="pc-h2" style="text-align:center">Things founders usually ask before the call.</h2>
 <div class="pc-faqs">
-<div class="pc-faq"><button class="pc-faq-q">Is the audit really free? What is the catch? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">There is no catch. The Strategic Fit Call is 30 to 45 minutes. It is diagnostic — we look at your situation, identify the biggest revenue leaks, and tell you what we would do about them. If there is a fit for a full engagement, we outline what that looks like. If there is not, you still leave with a clear picture of where your revenue is being lost. No pitch, no pressure.</div></div></div>
-<div class="pc-faq"><button class="pc-faq-q">What if my situation is different from your case studies? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">Every client comes in with a different starting point — different revenue, different industry, different specific problems. The process adapts to what we find in Week 1. The Revenue Leak Map is built around your specific business, not a template. What does not change is the underlying framework for diagnosing and fixing commercial systems.</div></div></div>
+<div class="pc-faq"><button class="pc-faq-q">Is the audit really free? What is the catch? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">There is no catch. The Strategic Fit Call is 30 to 45 minutes. It is diagnostic. We look at your situation, identify the biggest revenue leaks, and tell you what we would do about them. If there is a fit for a full engagement, we outline what that looks like. If there is not, you still leave with a clear picture of where your revenue is being lost. No pitch, no pressure.</div></div></div>
+<div class="pc-faq"><button class="pc-faq-q">What if my situation is different from your case studies? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">Every client comes in with a different starting point. Different revenue, different industry, different specific problems. The process adapts to what we find in Week 1. The Revenue Leak Map is built around your specific business, not a template. What does not change is the underlying framework for diagnosing and fixing commercial systems.</div></div></div>
 <div class="pc-faq"><button class="pc-faq-q">How long does the call take? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">30 to 45 minutes. We start on time and end on time. Come with your numbers ready and we will get through a lot of ground. If there is a clear fit and you want to go deeper, we can schedule a follow-up.</div></div></div>
-<div class="pc-faq"><button class="pc-faq-q">What if I am not ready to invest right now? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">That is fine to say on the call. We do not do pressure closes. What we do ask is that you show up prepared and take the call seriously — because we are investing our time in good faith. If the timing is not right, we can discuss a waitlist or a future engagement start.</div></div></div>
+<div class="pc-faq"><button class="pc-faq-q">What if I am not ready to invest right now? <span>+</span></button><div class="pc-faq-a"><div class="pc-faq-a-in">That is fine to say on the call. We do not do pressure closes. What we do ask is that you show up prepared and take the call seriously, because we are investing our time in good faith. If the timing is not right, we can discuss a waitlist or a future engagement start.</div></div></div>
 </div>
 </div>
 </div>
 
 <!-- FOOTER CTA -->
-<div style="background:var(--bg);padding:clamp(60px,8vw,100px) clamp(24px,5vw,48px);text-align:center">
+<div style="background:var(--bg);padding:clamp(64px,8vw,110px) clamp(24px,5vw,48px);text-align:center">
 <div class="sl">You Are Booked</div>
-<h2 class="sh" style="max-width:560px;margin:0 auto 16px">Do the three steps. Show up prepared. That is all.</h2>
-<p class="sp" style="max-width:480px;margin:0 auto 32px">Questions before the call? Email directly.</p>
+<h2 class="sh" style="max-width:520px;margin:0 auto 16px">Do the three steps. Show up prepared. That is all.</h2>
+<p class="sp" style="max-width:440px;margin:0 auto 32px">Questions before the call? Email directly.</p>
 <a href="mailto:Kyle@krysongroup.com"><button class="btn bs" style="font-size:11px;padding:12px 28px">Kyle@krysongroup.com</button></a>
-<p style="margin-top:16px;font-size:11px;color:var(--w20);letter-spacing:1px">NO COMMITMENT REQUIRED &middot; FOUNDER TO FOUNDER</p>
+<p style="margin-top:18px;font-size:11px;color:var(--w20);letter-spacing:1px">NO COMMITMENT REQUIRED &nbsp;&middot;&nbsp; FOUNDER TO FOUNDER</p>
 </div>
 
 <div class="kg-band">
@@ -350,9 +419,6 @@
 </footer>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
-document.querySelectorAll('.rv').forEach(el=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%'},opacity:1,y:0,duration:.5,ease:'power2.out'})});
-// FAQ accordion
 document.querySelectorAll('.pc-faq-q').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const faq=btn.parentElement,ans=faq.querySelector('.pc-faq-a'),open=faq.classList.contains('open');
@@ -360,10 +426,6 @@ document.querySelectorAll('.pc-faq-q').forEach(btn=>{
     if(!open){faq.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px'}
   });
 });
-// Mobile burger (reuse shared styles)
-const burg=document.getElementById('burg'),mob=document.getElementById('mob'),mobX=document.getElementById('mobX');
-if(burg){burg.addEventListener('click',()=>{mob.classList.add('open');document.body.style.overflow='hidden'});}
-if(mobX){mobX.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''});}
 </script>
 </body>
 </html>
