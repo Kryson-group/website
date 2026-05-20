@@ -9,7 +9,7 @@ NAV = '''<nav id="nav">
 <a href="results.html" class="na">Results</a>
 <a href="about.html" class="na">About</a>
 <a href="faq.html" class="na">FAQ</a>
-<a href="#" class="booking-trigger"><button class="nb">Book an Audit</button></a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="nb">Book an Audit</button></a>
 </div>
 <button class="burger" id="burg"><span></span><span></span><span></span></button>
 </nav>
@@ -20,7 +20,7 @@ NAV = '''<nav id="nav">
 <a href="about.html" class="ml">About</a>
 <a href="about.html#careers" class="ml">Careers</a>
 <a href="faq.html" class="ml">FAQ</a>
-<a href="#" class="ml booking-trigger" style="color:var(--gold)">Book an Audit</a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank" class="ml" style="color:var(--gold)">Book an Audit</a>
 </div>'''
 
 LOADER = '''<div id="loader">
@@ -66,19 +66,13 @@ FOOTER = '''<footer>
 </div>
 </footer>'''
 
-BOOKING_MODAL = '''<div id="bookingModal" class="bm-overlay">
-<div class="bm-panel">
-<button class="bm-close" id="bmClose">&times;</button>
-<div class="bm-head">
-<div class="bm-tag">Book Your Revenue Audit</div>
-<div class="bm-title">Choose a time that works for you.</div>
-<div class="bm-sub">No commitment required. Founder to founder.</div>
-</div>
-<div class="bm-iframe-wrap" id="bmIframeWrap"></div>
-</div>
-</div>'''
+BOOKING_MODAL = ''
 
-CDN = '''<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+CALENDLY_BADGE = '''<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">window.onload=function(){if(typeof Calendly!=='undefined'){Calendly.initBadgeWidget({url:'https://calendly.com/kyle-krysongroup/introduction?background_color=000000&text_color=ffffff&primary_color=c9a84c',text:'Schedule time with me',color:'#c9a84c',textColor:'#ffffff',branding:true});}}</script>'''
+
+CDN = '''<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>'''
 
@@ -116,24 +110,9 @@ function toggleCase(top){const c=top.parentElement,b=c.querySelector('.case-body
 const burg=document.getElementById('burg'),mob=document.getElementById('mob'),mobX=document.getElementById('mobX');
 burg.addEventListener('click',()=>{mob.classList.add('open');document.body.style.overflow='hidden'});
 mobX.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''});
-document.querySelectorAll('.ml').forEach(l=>{if(!l.classList.contains('booking-trigger'))l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
+document.querySelectorAll('.ml').forEach(l=>{l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  if(a.classList.contains('booking-trigger'))return;
   a.addEventListener('click',function(e){const href=this.getAttribute('href');if(href==='#')return;e.preventDefault();const t=document.querySelector(href);if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-64,behavior:'smooth'})});
-});
-const bModal=document.getElementById('bookingModal');
-const bmClose=document.getElementById('bmClose');
-let bookingLoaded=false;
-function openBooking(){
-  if(!bookingLoaded){bookingLoaded=true;const wrap=document.getElementById('bmIframeWrap');const ifr=document.createElement('iframe');ifr.src='https://api.leadconnectorhq.com/widget/booking/ucM2wiPjxGC5ekOnTM8E';ifr.scrolling='no';ifr.style.cssText='width:100%;border:none;display:block;min-height:580px';wrap.appendChild(ifr);const s=document.createElement('script');s.src='https://link.msgsndr.com/js/form_embed.js';document.body.appendChild(s);}
-  bModal.classList.add('open');document.body.style.overflow='hidden';
-}
-function closeBooking(){bModal.classList.remove('open');document.body.style.overflow='';}
-bmClose.addEventListener('click',closeBooking);
-bModal.addEventListener('click',e=>{if(e.target===bModal)closeBooking()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBooking()});
-document.querySelectorAll('.booking-trigger,.bp,.nb').forEach(el=>{
-  el.addEventListener('click',e=>{e.preventDefault();if(typeof mob!=='undefined'){mob.classList.remove('open');}document.body.style.overflow='';openBooking();});
 });
 """
 
@@ -176,7 +155,7 @@ def cta_section():
 <div class="sl">Get Started</div>
 <h2 class="sh">Stop losing revenue you already earned.</h2>
 <p class="sp">90 minutes. Your pipeline, conversion data, and sales process examined and mapped. No pitch. Just diagnosis.</p>
-<button class="btn bp booking-trigger" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button></a>
 <p class="cta-note">No commitment required. Founder to founder.</p>
 </div>
 </section>'''
@@ -193,8 +172,9 @@ def inner_page(title, desc, canonical, schema, hero_label, hero_h1, hero_sub, bo
         '\n<p class="sp" style="max-width:560px">' + hero_sub + '</p>'
         '\n</section>\n<div class="glow-div"></div>\n' +
         body +
-        cta_section() + '\n' + KG_BAND + '\n' + FOOTER + '\n' + BOOKING_MODAL +
-        '\n<script>\n' + nav_js + '\n' + SHARED_JS + '\n' + extra_js + '\n</script>\n</body></html>'
+        cta_section() + '\n' + KG_BAND + '\n' + FOOTER +
+        '\n<script>\n' + nav_js + '\n' + SHARED_JS + '\n' + extra_js + '\n</script>\n' +
+        CALENDLY_BADGE + '\n</body></html>'
     )
 
 
@@ -218,7 +198,7 @@ INDEX_BODY = '''<section id="hero">
 </h1>
 <p class="hs">You have leads, calls, and proposals going out. Revenue still feels like guesswork. The problem is never the top of the funnel. It is the system underneath it.</p>
 <div class="hb">
-<button class="btn bp booking-trigger" style="font-size:13px;padding:16px 36px;letter-spacing:2.5px">Book a Revenue Audit</button>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:13px;padding:16px 36px;letter-spacing:2.5px">Book a Revenue Audit</button></a>
 <a href="results.html"><button class="btn bs" style="font-size:11px;padding:12px 24px">See Client Results</button></a>
 </div>
 </div>
@@ -295,8 +275,9 @@ INDEX = (
          "Revenue architecture for founder-led B2B agencies and professional service firms. We fix pipeline conversion, rebuild the sales process, and install revenue operating systems that run without us.",
          "", INDEX_SCHEMA) +
     '\n<body>\n' + LOADER + '\n' + NAV + '\n' + INDEX_BODY +
-    cta_section() + '\n' + KG_BAND + '\n' + FOOTER + '\n' + BOOKING_MODAL +
-    '\n<script>\n' + LOADER_JS + '\n' + SHARED_JS + "\ninitP('pC',30);initP('ctaC',15);\n</script>\n</body></html>"
+    cta_section() + '\n' + KG_BAND + '\n' + FOOTER +
+    '\n<script>\n' + LOADER_JS + '\n' + SHARED_JS + "\ninitP('pC',30);initP('ctaC',15);\n</script>\n" +
+    CALENDLY_BADGE + '\n</body></html>'
 )
 
 with open('index.html','w') as f: f.write(INDEX)
@@ -324,7 +305,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'I had no idea how much time I was wasting on the wrong conversations. Once the qualification gate was in and the setter was running, I could not believe how much headspace I got back. The revenue almost felt like a side effect of getting the system right.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>
 
 <div class="case rv">
@@ -347,7 +328,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'I was generating the leads. I just could not close them consistently. Kryson showed me exactly where I was losing deals and gave me the tools to fix it. Close rate went from 21% to 38% and the revenue followed.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>
 
 <div class="case rv">
@@ -370,7 +351,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'We had no idea what was working and what was not. Kryson gave us the visibility to actually manage the business instead of just hoping. The revenue nearly doubled before we changed anything about our service.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>
 
 <div class="case rv">
@@ -393,7 +374,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'We went from hoping the phone would ring to actually controlling our revenue. The proposal system alone was a game changer. We stopped losing deals to slow follow-up overnight.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>
 
 <div class="case rv">
@@ -416,7 +397,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'We were so focused on winning new clients that we forgot to keep the ones we had. Kryson showed us the churn was costing more than the new business was making. Fixing retention was the single highest-leverage move we could have made.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>
 
 <div class="case rv">
@@ -439,7 +420,7 @@ CASES = '''
 </ul></div>
 </div>
 <div class="case-quote"><p>'I did not even realise I had a sales problem. I thought I just needed more leads. Turns out I was losing half the deals I already had because I had no system. The structure Kryson put in changed everything.'</p></div>
-<div class="case-cta"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></div>
+<div class="case-cta"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 24px">Book Your Revenue Audit</button></a></div>
 </div></div></div>'''
 
 # SERVICES
@@ -478,7 +459,7 @@ SERVICES_BODY = '''<section id="problem" class="sec" style="background:var(--bg)
 <div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 03</div><h3>Revenue Operating System</h3></div><p>We install the structure that keeps it running and improving week after week.</p><ul class="wwd-delivers"><li>KPI dashboards and conversion tracking</li><li>Weekly pipeline and call review cadences</li><li>Deal ownership by stage</li><li>Team training to run it independently</li></ul></div>
 <div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 04</div><h3>Scale</h3></div><p>Once the system is proven, we build the team to run it at scale.</p><ul class="wwd-delivers"><li>Role design and hiring criteria</li><li>Scripts, objection libraries, and call frameworks</li><li>Onboarding and performance standards</li><li>Team running proven system independently</li></ul></div>
 </div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></div>
+<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div>
 <section id="process" class="sec" style="background:var(--bg)">
@@ -514,7 +495,7 @@ SERVICES_BODY = '''<section id="problem" class="sec" style="background:var(--bg)
 </div>
 </div>
 </div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></div>
+<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div>
 <section id="pricing" class="sec" style="background:var(--bg2)">
@@ -526,7 +507,7 @@ SERVICES_BODY = '''<section id="problem" class="sec" style="background:var(--bg)
 <div class="pr-card rv"><div class="pr-lab">Setup Fee</div><div class="pr-val">On Application</div><p>Covers the full Revenue Leak Audit, system rebuild, CRM architecture, framework design, and initial training. Payable on signing.</p></div>
 <div class="pr-card rv"><div class="pr-lab">Revenue Share</div><div class="pr-val">Performance-Based</div><p>Applied to incremental revenue above your established baseline. If your revenue does not grow, we do not earn. Minimum 3-month engagement.</p></div>
 </div>
-<div style="text-align:center"><button class="btn bp booking-trigger" style="font-size:11px">Book a Revenue Audit</button></div>
+<div style="text-align:center"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div>'''
 

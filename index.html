@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://krysonlimited.com/">
 <link rel="icon" type="image/png" href="Kryson Logos.png">
 <link rel="stylesheet" href="styles.css">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -35,7 +36,7 @@
 <a href="results.html" class="na">Results</a>
 <a href="about.html" class="na">About</a>
 <a href="faq.html" class="na">FAQ</a>
-<a href="#" class="booking-trigger"><button class="nb">Book an Audit</button></a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="nb">Book an Audit</button></a>
 </div>
 <button class="burger" id="burg"><span></span><span></span><span></span></button>
 </nav>
@@ -46,7 +47,7 @@
 <a href="about.html" class="ml">About</a>
 <a href="about.html#careers" class="ml">Careers</a>
 <a href="faq.html" class="ml">FAQ</a>
-<a href="#" class="ml booking-trigger" style="color:var(--gold)">Book an Audit</a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank" class="ml" style="color:var(--gold)">Book an Audit</a>
 </div>
 <section id="hero">
 <canvas id="pC"></canvas>
@@ -61,7 +62,7 @@
 </h1>
 <p class="hs">You have leads, calls, and proposals going out. Revenue still feels like guesswork. The problem is never the top of the funnel. It is the system underneath it.</p>
 <div class="hb">
-<button class="btn bp booking-trigger" style="font-size:13px;padding:16px 36px;letter-spacing:2.5px">Book a Revenue Audit</button>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:13px;padding:16px 36px;letter-spacing:2.5px">Book a Revenue Audit</button></a>
 <a href="results.html"><button class="btn bs" style="font-size:11px;padding:12px 24px">See Client Results</button></a>
 </div>
 </div>
@@ -139,7 +140,7 @@
 <div class="sl">Get Started</div>
 <h2 class="sh">Stop losing revenue you already earned.</h2>
 <p class="sp">90 minutes. Your pipeline, conversion data, and sales process examined and mapped. No pitch. Just diagnosis.</p>
-<button class="btn bp booking-trigger" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button></a>
 <p class="cta-note">No commitment required. Founder to founder.</p>
 </div>
 </section>
@@ -175,17 +176,6 @@
 <div><a href="#">Privacy</a> &middot; <a href="#">Terms</a></div>
 </div>
 </footer>
-<div id="bookingModal" class="bm-overlay">
-<div class="bm-panel">
-<button class="bm-close" id="bmClose">&times;</button>
-<div class="bm-head">
-<div class="bm-tag">Book Your Revenue Audit</div>
-<div class="bm-title">Choose a time that works for you.</div>
-<div class="bm-sub">No commitment required. Founder to founder.</div>
-</div>
-<div class="bm-iframe-wrap" id="bmIframeWrap"></div>
-</div>
-</div>
 <script>
 
 const lt=document.getElementById('lt'),lb=document.getElementById('lb'),ld=document.getElementById('loader');
@@ -237,26 +227,13 @@ function toggleCase(top){const c=top.parentElement,b=c.querySelector('.case-body
 const burg=document.getElementById('burg'),mob=document.getElementById('mob'),mobX=document.getElementById('mobX');
 burg.addEventListener('click',()=>{mob.classList.add('open');document.body.style.overflow='hidden'});
 mobX.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''});
-document.querySelectorAll('.ml').forEach(l=>{if(!l.classList.contains('booking-trigger'))l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
+document.querySelectorAll('.ml').forEach(l=>{l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  if(a.classList.contains('booking-trigger'))return;
   a.addEventListener('click',function(e){const href=this.getAttribute('href');if(href==='#')return;e.preventDefault();const t=document.querySelector(href);if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-64,behavior:'smooth'})});
-});
-const bModal=document.getElementById('bookingModal');
-const bmClose=document.getElementById('bmClose');
-let bookingLoaded=false;
-function openBooking(){
-  if(!bookingLoaded){bookingLoaded=true;const wrap=document.getElementById('bmIframeWrap');const ifr=document.createElement('iframe');ifr.src='https://api.leadconnectorhq.com/widget/booking/ucM2wiPjxGC5ekOnTM8E';ifr.scrolling='no';ifr.style.cssText='width:100%;border:none;display:block;min-height:580px';wrap.appendChild(ifr);const s=document.createElement('script');s.src='https://link.msgsndr.com/js/form_embed.js';document.body.appendChild(s);}
-  bModal.classList.add('open');document.body.style.overflow='hidden';
-}
-function closeBooking(){bModal.classList.remove('open');document.body.style.overflow='';}
-bmClose.addEventListener('click',closeBooking);
-bModal.addEventListener('click',e=>{if(e.target===bModal)closeBooking()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBooking()});
-document.querySelectorAll('.booking-trigger,.bp,.nb').forEach(el=>{
-  el.addEventListener('click',e=>{e.preventDefault();if(typeof mob!=='undefined'){mob.classList.remove('open');}document.body.style.overflow='';openBooking();});
 });
 
 initP('pC',30);initP('ctaC',15);
 </script>
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">window.onload=function(){if(typeof Calendly!=='undefined'){Calendly.initBadgeWidget({url:'https://calendly.com/kyle-krysongroup/introduction?background_color=000000&text_color=ffffff&primary_color=c9a84c',text:'Schedule time with me',color:'#c9a84c',textColor:'#ffffff',branding:true});}}</script>
 </body></html>

@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://krysonlimited.com/services.html">
 <link rel="icon" type="image/png" href="Kryson Logos.png">
 <link rel="stylesheet" href="styles.css">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -25,7 +26,7 @@
 <a href="results.html" class="na">Results</a>
 <a href="about.html" class="na">About</a>
 <a href="faq.html" class="na">FAQ</a>
-<a href="#" class="booking-trigger"><button class="nb">Book an Audit</button></a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="nb">Book an Audit</button></a>
 </div>
 <button class="burger" id="burg"><span></span><span></span><span></span></button>
 </nav>
@@ -36,7 +37,7 @@
 <a href="about.html" class="ml">About</a>
 <a href="about.html#careers" class="ml">Careers</a>
 <a href="faq.html" class="ml">FAQ</a>
-<a href="#" class="ml booking-trigger" style="color:var(--gold)">Book an Audit</a>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank" class="ml" style="color:var(--gold)">Book an Audit</a>
 </div>
 <section class="ph" style="background:var(--bg2);padding:clamp(120px,14vw,180px) clamp(48px,7vw,120px) clamp(64px,8vw,100px);position:relative;overflow:hidden">
 <div class="hero-glow" style="opacity:.5"></div>
@@ -76,52 +77,10 @@
 <div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 03</div><h3>Revenue Operating System</h3></div><p>We install the structure that keeps it running and improving week after week.</p><ul class="wwd-delivers"><li>KPI dashboards and conversion tracking</li><li>Weekly pipeline and call review cadences</li><li>Deal ownership by stage</li><li>Team training to run it independently</li></ul></div>
 <div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 04</div><h3>Scale</h3></div><p>Once the system is proven, we build the team to run it at scale.</p><ul class="wwd-delivers"><li>Role design and hiring criteria</li><li>Scripts, objection libraries, and call frameworks</li><li>Onboarding and performance standards</li><li>Team running proven system independently</li></ul></div>
 </div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></div>
+<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div>
-<style>
-.pf-outer{padding:clamp(60px,8vw,100px) clamp(24px,5vw,80px);background:var(--bg);text-align:center}
-.pf-wrap{display:flex;gap:20px;max-width:900px;margin:0 auto;align-items:flex-start}
-.pf-panel{flex:1;min-width:0}
-.pf-ph{font-size:10px;font-weight:700;letter-spacing:3px;padding:10px 0 14px;text-align:center}
-.pf-ph.bad{color:#d94f4f}
-.pf-ph.good{color:var(--gold)}
-.pf-cw{position:relative;width:100%;height:340px;background:rgba(255,255,255,.015);border-radius:10px;border:1px solid rgba(201,168,76,.1);overflow:hidden}
-.pf-cw canvas{position:absolute;top:0;left:0;width:100%;height:100%}
-.pf-foot{display:flex;justify-content:center;gap:24px;margin-top:16px}
-.pf-stat{text-align:center}
-.pf-sn{font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--gold)}
-.pf-sn.bad{color:#d94f4f}
-.pf-sl{font-size:9px;letter-spacing:2px;color:var(--w40);margin-top:3px}
-.pf-div{width:1px;background:rgba(201,168,76,.12);align-self:stretch;margin-top:46px}
-@media(max-width:620px){.pf-wrap{flex-direction:column}.pf-div{display:none}}
-</style>
-<section class="pf-outer rv">
-<div class="sl">The Problem</div>
-<h2 class="sh" style="max-width:760px;margin:0 auto clamp(12px,2vw,18px)">Most revenue doesn't get lost in the market. It leaks inside your sales process.</h2>
-<p class="sp" style="max-width:520px;margin:0 auto clamp(32px,4vw,52px)">Watch 100 leads move through a typical agency pipeline — and through a Kryson-built system.</p>
-<div class="pf-wrap">
-<div class="pf-panel">
-<div class="pf-ph bad">WITHOUT A SYSTEM</div>
-<div class="pf-cw"><canvas id="pfBad"></canvas></div>
-<div class="pf-foot">
-<div class="pf-stat"><div class="pf-sn bad">7%</div><div class="pf-sl">CLOSE RATE</div></div>
-<div class="pf-stat"><div class="pf-sn bad">93%</div><div class="pf-sl">REVENUE LEAKED</div></div>
-</div>
-</div>
-<div class="pf-div"></div>
-<div class="pf-panel">
-<div class="pf-ph good">WITH KRYSON</div>
-<div class="pf-cw"><canvas id="pfGood"></canvas></div>
-<div class="pf-foot">
-<div class="pf-stat"><div class="pf-sn">83%</div><div class="pf-sl">CLOSE RATE</div></div>
-<div class="pf-stat"><div class="pf-sn">17%</div><div class="pf-sl">REVENUE LEAKED</div></div>
-</div>
-</div>
-</div>
-</section>
-<div class="glow-div"></div>
-<section id="process" class="sec" style="background:var(--bg2)">
+<section id="process" class="sec" style="background:var(--bg)">
 <div class="sl">How It Works</div>
 <h2 class="sh">B2B sales process optimisation: from broken to predictable in 90 days.</h2>
 <div class="gr"></div>
@@ -154,7 +113,7 @@
 </div>
 </div>
 </div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><button class="btn bp booking-trigger" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></div>
+<div style="text-align:center;margin-top:clamp(32px,4vw,56px)"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px;padding:12px 28px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div>
 <section id="pricing" class="sec" style="background:var(--bg2)">
@@ -166,7 +125,7 @@
 <div class="pr-card rv"><div class="pr-lab">Setup Fee</div><div class="pr-val">On Application</div><p>Covers the full Revenue Leak Audit, system rebuild, CRM architecture, framework design, and initial training. Payable on signing.</p></div>
 <div class="pr-card rv"><div class="pr-lab">Revenue Share</div><div class="pr-val">Performance-Based</div><p>Applied to incremental revenue above your established baseline. If your revenue does not grow, we do not earn. Minimum 3-month engagement.</p></div>
 </div>
-<div style="text-align:center"><button class="btn bp booking-trigger" style="font-size:11px">Book a Revenue Audit</button></div>
+<div style="text-align:center"><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:11px">Book a Revenue Audit</button></a></div>
 </section>
 <div class="glow-div"></div><section id="cta">
 <canvas id="ctaC"></canvas>
@@ -176,7 +135,7 @@
 <div class="sl">Get Started</div>
 <h2 class="sh">Stop losing revenue you already earned.</h2>
 <p class="sp">90 minutes. Your pipeline, conversion data, and sales process examined and mapped. No pitch. Just diagnosis.</p>
-<button class="btn bp booking-trigger" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button>
+<a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank"><button class="btn bp" style="font-size:13px;padding:16px 40px">Book Your Revenue Audit</button></a>
 <p class="cta-note">No commitment required. Founder to founder.</p>
 </div>
 </section>
@@ -212,17 +171,6 @@
 <div><a href="#">Privacy</a> &middot; <a href="#">Terms</a></div>
 </div>
 </footer>
-<div id="bookingModal" class="bm-overlay">
-<div class="bm-panel">
-<button class="bm-close" id="bmClose">&times;</button>
-<div class="bm-head">
-<div class="bm-tag">Book Your Revenue Audit</div>
-<div class="bm-title">Choose a time that works for you.</div>
-<div class="bm-sub">No commitment required. Founder to founder.</div>
-</div>
-<div class="bm-iframe-wrap" id="bmIframeWrap"></div>
-</div>
-</div>
 <script>
 gsap.to('#nav',{opacity:1,y:0,duration:.5,ease:'power2.out'});
 
@@ -259,112 +207,13 @@ function toggleCase(top){const c=top.parentElement,b=c.querySelector('.case-body
 const burg=document.getElementById('burg'),mob=document.getElementById('mob'),mobX=document.getElementById('mobX');
 burg.addEventListener('click',()=>{mob.classList.add('open');document.body.style.overflow='hidden'});
 mobX.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''});
-document.querySelectorAll('.ml').forEach(l=>{if(!l.classList.contains('booking-trigger'))l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
+document.querySelectorAll('.ml').forEach(l=>{l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  if(a.classList.contains('booking-trigger'))return;
   a.addEventListener('click',function(e){const href=this.getAttribute('href');if(href==='#')return;e.preventDefault();const t=document.querySelector(href);if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-64,behavior:'smooth'})});
-});
-const bModal=document.getElementById('bookingModal');
-const bmClose=document.getElementById('bmClose');
-let bookingLoaded=false;
-function openBooking(){
-  if(!bookingLoaded){bookingLoaded=true;const wrap=document.getElementById('bmIframeWrap');const ifr=document.createElement('iframe');ifr.src='https://api.leadconnectorhq.com/widget/booking/ucM2wiPjxGC5ekOnTM8E';ifr.scrolling='no';ifr.style.cssText='width:100%;border:none;display:block;min-height:580px';wrap.appendChild(ifr);const s=document.createElement('script');s.src='https://link.msgsndr.com/js/form_embed.js';document.body.appendChild(s);}
-  bModal.classList.add('open');document.body.style.overflow='hidden';
-}
-function closeBooking(){bModal.classList.remove('open');document.body.style.overflow='';}
-bmClose.addEventListener('click',closeBooking);
-bModal.addEventListener('click',e=>{if(e.target===bModal)closeBooking()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBooking()});
-document.querySelectorAll('.booking-trigger,.bp,.nb').forEach(el=>{
-  el.addEventListener('click',e=>{e.preventDefault();if(typeof mob!=='undefined'){mob.classList.remove('open');}document.body.style.overflow='';openBooking();});
 });
 
 initP('ctaC',15);
-
-// Pipeline flow animation
-(function(){
-var STAGES=['INQUIRY','DISCOVERY','PROPOSAL','FOLLOW-UP','CLOSE'];
-function pipe(id,leaks,pcts){
-  var cv=document.getElementById(id);if(!cv)return;
-  var wrap=cv.parentElement;
-  var dpr=Math.min(window.devicePixelRatio||1,2);
-  var W,H,ctx,pts=[],f=0,on=false;
-  function resize(){
-    W=wrap.clientWidth;H=wrap.clientHeight;
-    cv.width=W*dpr;cv.height=H*dpr;
-    ctx=cv.getContext('2d');
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  resize();
-  var SH=50,GH=12,N=STAGES.length;
-  function totH(){return N*SH+(N-1)*GH;}
-  function sy(i){return(H-totH())/2+i*(SH+GH);}
-  function rr(x,y,w,h,r){
-    ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
-    ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
-    ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
-    ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
-  }
-  function loop(){
-    requestAnimationFrame(loop);
-    if(!on)return;
-    var px=W*0.2,pw=W*0.58;
-    ctx.clearRect(0,0,W,H);
-    // entry label
-    ctx.save();ctx.fillStyle='rgba(201,168,76,.38)';ctx.font='bold 8px Inter,sans-serif';ctx.textAlign='center';
-    ctx.fillText('\u25bc  LEADS IN',px+pw/2,sy(0)-12);ctx.restore();
-    // stage pipes
-    for(var i=0;i<N;i++){
-      var y=sy(i);
-      ctx.save();
-      ctx.fillStyle='rgba(201,168,76,.045)';ctx.strokeStyle='rgba(201,168,76,.2)';ctx.lineWidth=1.5;
-      rr(px,y,pw,SH,5);ctx.fill();ctx.stroke();
-      ctx.fillStyle='rgba(201,168,76,.4)';ctx.font='bold 8px Inter,sans-serif';ctx.textAlign='center';
-      ctx.fillText(STAGES[i],px+pw/2,y+SH/2+3.5);
-      if(pcts){
-        ctx.fillStyle='rgba(201,168,76,.58)';ctx.font='600 10px Inter,sans-serif';ctx.textAlign='left';
-        ctx.fillText(pcts[i],px+pw+10,y+SH/2+3.5);
-      }
-      ctx.restore();
-    }
-    // spawn
-    if(f%3===0){
-      pts.push({x:px+pw*.15+Math.random()*pw*.7,y:sy(0)-1,vy:.88+Math.random()*.42,vx:0,s:0,d:false,lk:false,gy:0,a:1,tr:[]});
-    }
-    // update & draw particles
-    for(var i=pts.length-1;i>=0;i--){
-      var p=pts[i];
-      if(p.lk){
-        p.gy+=.07;p.vy+=p.gy*.04;p.a-=.017;
-      } else {
-        var bot=sy(p.s)+SH;
-        if(p.s<N-1&&p.y>=bot&&!p.d){
-          p.d=true;
-          if(Math.random()<leaks[p.s+1]){p.lk=true;p.vx=(Math.random()>.5?1:-1)*(.8+Math.random()*1.1);}
-        }
-        if(p.s<N-1&&p.d&&!p.lk&&p.y>=sy(p.s+1)){p.s++;p.d=false;}
-        if(p.s===N-1&&p.y>sy(N-1)+SH)p.a-=.055;
-      }
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.a<=0||p.y>H+30||p.x<-55||p.x>W+55){pts.splice(i,1);continue;}
-      var cr=p.lk?'221,75,75':'201,168,76';
-      for(var t=0;t<p.tr.length;t++){
-        ctx.beginPath();ctx.arc(p.tr[t].x,p.tr[t].y,1.5,0,Math.PI*2);
-        ctx.fillStyle='rgba('+cr+','+(t/p.tr.length*p.a*.22)+')';ctx.fill();
-      }
-      ctx.save();ctx.shadowBlur=7;ctx.shadowColor=p.lk?'#DD4B4B':'#C9A84C';
-      ctx.beginPath();ctx.arc(p.x,p.y,2.8,0,Math.PI*2);
-      ctx.fillStyle='rgba('+cr+','+p.a+')';ctx.fill();ctx.restore();
-      p.tr.push({x:p.x,y:p.y});if(p.tr.length>5)p.tr.shift();
-    }
-    f++;
-  }
-  new IntersectionObserver(function(e){on=e[0].isIntersecting;},{threshold:.05}).observe(wrap);
-  loop();
-  window.addEventListener('resize',function(){pts=[];f=0;resize();},{passive:true});
-}
-pipe('pfBad',[0,.35,.51,.53,.53],['100%','65%','32%','15%','7%']);
-pipe('pfGood',[0,.04,.03,.04,.03],['100%','96%','93%','89%','86%']);
-})();
 </script>
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">window.onload=function(){if(typeof Calendly!=='undefined'){Calendly.initBadgeWidget({url:'https://calendly.com/kyle-krysongroup/introduction?background_color=000000&text_color=ffffff&primary_color=c9a84c',text:'Schedule time with me',color:'#c9a84c',textColor:'#ffffff',branding:true});}}</script>
 </body></html>
