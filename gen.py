@@ -78,7 +78,7 @@ FOOTER = '''<footer>
 </div>
 </footer>'''
 
-APPS_SCRIPT_URL = 'https://script.google.com/a/macros/krysongroup.com/s/AKfycbyFAabkwB0JALB8t9LQYbPghN-MEdYnlPDqygc-38xtaay1q2C28lz6zcZFrkB0x5Dl/exec'
+APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKAw0elEOZONdurCiWqMFAROxTsIZoq0eqAA9JS1QqP9kfN1GhdkAHQeAJ2RUCzWoU/exec'
 
 APPLICATION_MODAL = (
 '<div class="am-ov" id="applyModal">'
