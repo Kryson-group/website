@@ -377,6 +377,10 @@ footer{padding:72px clamp(48px,7vw,120px) 40px;border-top:1px solid var(--w08);b
   .stats{flex-direction:column}
   .st{border-right:none;border-bottom:1px solid var(--w08);padding:16px clamp(24px,5vw,48px)}
   .st:last-child{border-bottom:none}
+  /* on mobile take stats bar out of absolute so it flows naturally */
+  .stats{position:relative;bottom:auto;left:auto;right:auto;border-top:1px solid var(--w08)}
+  #hero{display:flex;flex-direction:column;align-items:flex-start;padding-top:0}
+  .hi-wrap{padding:100px 0 40px;width:100%;flex:1}
   .stats-band{padding:clamp(32px,5vw,64px) clamp(20px,5vw,40px);grid-template-columns:1fr}
   .prob-num{font-size:clamp(48px,12vw,80px)}
   .prob-grid-2{grid-template-columns:1fr}
@@ -389,26 +393,63 @@ footer{padding:72px clamp(48px,7vw,120px) 40px;border-top:1px solid var(--w08);b
   .ab-grid{grid-template-columns:1fr}
   .hr-result-row{grid-template-columns:1fr 1fr}
   .sh{letter-spacing:-.5px}
+  /* larger touch targets */
+  .am-opt{padding:18px 20px;min-height:52px;font-size:15px}
+  .am-close{width:44px;height:44px}
+  .case-btn{width:44px;height:44px}
+  .fq-q{min-height:52px}
+  /* iOS: prevent font zoom on input focus */
+  .am-field input,.am-field select{font-size:16px}
+  /* section spacing */
+  .sec{padding:clamp(48px,7vw,80px) clamp(20px,5vw,40px)}
 }
 @media(max-width:480px){
   nav{padding:0 20px}
-  .sec{padding:clamp(48px,8vw,80px) 24px}
-  #hero{padding:0 24px}
-  #cta{padding:clamp(64px,10vw,100px) 24px}
-  footer{padding:40px 24px 24px}
+  .sec{padding:40px 20px}
+  #hero{padding:0 20px}
+  #cta{padding:56px 20px}
+  footer{padding:40px 20px 24px}
   .hb{flex-direction:column}
-  .hb .btn{width:100%;text-align:center;padding:16px}
+  .hb .btn{width:100%;text-align:center;padding:18px}
   .sb-item{padding:clamp(20px,4vw,32px)}
   .case-hero-nums{grid-template-columns:1fr 1fr}
   .case-story{grid-template-columns:1fr}
   .ts{padding-left:44px}
   .fq-q{font-size:15px;padding:20px 40px 20px 0}
-  .hi-wrap{padding:80px 0 120px}
-  .hh{font-size:clamp(36px,9vw,60px)}
+  .hi-wrap{padding:88px 0 32px}
+  .hh{font-size:clamp(34px,9vw,56px);letter-spacing:-1px}
+  .hs{font-size:15px}
   .stats-band{grid-template-columns:1fr}
   /* Booking modal full screen on small mobile */
   .bm-overlay{padding:0;align-items:flex-end}
   .bm-panel{width:100%;max-height:95vh;border-radius:0}
+  /* article pages */
+  .art-content{padding:0 4px}
+  .art-stat-pull{padding:18px 20px}
+  /* section label */
+  .sl{font-size:8px;letter-spacing:4px}
+}
+
+/* ── STICKY MOBILE CTA BAR ─────────────────────────────────────────────────── */
+.mob-cta-bar{display:none}
+@media(max-width:768px){
+  .mob-cta-bar{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    z-index:8000;
+    background:rgba(8,8,8,0.97);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-top:1px solid rgba(201,168,76,0.18);
+    padding:12px 20px max(16px,env(safe-area-inset-bottom));
+    transform:translateY(100%);
+    transition:transform .4s cubic-bezier(.25,.1,.25,1);
+  }
+  .mob-cta-bar.vis{transform:translateY(0)}
+  .mob-cta-bar .btn{width:100%;text-align:center;padding:15px 24px;font-size:11px;letter-spacing:2.5px}
+  /* push footer clear of sticky bar when visible */
+  body.mob-bar-up footer,.mob-bar-up .kg-band{padding-bottom:80px}
 }
 
 /* CTA decorative text */
