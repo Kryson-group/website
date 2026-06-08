@@ -301,7 +301,10 @@ def inner_page(title, desc, canonical, schema, hero_label, hero_h1, hero_sub, bo
         '\n</section>\n<div class="glow-div"></div>\n' +
         body +
         cta_section() + '\n' + KG_BAND + '\n' + FOOTER +
-        '\n<script>\n' + nav_js + '\n' + SHARED_JS + '\n' + extra_js + '\n</script>\n' +
+        '\n<div class="mob-cta-bar" id="mobCta"><button class="btn bp" onclick="openApplyModal()">Apply for a Revenue Audit</button></div>'
+        '\n<script>\n' + nav_js + '\n' + SHARED_JS + '\n' + extra_js +
+        '\n(function(){var b=document.getElementById("mobCta");if(!b)return;var shown=false;window.addEventListener("scroll",function(){var s=window.pageYOffset>320;if(s!==shown){shown=s;b.classList.toggle("vis",s);document.body.classList.toggle("mob-bar-up",s)}},{passive:true});})();'
+        '\n</script>\n' +
         '\n</body></html>'
     )
 
@@ -420,7 +423,10 @@ INDEX = (
          "", INDEX_SCHEMA) +
     '\n<body>\n' + APPLICATION_MODAL + '\n' + LOADER + '\n' + NAV + '\n' + INDEX_BODY +
     cta_section() + '\n' + KG_BAND + '\n' + FOOTER +
-    '\n<script>\n' + LOADER_JS + '\n' + SHARED_JS + "\ninitP('pC',30);initP('ctaC',15);\n</script>\n" +
+    '\n<div class="mob-cta-bar" id="mobCta"><button class="btn bp" onclick="openApplyModal()">Apply for a Revenue Audit</button></div>'
+    '\n<script>\n' + LOADER_JS + '\n' + SHARED_JS + "\ninitP('pC',30);initP('ctaC',15);\n"
+    '(function(){var b=document.getElementById("mobCta");if(!b)return;var shown=false;window.addEventListener("scroll",function(){var s=window.pageYOffset>320;if(s!==shown){shown=s;b.classList.toggle("vis",s);document.body.classList.toggle("mob-bar-up",s)}},{passive:true});})();'
+    '\n</script>\n' +
     '\n</body></html>'
 )
 
