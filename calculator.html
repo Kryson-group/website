@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Revenue Leak Calculator · Kryson Limited</title>
+<meta name="robots" content="noindex,nofollow">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#1A1A1A;--bg4:#222222;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold-dim:#8a6d28;
+  --red:#e05252;--green:#4caf80;--blue:#4a90d9;
+  --text:#FFFFFF;--muted:#888;--border:#2a2a2a;
+  --w:1200px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:3px;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-tag{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+
+/* HERO */
+.hero{text-align:center;padding:70px 40px 50px;max-width:var(--w);margin:0 auto}
+.hero-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:18px}
+.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 30px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:50px;padding:8px 20px;font-size:12px;color:var(--muted)}
+.hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);display:block;box-shadow:0 0 6px var(--green)}
+
+/* LAYOUT */
+.wrapper{max-width:var(--w);margin:0 auto;padding:0 24px 80px}
+
+/* SESSION CARD */
+.session-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:32px}
+.session-card h3{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.session-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.session-grid{grid-template-columns:1fr}}
+
+/* INPUT GROUPS */
+.input-group{display:flex;flex-direction:column;gap:6px}
+.input-group label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.input-group input{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,0.12)}
+.input-group input::placeholder{color:#444}
+
+/* NUMBERS SECTION */
+.section{margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.section-num{width:36px;height:36px;border-radius:8px;background:var(--gold);color:#000;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-size:20px;font-weight:700}
+.section-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+.inputs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:28px}
+
+.input-row{display:flex;flex-direction:column;gap:6px;position:relative}
+.input-row label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.input-row .hint{font-size:11px;color:#555;margin-top:2px}
+.input-wrap{position:relative}
+.input-wrap .prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:15px;pointer-events:none}
+.input-wrap .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+.input-wrap input{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.input-wrap input.has-prefix{padding-left:26px}
+.input-wrap input.has-suffix{padding-right:36px}
+.input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,0.12)}
+.benchmark-tag{display:inline-block;font-size:10px;color:var(--gold-dim);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.15);border-radius:4px;padding:2px 6px;margin-top:4px}
+
+/* LEAK SECTIONS */
+.leak-section{background:var(--bg3);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px}
+.leak-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.leak-header-left{display:flex;align-items:center;gap:12px}
+.leak-dot{width:10px;height:10px;border-radius:50%}
+.leak-title{font-size:15px;font-weight:600}
+.leak-formula{font-size:11px;color:var(--muted);margin-top:2px}
+.leak-amounts{display:flex;gap:24px;align-items:center}
+.leak-amount{text-align:right}
+.leak-amount .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.leak-amount .val{font-size:18px;font-weight:700;color:var(--red)}
+.leak-amount .val.zero{color:var(--green)}
+.leak-body{padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.leak-body{grid-template-columns:1fr}}
+.leak-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg4);border-radius:8px}
+.leak-row-label{font-size:12px;color:var(--muted)}
+.leak-row-val{font-size:14px;font-weight:600}
+.leak-chevron{color:var(--muted);transition:transform .2s;font-size:12px}
+.leak-section.open .leak-chevron{transform:rotate(180deg)}
+
+/* SUMMARY */
+.summary-card{background:linear-gradient(135deg,#1a1200,#0a0a0a);border:1px solid var(--gold-dim);border-radius:20px;padding:36px;margin-bottom:40px}
+.summary-card h2{font-size:26px;font-weight:800;margin-bottom:6px}
+.summary-card h2 span{color:var(--gold)}
+.summary-totals{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+@media(max-width:700px){.summary-totals{grid-template-columns:1fr}}
+.total-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;text-align:center}
+.total-box .tb-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.total-box .tb-val{font-size:32px;font-weight:800;line-height:1}
+.total-box.red .tb-val{color:var(--red)}
+.total-box.gold .tb-val{color:var(--gold)}
+.total-box.orange .tb-val{color:#e08c50}
+
+/* CURRENT VS 90 DAY */
+.vs-card{border-radius:20px;margin-bottom:40px;overflow:hidden;border:1px solid var(--border)}
+.vs-inner{display:grid;grid-template-columns:1fr auto 1fr}
+@media(max-width:700px){.vs-inner{grid-template-columns:1fr;text-align:center}}
+.vs-side{padding:36px 40px}
+.vs-side.vs-now{background:var(--bg3)}
+.vs-side.vs-future{background:linear-gradient(135deg,#1a1200,#141000)}
+.vs-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.vs-mrr{font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1;margin-bottom:8px}
+.vs-mrr.now{color:var(--text)}
+.vs-mrr.future{color:var(--gold)}
+.vs-sub{font-size:12px;color:var(--muted)}
+.vs-sub .vs-uplift{color:var(--green);font-weight:600}
+.vs-divider{display:flex;align-items:center;justify-content:center;background:var(--bg4);padding:0 20px;flex-direction:column;gap:8px}
+@media(max-width:700px){.vs-divider{padding:20px;flex-direction:row}}
+.vs-arrow{font-size:28px;color:var(--gold)}
+.vs-days{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;text-orientation:mixed}
+@media(max-width:700px){.vs-days{writing-mode:horizontal-tb}}
+.vs-delta{background:var(--bg4);border-top:1px solid var(--border);padding:16px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.vs-delta-item{text-align:center}
+.vs-delta-item .dl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.vs-delta-item .dv{font-size:18px;font-weight:700}
+
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
+@media(max-width:900px){.charts-grid{grid-template-columns:1fr}}
+.chart-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:28px}
+.chart-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.chart-card .chart-sub{font-size:12px;color:var(--muted);margin-bottom:22px}
+.chart-wrap{position:relative;height:280px}
+.chart-full{grid-column:1/-1}
+
+/* MRR SECTION */
+.mrr-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:40px}
+.mrr-card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.mrr-card .sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.mrr-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:800px){.mrr-metrics{grid-template-columns:repeat(2,1fr)}}
+.mrr-metric{background:var(--bg4);border-radius:10px;padding:16px;text-align:center}
+.mrr-metric .mm-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.mrr-metric .mm-current{font-size:18px;font-weight:700;margin-bottom:2px}
+.mrr-metric .mm-bench{font-size:11px;color:var(--green)}
+.mrr-metric .mm-gap{font-size:11px;color:var(--red)}
+
+/* 90 DAY */
+.projection-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:40px}
+.projection-card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.projection-card .sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.proj-milestones{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+@media(max-width:800px){.proj-milestones{grid-template-columns:repeat(2,1fr)}}
+.proj-milestone{background:var(--bg4);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+.proj-milestone::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);border-radius:2px}
+.proj-milestone.m30::before{background:var(--blue)}
+.proj-milestone.m60::before{background:var(--gold-dim)}
+.proj-milestone.m90::before{background:var(--gold)}
+.proj-milestone.mtd::before{background:var(--muted)}
+.proj-milestone .pm-day{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.proj-milestone .pm-val{font-size:24px;font-weight:800}
+.proj-milestone .pm-label{font-size:11px;color:var(--muted);margin-top:4px}
+.proj-milestone .pm-growth{font-size:12px;font-weight:600;color:var(--green);margin-top:6px}
+
+.btn{display:inline-block;background:var(--gold);color:#000;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;padding:16px 40px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s}
+.btn:hover{background:var(--gold2);transform:translateY(-1px)}
+.proj-note{font-size:12px;color:var(--muted);background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-top:20px;line-height:1.7}
+.proj-note strong{color:var(--text)}
+
+/* FOOTER */
+.calc-footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;letter-spacing:1px}
+.calc-footer a{color:var(--gold);text-decoration:none}
+
+/* UTILS */
+.divider{height:1px;background:var(--border);margin:40px 0}
+.red{color:var(--red)}
+.green{color:var(--green)}
+.gold{color:var(--gold)}
+.zero{color:var(--green)!important}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">KRYSON<span>.</span></a>
+  <span class="nav-tag">Revenue Leak Calculator</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Kryson Limited · Diagnostic Tool</div>
+  <h1>Revenue Leak<br><span>Diagnostic</span></h1>
+  <p>A structured breakdown of where revenue is being lost across your pipeline. Enter your current numbers and the calculator identifies the gaps against industry benchmarks.</p>
+  <div class="hero-badge">Live calculator · updates as you type</div>
+</div>
+
+<div class="wrapper">
+
+  <!-- SESSION DETAILS -->
+  <div class="session-card">
+    <h3>Session Details</h3>
+    <div class="session-grid">
+      <div class="input-group">
+        <label>Agency / Company Name</label>
+        <input type="text" id="agencyName" placeholder="e.g. Acme Agency">
+      </div>
+      <div class="input-group">
+        <label>Date</label>
+        <input type="text" id="sessionDate" readonly>
+      </div>
+      <div class="input-group">
+        <label>Prepared By</label>
+        <input type="text" id="preparedBy" value="Kyle Read">
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 YOUR NUMBERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <div class="section-title">Your Numbers</div>
+        <div class="section-sub">Enter your current metrics. Benchmarks are based on averages across 50+ agency pipelines</div>
+      </div>
+    </div>
+    <div class="inputs-grid">
+      <div class="input-row">
+        <label>Leads per Month</label>
+        <div class="input-wrap"><input type="number" id="leads" placeholder="e.g. 100" min="0" class="has-suffix"><span class="suffix">leads</span></div>
+        <span class="hint">Total new leads coming in each month</span>
+      </div>
+      <div class="input-row">
+        <label>Calls Booked per Month</label>
+        <div class="input-wrap"><input type="number" id="callsBooked" placeholder="e.g. 60" min="0" class="has-suffix"><span class="suffix">calls</span></div>
+        <span class="benchmark-tag">Benchmark: 90% of leads</span>
+      </div>
+      <div class="input-row">
+        <label>Current Show Rate</label>
+        <div class="input-wrap"><input type="number" id="showRate" placeholder="e.g. 70" min="0" max="100" class="has-suffix"><span class="suffix">%</span></div>
+        <span class="benchmark-tag">Benchmark: 80%</span>
+      </div>
+      <div class="input-row">
+        <label>Current Close Rate</label>
+        <div class="input-wrap"><input type="number" id="closeRate" placeholder="e.g. 30" min="0" max="100" class="has-suffix"><span class="suffix">%</span></div>
+        <span class="benchmark-tag">Benchmark: 44%</span>
+      </div>
+      <div class="input-row">
+        <label>Average Deal Value</label>
+        <div class="input-wrap"><span class="prefix">£</span><input type="number" id="dealValue" placeholder="e.g. 3000" min="0" class="has-prefix has-suffix"><span class="suffix">GBP</span></div>
+        <span class="hint">Value of a single deal</span>
+      </div>
+      <div class="input-row">
+        <label>Contract Length</label>
+        <div class="input-wrap"><input type="number" id="contractLength" placeholder="e.g. 6" min="1" class="has-suffix"><span class="suffix">months</span></div>
+        <span class="hint">Average contract length in months</span>
+      </div>
+      <div class="input-row">
+        <label>Leads Going Cold Before Contact</label>
+        <div class="input-wrap"><input type="number" id="coldLeads" placeholder="e.g. 10" min="0" max="100" class="has-suffix"><span class="suffix">%</span></div>
+        <span class="benchmark-tag">Benchmark: 0%</span>
+      </div>
+      <div class="input-row">
+        <label>Non-Closed Calls Going Quiet</label>
+        <div class="input-wrap"><input type="number" id="goingQuiet" placeholder="e.g. 40" min="0" max="100" class="has-suffix"><span class="suffix">%</span></div>
+        <span class="hint">Interested but never properly followed up</span>
+      </div>
+      <div class="input-row">
+        <label>Founder Closes Deals</label>
+        <div class="input-wrap"><input type="number" id="founderClose" placeholder="e.g. 80" min="0" max="100" class="has-suffix"><span class="suffix">%</span></div>
+        <span class="hint">% of all closed deals founder closes personally</span>
+      </div>
+      <div class="input-row">
+        <label>Current MRR (optional)</label>
+        <div class="input-wrap"><span class="prefix">£</span><input type="number" id="currentMRR" placeholder="e.g. 15000" min="0" class="has-prefix"></div>
+        <span class="hint">Actual monthly recurring revenue right now</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEAK SECTIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--red);color:#fff">02</div>
+      <div>
+        <div class="section-title">Revenue Leak Breakdown</div>
+        <div class="section-sub">Click each area to expand the calculation detail</div>
+      </div>
+    </div>
+
+    <!-- Speed to Lead -->
+    <div class="leak-section" id="ls-speed">
+      <div class="leak-header" onclick="toggleLeak('speed')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#e05252"></div>
+          <div><div class="leak-title">Speed to Lead</div><div class="leak-formula">Leads × % going cold × close rate × deal value</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Monthly Leak</div><div class="val" id="stl-monthly">£0</div></div>
+          <div class="leak-amount"><div class="lbl">LTV Leak</div><div class="val" id="stl-ltv">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-speed">
+        <div class="leak-row"><span class="leak-row-label">Leads going cold per month</span><span class="leak-row-val" id="stl-cold">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue leaking (monthly)</span><span class="leak-row-val red" id="stl-monthly2">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">LTV leak (× contract months)</span><span class="leak-row-val red" id="stl-ltv2">£0</span></div>
+      </div>
+    </div>
+
+    <!-- Booking Rate -->
+    <div class="leak-section" id="ls-booking">
+      <div class="leak-header" onclick="toggleLeak('booking')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#e08c50"></div>
+          <div><div class="leak-title">Booking Rate</div><div class="leak-formula">Leads × booking gap × show rate × close rate × deal value</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Monthly Leak</div><div class="val" id="br-monthly">£0</div></div>
+          <div class="leak-amount"><div class="lbl">LTV Leak</div><div class="val" id="br-ltv">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-booking">
+        <div class="leak-row"><span class="leak-row-label">Your booking rate</span><span class="leak-row-val" id="br-rate">0%</span></div>
+        <div class="leak-row"><span class="leak-row-label">Benchmark booking rate</span><span class="leak-row-val gold">90%</span></div>
+        <div class="leak-row"><span class="leak-row-label">Calls not booked per month</span><span class="leak-row-val" id="br-lost">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue leaking (monthly)</span><span class="leak-row-val red" id="br-monthly2">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">LTV leak (× contract months)</span><span class="leak-row-val red" id="br-ltv2">£0</span></div>
+      </div>
+    </div>
+
+    <!-- Show Rate -->
+    <div class="leak-section" id="ls-show">
+      <div class="leak-header" onclick="toggleLeak('show')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#d4c04a"></div>
+          <div><div class="leak-title">Show Rate</div><div class="leak-formula">Calls booked × show rate gap × close rate × deal value</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Monthly Leak</div><div class="val" id="sr-monthly">£0</div></div>
+          <div class="leak-amount"><div class="lbl">LTV Leak</div><div class="val" id="sr-ltv">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-show">
+        <div class="leak-row"><span class="leak-row-label">Show rate gap (80% benchmark minus current)</span><span class="leak-row-val" id="sr-gap">0%</span></div>
+        <div class="leak-row"><span class="leak-row-label">Calls lost to no-shows per month</span><span class="leak-row-val" id="sr-lost">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue leaking (monthly)</span><span class="leak-row-val red" id="sr-monthly2">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">LTV leak (× contract months)</span><span class="leak-row-val red" id="sr-ltv2">£0</span></div>
+      </div>
+    </div>
+
+    <!-- Close Rate -->
+    <div class="leak-section" id="ls-close">
+      <div class="leak-header" onclick="toggleLeak('close')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#4a90d9"></div>
+          <div><div class="leak-title">Close Rate</div><div class="leak-formula">Live calls × close rate gap × deal value</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Monthly Leak</div><div class="val" id="cr-monthly">£0</div></div>
+          <div class="leak-amount"><div class="lbl">LTV Leak</div><div class="val" id="cr-ltv">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-close">
+        <div class="leak-row"><span class="leak-row-label">Live calls per month</span><span class="leak-row-val" id="cr-live">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Close rate gap (44% benchmark minus current)</span><span class="leak-row-val" id="cr-gap">0%</span></div>
+        <div class="leak-row"><span class="leak-row-label">Deals lost per month</span><span class="leak-row-val" id="cr-lost">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue leaking (monthly)</span><span class="leak-row-val red" id="cr-monthly2">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">LTV leak (× contract months)</span><span class="leak-row-val red" id="cr-ltv2">£0</span></div>
+      </div>
+    </div>
+
+    <!-- Follow-Up Gap -->
+    <div class="leak-section" id="ls-followup">
+      <div class="leak-header" onclick="toggleLeak('followup')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#9b59b6"></div>
+          <div><div class="leak-title">Follow-Up Gap</div><div class="leak-formula">Live calls not closed × % going quiet × deal value</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Monthly Leak</div><div class="val" id="fu-monthly">£0</div></div>
+          <div class="leak-amount"><div class="lbl">LTV Leak</div><div class="val" id="fu-ltv">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-followup">
+        <div class="leak-row"><span class="leak-row-label">Live calls that did not close per month</span><span class="leak-row-val" id="fu-notclosed">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Calls going quiet with no follow-up</span><span class="leak-row-val" id="fu-quiet">0</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue leaking (monthly)</span><span class="leak-row-val red" id="fu-monthly2">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">LTV leak (× contract months)</span><span class="leak-row-val red" id="fu-ltv2">£0</span></div>
+      </div>
+    </div>
+
+    <!-- Founder Dependency -->
+    <div class="leak-section" id="ls-founder">
+      <div class="leak-header" onclick="toggleLeak('founder')">
+        <div class="leak-header-left">
+          <div class="leak-dot" style="background:#4caf80"></div>
+          <div><div class="leak-title">Founder Dependency</div><div class="leak-formula">Estimated MRR × % of deals founder closes. Revenue at risk, not a monthly leak</div></div>
+        </div>
+        <div class="leak-amounts">
+          <div class="leak-amount"><div class="lbl">Revenue at Risk</div><div class="val" id="fd-risk" style="color:#e08c50">£0</div></div>
+          <div class="leak-chevron">▼</div>
+        </div>
+      </div>
+      <div class="leak-body" style="display:none" id="lb-founder">
+        <div class="leak-row"><span class="leak-row-label">Estimated current MRR</span><span class="leak-row-val" id="fd-mrr">£0</span></div>
+        <div class="leak-row"><span class="leak-row-label">% of deals founder closes</span><span class="leak-row-val" id="fd-pct">0%</span></div>
+        <div class="leak-row"><span class="leak-row-label">Revenue at risk (if founder leaves/unavailable)</span><span class="leak-row-val" style="color:#e08c50" id="fd-risk2">£0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL SUMMARY -->
+  <div class="summary-card">
+    <div class="section-header" style="margin-bottom:0">
+      <div class="section-num" style="background:var(--red);color:#fff;width:40px;height:40px">08</div>
+      <div>
+        <div class="section-title" style="font-size:22px">Total Revenue Leak Summary</div>
+        <div class="section-sub">The full picture of what's leaking out of your pipeline every month</div>
+      </div>
+    </div>
+    <div class="summary-totals">
+      <div class="total-box red">
+        <div class="tb-label">Leaking Per Month</div>
+        <div class="tb-val" id="total-monthly">£0</div>
+      </div>
+      <div class="total-box gold">
+        <div class="tb-label">Total LTV Leak</div>
+        <div class="tb-val" id="total-ltv">£0</div>
+      </div>
+      <div class="total-box orange">
+        <div class="tb-label">Revenue at Risk (Founder)</div>
+        <div class="tb-val" id="total-risk">£0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT VS 90 DAY -->
+  <div class="vs-card">
+    <div class="vs-inner">
+      <div class="vs-side vs-now">
+        <div class="vs-label">Where you are today</div>
+        <div class="vs-mrr now" id="vs-now">£0</div>
+        <div class="vs-sub">Current MRR</div>
+      </div>
+      <div class="vs-divider">
+        <div class="vs-arrow">&#8594;</div>
+        <div class="vs-days">90 days</div>
+      </div>
+      <div class="vs-side vs-future">
+        <div class="vs-label">Conservative 90-day projection</div>
+        <div class="vs-mrr future" id="vs-90">£0</div>
+        <div class="vs-sub">Projected MRR &nbsp;<span class="vs-uplift" id="vs-uplift"></span></div>
+      </div>
+    </div>
+    <div class="vs-delta">
+      <div class="vs-delta-item"><div class="dl">Additional MRR</div><div class="dv" id="vsd-mrr" style="color:var(--green)">£0</div></div>
+      <div class="vs-delta-item"><div class="dl">Additional Annual Revenue</div><div class="dv" id="vsd-arr" style="color:var(--gold)">£0</div></div>
+      <div class="vs-delta-item"><div class="dl">Monthly Leak Identified</div><div class="dv" id="vsd-leak" style="color:var(--red)">£0</div></div>
+      <div class="vs-delta-item"><div class="dl">LTV Leak Identified</div><div class="dv" id="vsd-ltv" style="color:var(--red)">£0</div></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Where the Money Is Leaking</h3>
+      <div class="chart-sub">Monthly revenue loss by pipeline area</div>
+      <div class="chart-wrap"><canvas id="leakChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Current vs Benchmark</h3>
+      <div class="chart-sub">Your metrics vs industry best-practice rates</div>
+      <div class="chart-wrap"><canvas id="benchChart"></canvas></div>
+    </div>
+    <div class="chart-card chart-full">
+      <h3>90-Day MRR Projection <span style="font-size:11px;font-weight:400;color:var(--muted);letter-spacing:1px;text-transform:uppercase">&nbsp;Conservative estimate</span></h3>
+      <div class="chart-sub">Partial leak recovery per phase, not a best-case scenario</div>
+      <div class="chart-wrap" style="height:260px"><canvas id="projChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- MRR COMPARISON -->
+  <div class="mrr-card">
+    <div class="section-header" style="margin-bottom:16px">
+      <div class="section-num">09</div>
+      <div>
+        <div class="section-title">MRR: Current State vs Benchmark</div>
+        <div class="sub">What your MRR looks like now versus if the system ran at benchmark across every area</div>
+      </div>
+    </div>
+    <div class="mrr-metrics">
+      <div class="mrr-metric">
+        <div class="mm-label">Booking Rate</div>
+        <div class="mm-current" id="mrr-booking-curr">0%</div>
+        <div class="mm-bench">Benchmark: 90%</div>
+        <div class="mm-gap" id="mrr-booking-gap"></div>
+      </div>
+      <div class="mrr-metric">
+        <div class="mm-label">Show Rate</div>
+        <div class="mm-current" id="mrr-show-curr">0%</div>
+        <div class="mm-bench">Benchmark: 80%</div>
+        <div class="mm-gap" id="mrr-show-gap"></div>
+      </div>
+      <div class="mrr-metric">
+        <div class="mm-label">Close Rate</div>
+        <div class="mm-current" id="mrr-close-curr">0%</div>
+        <div class="mm-bench">Benchmark: 44%</div>
+        <div class="mm-gap" id="mrr-close-gap"></div>
+      </div>
+      <div class="mrr-metric">
+        <div class="mm-label">Current MRR</div>
+        <div class="mm-current" id="mrr-current-val">£0</div>
+        <div class="mm-bench" id="mrr-bench-val">Benchmark: £0</div>
+        <div class="mm-gap" id="mrr-gap-val"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 90-DAY PROJECTION -->
+  <div class="projection-card">
+    <div class="section-header" style="margin-bottom:16px">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">90-Day MRR Projection <span style="font-size:12px;font-weight:400;color:var(--muted)">&nbsp;(conservative estimate)</span></div>
+        <div class="sub">Based on partial recovery rates. Assumes it takes time to embed each fix properly</div>
+      </div>
+    </div>
+    <div class="proj-milestones">
+      <div class="proj-milestone mtd">
+        <div class="pm-day">Today</div>
+        <div class="pm-val" id="proj-today">£0</div>
+        <div class="pm-label">Current MRR</div>
+      </div>
+      <div class="proj-milestone m30">
+        <div class="pm-day">Day 30</div>
+        <div class="pm-val" id="proj-30">£0</div>
+        <div class="pm-label">Fix speed to lead + show rate (est. 25% recovery)</div>
+        <div class="pm-growth" id="proj-30-growth"></div>
+      </div>
+      <div class="proj-milestone m60">
+        <div class="pm-day">Day 60</div>
+        <div class="pm-val" id="proj-60">£0</div>
+        <div class="pm-label">+ Booking rate + close rate (est. 40% recovery)</div>
+        <div class="pm-growth" id="proj-60-growth"></div>
+      </div>
+      <div class="proj-milestone m90">
+        <div class="pm-day">Day 90</div>
+        <div class="pm-val" id="proj-90">£0</div>
+        <div class="pm-label">+ Follow-up system installed (est. 60% recovery)</div>
+        <div class="pm-growth" id="proj-90-growth"></div>
+      </div>
+    </div>
+    <div class="proj-note">
+      <strong>How these numbers are calculated:</strong> Day 30 assumes 25% recovery of speed-to-lead and show-rate leaks as new processes are put in place. Day 60 adds 40% recovery of booking-rate and close-rate gaps as the team adapts. Day 90 adds 60% of the follow-up leak once the sequence is running. No business recovers 100% of leaks in 90 days. These are deliberately conservative figures that reflect a realistic embedding period. Full results typically take 3–6 months depending on team size and existing infrastructure.
+    </div>
+  </div>
+
+
+</div>
+
+<!-- FOOTER -->
+<footer class="calc-footer">
+  KRYSON LIMITED &nbsp;·&nbsp; <a href="/">krysonlimited.com</a> &nbsp;·&nbsp; <a href="mailto:Kyle@krysongroup.com">Kyle@krysongroup.com</a> &nbsp;·&nbsp; Confidential
+</footer>
+
+
+<script>
+// ── Date
+document.getElementById('sessionDate').value = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+
+// ── Charts
+Chart.defaults.color = '#888';
+Chart.defaults.borderColor = '#2a2a2a';
+Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+
+const GOLD = '#C9A84C', RED = '#e05252', ORANGE = '#e08c50', YELLOW = '#d4c04a', BLUE = '#4a90d9', PURPLE = '#9b59b6', GREEN = '#4caf80', MUTED = '#444';
+
+// Leak breakdown doughnut
+const leakCtx = document.getElementById('leakChart').getContext('2d');
+const leakChart = new Chart(leakCtx, {
+  type:'doughnut',
+  data:{
+    labels:['Speed to Lead','Booking Rate','Show Rate','Close Rate','Follow-Up Gap'],
+    datasets:[{data:[0,0,0,0,0],backgroundColor:[RED,ORANGE,YELLOW,BLUE,PURPLE],borderWidth:0,hoverOffset:8}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    cutout:'65%',
+    plugins:{
+      legend:{position:'bottom',labels:{padding:16,boxWidth:12,usePointStyle:true,pointStyle:'circle'}},
+      tooltip:{callbacks:{label:ctx=>' £'+fmt(ctx.parsed)+' / mo'}}
+    }
+  }
+});
+
+// Benchmark bar chart
+const benchCtx = document.getElementById('benchChart').getContext('2d');
+const benchChart = new Chart(benchCtx, {
+  type:'bar',
+  data:{
+    labels:['Booking Rate','Show Rate','Close Rate'],
+    datasets:[
+      {label:'Your Rate',data:[0,0,0],backgroundColor:[RED,RED,RED],borderRadius:6,borderSkipped:false},
+      {label:'Benchmark',data:[90,80,44],backgroundColor:[GREEN+'33',GREEN+'33',GREEN+'33'],borderColor:[GREEN,GREEN,GREEN],borderWidth:2,borderRadius:6,borderSkipped:false}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    scales:{
+      y:{max:100,ticks:{callback:v=>v+'%'},grid:{color:'#1f1f1f'}},
+      x:{grid:{display:false}}
+    },
+    plugins:{
+      legend:{position:'bottom',labels:{padding:16,boxWidth:12,usePointStyle:true,pointStyle:'circle'}},
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%'}}
+    }
+  }
+});
+
+// 90-Day projection line chart
+const projCtx = document.getElementById('projChart').getContext('2d');
+const projChart = new Chart(projCtx, {
+  type:'bar',
+  data:{
+    labels:['Today','Day 30','Day 60','Day 90'],
+    datasets:[{
+      label:'MRR',
+      data:[0,0,0,0],
+      backgroundColor:[MUTED,BLUE,ORANGE,GOLD],
+      borderRadius:8,
+      borderSkipped:false
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    scales:{
+      y:{ticks:{callback:v=>'£'+fmt(v)},grid:{color:'#1f1f1f'}},
+      x:{grid:{display:false}}
+    },
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>'MRR: £'+fmt(ctx.parsed.y)}}
+    }
+  }
+});
+
+// ── Helpers
+function v(id){return parseFloat(document.getElementById(id).value)||0;}
+function fmt(n){return Math.round(n).toLocaleString('en-GB');}
+function pct(n){return n.toFixed(1)+'%';}
+function gbp(n){return n===0?'£0':'£'+fmt(n);}
+function setEl(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
+function setClass(id,cls){const e=document.getElementById(id);if(e){e.className='val '+cls;}}
+
+function calculate(){
+  const leads        = v('leads');
+  const callsBooked  = v('callsBooked');
+  const showRatePct  = v('showRate');
+  const closeRatePct = v('closeRate');
+  const dealValue    = v('dealValue');
+  const contractLen  = v('contractLength')||1;
+  const coldPct      = v('coldLeads');
+  const quietPct     = v('goingQuiet');
+  const founderPct   = v('founderClose');
+  const inputMRR     = v('currentMRR');
+
+  const showRate  = showRatePct / 100;
+  const closeRate = closeRatePct / 100;
+  const coldRate  = coldPct / 100;
+  const quietRate = quietPct / 100;
+
+  // ── 02 Speed to Lead
+  const coldLeads    = leads * coldRate;
+  const stlMonthly   = coldLeads * closeRate * dealValue;
+  const stlLTV       = stlMonthly * contractLen;
+
+  // ── 03 Booking Rate
+  const bookingRate  = leads > 0 ? (callsBooked / leads) * 100 : 0;
+  const benchCalls   = leads * 0.9;
+  const missedCalls  = Math.max(0, benchCalls - callsBooked);
+  const brMonthly    = missedCalls * showRate * closeRate * dealValue;
+  const brLTV        = brMonthly * contractLen;
+
+  // ── 04 Show Rate
+  const showGap      = Math.max(0, 0.80 - showRate);
+  const noShows      = callsBooked * showGap;
+  const srMonthly    = noShows * closeRate * dealValue;
+  const srLTV        = srMonthly * contractLen;
+
+  // ── 05 Close Rate
+  const liveCalls    = callsBooked * showRate;
+  const closeGap     = Math.max(0, 0.44 - closeRate);
+  const dealsLost    = liveCalls * closeGap;
+  const crMonthly    = dealsLost * dealValue;
+  const crLTV        = crMonthly * contractLen;
+
+  // ── 06 Follow-Up Gap
+  const notClosed    = liveCalls * (1 - closeRate);
+  const goingQuiet   = notClosed * quietRate;
+  const fuMonthly    = goingQuiet * dealValue;
+  const fuLTV        = fuMonthly * contractLen;
+
+  // ── 07 Founder Dependency
+  const estimatedMRR = inputMRR > 0 ? inputMRR : (liveCalls * closeRate * dealValue);
+  const fdRisk       = estimatedMRR * (founderPct / 100);
+
+  // ── 08 Totals
+  const totalMonthly = stlMonthly + brMonthly + srMonthly + crMonthly + fuMonthly;
+  const totalLTV     = stlLTV + brLTV + srLTV + crLTV + fuLTV;
+
+  // ── 09 MRR at Benchmark
+  const benchLiveCalls = leads * 0.9 * 0.8;
+  const benchMRR       = benchLiveCalls * 0.44 * dealValue;
+
+  // ── 10 90-Day Projection (conservative: partial recovery per phase)
+  // Day 30: speed-to-lead + show rate, typically 25% improvement in first 30 days
+  const mrr30 = estimatedMRR + (stlMonthly * 0.25) + (srMonthly * 0.25);
+  // Day 60: + booking rate + close rate, 40% of those leaks recovered cumulatively
+  const mrr60 = mrr30 + (brMonthly * 0.40) + (crMonthly * 0.40);
+  // Day 90: + follow-up system, 60% of follow-up leak recovered (full system takes time)
+  const mrr90 = mrr60 + (fuMonthly * 0.60);
+
+  // ── Update DOM
+
+  // Speed to Lead
+  const stlZero = stlMonthly===0;
+  setEl('stl-monthly', gbp(stlMonthly)); setEl('stl-ltv', gbp(stlLTV));
+  setEl('stl-cold', Math.round(coldLeads)); setEl('stl-monthly2', gbp(stlMonthly)); setEl('stl-ltv2', gbp(stlLTV));
+  document.getElementById('stl-monthly').className='val'+(stlZero?' zero':'');
+  document.getElementById('stl-ltv').className='val'+(stlZero?' zero':'');
+
+  // Booking Rate
+  const brZero = brMonthly===0;
+  setEl('br-monthly', gbp(brMonthly)); setEl('br-ltv', gbp(brLTV));
+  setEl('br-rate', pct(bookingRate)); setEl('br-lost', Math.round(missedCalls)); setEl('br-monthly2', gbp(brMonthly)); setEl('br-ltv2', gbp(brLTV));
+  document.getElementById('br-monthly').className='val'+(brZero?' zero':'');
+  document.getElementById('br-ltv').className='val'+(brZero?' zero':'');
+
+  // Show Rate
+  const srZero = srMonthly===0;
+  setEl('sr-monthly', gbp(srMonthly)); setEl('sr-ltv', gbp(srLTV));
+  setEl('sr-gap', pct(showGap*100)); setEl('sr-lost', Math.round(noShows)); setEl('sr-monthly2', gbp(srMonthly)); setEl('sr-ltv2', gbp(srLTV));
+  document.getElementById('sr-monthly').className='val'+(srZero?' zero':'');
+  document.getElementById('sr-ltv').className='val'+(srZero?' zero':'');
+
+  // Close Rate
+  const crZero = crMonthly===0;
+  setEl('cr-monthly', gbp(crMonthly)); setEl('cr-ltv', gbp(crLTV));
+  setEl('cr-live', Math.round(liveCalls)); setEl('cr-gap', pct(closeGap*100)); setEl('cr-lost', Math.round(dealsLost)); setEl('cr-monthly2', gbp(crMonthly)); setEl('cr-ltv2', gbp(crLTV));
+  document.getElementById('cr-monthly').className='val'+(crZero?' zero':'');
+  document.getElementById('cr-ltv').className='val'+(crZero?' zero':'');
+
+  // Follow-Up Gap
+  const fuZero = fuMonthly===0;
+  setEl('fu-monthly', gbp(fuMonthly)); setEl('fu-ltv', gbp(fuLTV));
+  setEl('fu-notclosed', Math.round(notClosed)); setEl('fu-quiet', Math.round(goingQuiet)); setEl('fu-monthly2', gbp(fuMonthly)); setEl('fu-ltv2', gbp(fuLTV));
+  document.getElementById('fu-monthly').className='val'+(fuZero?' zero':'');
+  document.getElementById('fu-ltv').className='val'+(fuZero?' zero':'');
+
+  // Founder Dependency
+  setEl('fd-mrr', gbp(estimatedMRR)); setEl('fd-pct', pct(founderPct)); setEl('fd-risk', gbp(fdRisk)); setEl('fd-risk2', gbp(fdRisk));
+
+  // Totals
+  setEl('total-monthly', gbp(totalMonthly));
+  setEl('total-ltv', gbp(totalLTV));
+  setEl('total-risk', gbp(fdRisk));
+
+  // Current vs 90-day
+  setEl('vs-now', gbp(estimatedMRR));
+  setEl('vs-90', gbp(mrr90));
+  const uplift = mrr90 - estimatedMRR;
+  const upliftPct = estimatedMRR > 0 ? ((uplift / estimatedMRR) * 100).toFixed(1) : 0;
+  const upliftEl = document.getElementById('vs-uplift');
+  if(uplift > 0 && estimatedMRR > 0){
+    upliftEl.textContent = '+' + upliftPct + '%';
+  } else {
+    upliftEl.textContent = '';
+  }
+  setEl('vsd-mrr', uplift > 0 ? '+'+gbp(uplift) : '£0');
+  setEl('vsd-arr', uplift > 0 ? '+'+gbp(uplift * 12) : '£0');
+  setEl('vsd-leak', gbp(totalMonthly));
+  setEl('vsd-ltv', gbp(totalLTV));
+
+  // MRR Section
+  setEl('mrr-booking-curr', pct(bookingRate));
+  setEl('mrr-show-curr', pct(showRatePct));
+  setEl('mrr-close-curr', pct(closeRatePct));
+  setEl('mrr-current-val', gbp(estimatedMRR));
+  setEl('mrr-bench-val', 'Benchmark: '+gbp(benchMRR));
+  const mrrGap = benchMRR - estimatedMRR;
+  const mrrGapEl = document.getElementById('mrr-gap-val');
+  mrrGapEl.textContent = mrrGap>0 ? '+'+gbp(mrrGap)+' potential' : 'At/above benchmark';
+  mrrGapEl.style.color = mrrGap>0 ? RED : GREEN;
+  const bookingGapEl = document.getElementById('mrr-booking-gap');
+  bookingGapEl.textContent = bookingRate<90 ? (90-bookingRate).toFixed(1)+'% below benchmark' : 'At benchmark';
+  bookingGapEl.style.color = bookingRate<90 ? RED : GREEN;
+  const showGapEl = document.getElementById('mrr-show-gap');
+  showGapEl.textContent = showRatePct<80 ? (80-showRatePct).toFixed(1)+'% below benchmark' : 'At benchmark';
+  showGapEl.style.color = showRatePct<80 ? RED : GREEN;
+  const closeGapEl = document.getElementById('mrr-close-gap');
+  closeGapEl.textContent = closeRatePct<44 ? (44-closeRatePct).toFixed(1)+'% below benchmark' : 'At benchmark';
+  closeGapEl.style.color = closeRatePct<44 ? RED : GREEN;
+
+  // 90-Day Milestones
+  setEl('proj-today', gbp(estimatedMRR));
+  setEl('proj-30', gbp(mrr30));
+  setEl('proj-60', gbp(mrr60));
+  setEl('proj-90', gbp(mrr90));
+  function growthLabel(from, to){
+    if(from===0||to===0)return '';
+    const diff = to - from;
+    if(diff<=0)return '';
+    return '+£'+fmt(diff)+' est. additional MRR';
+  }
+  setEl('proj-30-growth', growthLabel(estimatedMRR, mrr30));
+  setEl('proj-60-growth', growthLabel(estimatedMRR, mrr60));
+  setEl('proj-90-growth', growthLabel(estimatedMRR, mrr90));
+
+  // ── Update Charts
+  leakChart.data.datasets[0].data = [stlMonthly, brMonthly, srMonthly, crMonthly, fuMonthly];
+  leakChart.update();
+
+  benchChart.data.datasets[0].data = [bookingRate, showRatePct, closeRatePct];
+  benchChart.update();
+
+  projChart.data.datasets[0].data = [estimatedMRR, mrr30, mrr60, mrr90];
+  projChart.update();
+}
+
+// ── Toggle leak details
+function toggleLeak(id){
+  const body = document.getElementById('lb-'+id);
+  const section = document.getElementById('ls-'+id);
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'grid';
+  section.classList.toggle('open', !isOpen);
+}
+
+// ── Bind all inputs
+document.querySelectorAll('input[type="number"], input[type="text"]').forEach(el=>{
+  el.addEventListener('input', calculate);
+});
+
+calculate();
+</script>
+</body>
+</html>
