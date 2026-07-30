@@ -8,9 +8,9 @@ import os
 
 APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzckDOU3iEUEgeQHY-1-EdknLEPYCxLIlfdzFW_TNxmEG27HKa1x-i9aGh9yvs_ydyG/exec'
 # Replace these with your actual Stripe payment links from stripe.com/payment-links
-STRIPE_497  = 'https://buy.stripe.com/YOUR_STARTER_LINK'
-STRIPE_997  = 'https://buy.stripe.com/YOUR_GROWTH_LINK'
-STRIPE_1497 = 'https://buy.stripe.com/YOUR_COMPLETE_LINK'
+STRIPE_497  = 'https://buy.stripe.com/cNi7sEgeh2Yq1qb0EYgw000'
+STRIPE_997  = 'https://buy.stripe.com/8x228kfad2Yqfh173mgw001'
+STRIPE_1497 = 'https://buy.stripe.com/00w9AM8LP8iK7Oz73mgw002'
 SITE_URL = 'https://krysonlimited.com'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
