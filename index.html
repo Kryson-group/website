@@ -1,287 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Kryson Limited | Revenue Architecture</title>
-<meta name="description" content="Revenue architecture for founder-led B2B agencies and professional service firms. We fix pipeline conversion, rebuild the sales process, and install revenue operating systems that run without us.">
-<link rel="canonical" href="https://krysonlimited.com/">
-<link rel="icon" type="image/png" href="Kryson Logos.png">
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[
-{"@type":"Organization","name":"Kryson Limited","url":"https://krysonlimited.com","description":"Revenue architecture for founder-led B2B agencies and professional service firms.","email":"Kyle@krysongroup.com","founder":{"@type":"Person","name":"Kyle Read","jobTitle":"Founder & Managing Director"},"areaServed":["GB","IE","EU"]},
-{"@type":"Service","name":"Revenue Architecture","provider":{"@type":"Organization","name":"Kryson Limited"},"description":"We diagnose where revenue is leaking, rebuild the commercial system, and install a revenue operating system that runs without us.","serviceType":"Revenue Operations Consulting"}
-]}</script>
-</head>
-<body>
-<div class="am-ov" id="applyModal"><div class="am-box" id="amBox"><button class="am-close" onclick="closeApplyModal()" aria-label="Close">&times;</button><div class="am-prog"><div class="am-prog-bar" id="amBar" style="width:25%"></div></div><div class="am-step active" id="amS1"><div class="am-eye">Step 1 of 3</div><h3 class="am-h">What is your agency's current monthly revenue?</h3><div class="am-opts"><button class="am-opt" onclick="amPick(this,1)" data-val="low">Under &pound;10,000 / month</button><button class="am-opt" onclick="amPick(this,1)" data-val="mid">&pound;10,000 &ndash; &pound;30,000 / month</button><button class="am-opt" onclick="amPick(this,1)" data-val="high">&pound;30,000 &ndash; &pound;80,000 / month</button><button class="am-opt" onclick="amPick(this,1)" data-val="top">Over &pound;80,000 / month</button></div></div><div class="am-step" id="amS2"><div class="am-eye">Step 2 of 3</div><h3 class="am-h">Where is your biggest revenue bottleneck right now?</h3><div class="am-opts"><button class="am-opt" onclick="amPick(this,2)" data-val="conv">Low call-to-close rate</button><button class="am-opt" onclick="amPick(this,2)" data-val="pipe">Pipeline dries up when I'm busy delivering</button><button class="am-opt" onclick="amPick(this,2)" data-val="vis">No visibility. I cannot forecast next month with confidence</button><button class="am-opt" onclick="amPick(this,2)" data-val="team">Trying to build or fix a sales team</button></div></div><div class="am-step" id="amS3"><div class="am-eye">Step 3 of 3</div><h3 class="am-h">How soon are you looking to fix this?</h3><div class="am-opts"><button class="am-opt" onclick="amPick(this,3)" data-val="now">Right now. It is costing me today</button><button class="am-opt" onclick="amPick(this,3)" data-val="soon">Within the next 30 days</button><button class="am-opt" onclick="amPick(this,3)" data-val="plan">Planning for next quarter</button></div></div><div class="am-step" id="amS4"><div class="am-eye">Almost there</div><h3 class="am-h">Where should we send the audit confirmation?</h3><form class="am-form" id="amForm" onsubmit="amSubmit(event)"><div class="am-row"><div class="am-field"><label>First name</label><input type="text" id="amFirst" placeholder="James" required></div><div class="am-field"><label>Last name</label><input type="text" id="amLast" placeholder="Whitfield" required></div></div><div class="am-field"><label>Work email</label><input type="email" id="amEmail" placeholder="james@agency.com" required></div><div class="am-field"><label>Phone number</label><input type="tel" id="amPhone" placeholder="+44 7700 000000" required></div><button type="submit" class="btn bp am-submit" id="amSubmitBtn" style="width:100%;margin-top:20px;font-size:12px;padding:16px 28px;letter-spacing:2px">Submit Application &rarr;</button><p class="am-note">We review every application personally. If you're a fit, you'll hear from us within 24 hours.</p></form></div><div class="am-step am-result" id="amGo"><div class="am-tick">&#10003;</div><h3 class="am-h am-h-ok">Application received.</h3><p class="am-p">Calendly has opened in a new tab. Pick a time that works and we will take it from there.</p><p class="am-p">If it didn't open, use the link below.</p><a href="https://calendly.com/kyle-krysongroup/introduction" target="_blank" class="btn bp am-book-btn" style="font-size:12px;padding:14px 32px;letter-spacing:2px;display:inline-block;margin-top:16px">Open Calendly &rarr;</a><p class="am-note">We take a maximum of 5 clients per quarter. Spots are reviewed in order of application.</p></div><div class="am-step am-result" id="amSending"><div class="am-spin"></div><p class="am-p" style="margin-top:20px">Submitting your application...</p></div><div class="am-step am-result" id="amNo"><div class="am-cross">&#8212;</div><h3 class="am-h">Not quite the right fit yet.</h3><p class="am-p">Our work is best suited to agencies doing at least &pound;10,000 per month. At that stage the commercial infrastructure work we do has the most impact.</p><p class="am-p">If you're building toward that, we'd encourage you to revisit when you're there.</p><button onclick="closeApplyModal()" class="btn bs" style="font-size:11px;padding:12px 24px;margin-top:16px;border-color:var(--w20)">Close</button></div></div></div>
-<div id="loader">
-<div class="l-half l-top"></div>
-<div class="l-half l-bot"></div>
-<div class="l-center">
-<div class="l-text" id="lt"></div>
-<div class="l-bar" id="lb"></div>
-</div>
-</div>
-<nav id="nav">
-<a href="index.html" class="logo">
-<svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg"><text x="0" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="120" fill="#FFF" letter-spacing="2">K</text><line x1="62" y1="30" x2="78" y2="10" stroke="#FFF" stroke-width="3.5" stroke-linecap="round"/><polygon points="78,2 85,12 76,14" fill="#FFF"/><text x="82" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="76" fill="#FFF" letter-spacing="16">RYSON</text></svg>
-</a>
-<div class="nr">
-<a href="services.html" class="na">What We Do</a>
-<a href="results.html" class="na">Results</a>
-<a href="about.html" class="na">About</a>
-<a href="insights.html" class="na">Insights</a>
-<a href="faq.html" class="na">FAQ</a>
-<a href="javascript:void(0)" onclick="openApplyModal()"><button class="nb">Apply Now</button></a>
-</div>
-<button class="burger" id="burg"><span></span><span></span><span></span></button>
-</nav>
-<div class="mob" id="mob">
-<button class="mob-x" id="mobX">&times;</button>
-<a href="services.html" class="ml">What We Do</a>
-<a href="results.html" class="ml">Results</a>
-<a href="about.html" class="ml">About</a>
-<a href="insights.html" class="ml">Insights</a>
-<a href="about.html#careers" class="ml">Careers</a>
-<a href="faq.html" class="ml">FAQ</a>
-<a href="javascript:void(0)" onclick="openApplyModal()" class="ml" style="color:var(--gold)">Apply Now</a>
-</div>
-<section id="hero">
-<canvas id="pC"></canvas>
-<div class="hero-glow"></div><div class="hero-glow2"></div>
-<div class="hi-wrap">
-<div class="hi">
-<h1 class="hh">
-<span class="ho" style="display:block">Revenue Architecture</span>
-<span class="ln"><span>Your pipeline</span></span>
-<span class="ln"><span>is full. Your</span></span>
-<span class="ln"><span>revenue is <em>flat.</em></span></span>
-</h1>
-<p class="hs">You have leads, calls, and conversations going out. Revenue still feels like guesswork. The problem is never the top of the funnel. It is the system underneath it.</p>
-<div class="hb">
-<a href="javascript:void(0)" onclick="openApplyModal()"><button class="btn bp" style="font-size:13px;padding:16px 36px;letter-spacing:2.5px">Apply for a Revenue Audit</button></a>
-<a href="results.html"><button class="btn bs" style="font-size:11px;padding:12px 24px">See Client Results</button></a>
-</div>
-<p class="hero-cap-note rv">We work with a maximum of 5 clients per quarter. Q3 2026 intake is currently open.</p>
-</div>
-</div>
-<div class="stats">
-<div class="st"><div class="st-n"><span class="ctr" data-to="3.2" data-pre="&pound;" data-suf="M+">£0</span></div><div class="st-l">Additional Revenue Generated</div></div>
-<div class="st"><div class="st-n">2x to 3x</div><div class="st-l">Conversion Rate Uplift</div></div>
-<div class="st"><div class="st-n">60 to 90 Days</div><div class="st-l">From Audit to Measurable Results</div></div>
-</div>
-</section>
-<section class="sec vsl-home-sec" style="background:var(--bg);text-align:center;padding:clamp(48px,6vw,80px) clamp(24px,6vw,80px)">
-<div class="sl">Watch</div>
-<h2 class="sh" style="max-width:640px;margin:0 auto 16px">The Revenue Architecture Breakdown</h2>
-<p class="sp" style="max-width:500px;margin:0 auto 40px">A full walkthrough of how we diagnose, rebuild, and install a commercial system that runs without the founder. Coming soon.</p>
-<div class="vsl-wrap rv" style="max-width:640px;margin:0 auto">
-<div class="vsl-scanlines"></div>
-<div class="vsl-rings"><div class="vsl-ring r1"></div><div class="vsl-ring r2"></div><div class="vsl-ring r3"></div></div>
-<div class="vsl-play"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="rgba(201,168,76,0.9)"/></svg></div>
-<div class="vsl-label">
-<div class="vsl-coming">Coming Soon</div>
-<div class="vsl-dots"><span></span><span></span><span></span></div>
-</div>
-</div>
-</section>
-<div class="glow-div"></div>
-<section id="problem" class="sec" style="background:var(--bg2)">
-<div class="sl">The Real Problem</div>
-<h2 class="prob-intro rv" style="font-size:clamp(22px,3.5vw,48px);line-height:1.25;margin-bottom:clamp(48px,6vw,80px);font-weight:400;color:var(--w95)">You do not need more leads.<br>You need to <em>stop losing the ones you already have.</em></h2>
-<div class="prob-grid-2">
-<div class="prob-card rv"><div class="prob-num">01</div><h3>You are the entire sales department.</h3><p>Every discovery call, every close call, every follow-up runs through you. When you deliver, you stop selling. Revenue swings because the whole thing depends on your calendar.</p></div>
-<div class="prob-card rv"><div class="prob-num">02</div><h3>Prospects go quiet and you have no idea why.</h3><p>You have a good discovery call. Then silence. Three out of five prospects go quiet after the first call. Not because your service is wrong, but because there is no system catching them.</p></div>
-<div class="prob-card rv"><div class="prob-num">03</div><h3>Your CRM is a graveyard. Your pipeline is a guess.</h3><p>No visibility. No accountability. No way to forecast next month with any confidence.</p></div>
-<div class="prob-card rv"><div class="prob-num">04</div><h3>You keep buying more leads into a system that leaks.</h3><p>Volume does not fix conversion. Structure does. More leads into a broken process just means more money lost.</p></div>
-</div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)">
-<a href="services.html"><button class="btn bp" style="font-size:11px;padding:12px 28px">See How We Fix It &rarr;</button></a>
-</div>
-</section>
-<div class="glow-div"></div>
-<section id="whatwedo" class="sec">
-<div class="sl">What We Do</div>
-<h2 class="sh">Revenue architecture: we rebuild the engine between your first conversation and the signed contract.</h2>
-<div class="gr"></div>
-<p class="sp">Four phases. One system. Every piece designed to run without us once it is installed.</p>
-<div class="wwd-grid">
-<div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 01</div><h3>Revenue Leak Audit</h3></div><p>We map every step from first contact to signed contract and identify exactly where money is falling out.</p><ul class="wwd-delivers"><li>Full pipeline and CRM review</li><li>Live call analysis</li><li>Revenue Leak Map delivered end of Week 1</li></ul></div>
-<div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 02</div><h3>Conversion System Rebuild</h3></div><p>We rebuild everything between the first conversation and the signed contract. One working deliverable per week.</p><ul class="wwd-delivers"><li>Qualification criteria and discovery framework</li><li>Close call framework and follow-up sequences</li><li>CRM architecture rebuilt from scratch</li></ul></div>
-<div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 03</div><h3>Revenue Operating System</h3></div><p>We install the structure that keeps the system running and improving week after week.</p><ul class="wwd-delivers"><li>KPI dashboards and conversion tracking</li><li>Weekly pipeline and call review cadences</li><li>Team trained to run it independently</li></ul></div>
-<div class="wwd-card rv"><div class="wwd-card-head"><div class="wwd-num">Phase 04</div><h3>Scale</h3></div><p>Once the system is proven, we build the team to run it at scale so the founder steps back from every deal.</p><ul class="wwd-delivers"><li>Role design and hiring criteria</li><li>Scripts, objection libraries, call frameworks</li><li>Team running proven system independently</li></ul></div>
-</div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)">
-<a href="services.html"><button class="btn bp" style="font-size:11px;padding:12px 28px">Full Service Detail &rarr;</button></a>
-</div>
-</section>
-<div class="glow-div"></div>
-<div class="stats-band">
-<div class="sb-item rv"><div class="sb-num">6.68x</div><div class="sb-label">Highest Recorded Multiple</div><div class="sb-sub">North Star Solutions, 90 days</div></div>
-<div class="sb-item rv"><div class="sb-num">2&ndash;3x</div><div class="sb-label">Conversion Rate Uplift</div><div class="sb-sub">Regardless of starting point</div></div>
-<div class="sb-item rv"><div class="sb-num">100%</div><div class="sb-label">System Retention Rate</div><div class="sb-sub">Every system built is still operational</div></div>
-</div>
-<section id="results" class="sec">
-<div class="sl">Results</div>
-<h2 class="sh">Pipeline conversion results: real numbers, real agencies, real timelines.</h2>
-<div class="gr"></div>
-<div class="feat-results">
-<div class="fr-card rv"><div class="fr-ind">B2B Marketing Agency</div><div class="fr-name">TeamCTC Ltd</div><div class="fr-num">&pound;8K &rarr; &pound;61K <span>/mo</span></div><div class="fr-meta">6.63x in 90 days</div><div class="fr-quote">'Close rate went from 21% to 38% and the revenue followed.'</div></div>
-<div class="fr-card rv"><div class="fr-ind">B2B Professional Services</div><div class="fr-name">Wise Enterprises</div><div class="fr-num">&pound;27K &rarr; &pound;127.5K <span>/mo</span></div><div class="fr-meta">3.72x in 60 days</div><div class="fr-quote">'The revenue almost felt like a side effect of getting the system right.'</div></div>
-<div class="fr-card rv"><div class="fr-ind">B2B Services Agency</div><div class="fr-name">North Star Solutions</div><div class="fr-num">$12.5K &rarr; $96K <span>/mo</span></div><div class="fr-meta">6.68x in 90 days</div><div class="fr-quote">'The revenue nearly doubled before we changed anything about our service.'</div></div>
-</div>
-<div style="text-align:center;margin-top:clamp(32px,4vw,56px)">
-<a href="results.html"><button class="btn bs" style="font-size:11px;padding:12px 28px">View All 6 Case Studies &rarr;</button></a>
-</div>
-</section>
-<div class="glow-div"></div>
-<section class="sec" style="background:var(--bg2)">
-<div class="sl">The Firm</div>
-<h2 class="sh">Built by operators. Not advisors.</h2>
-<div class="gr"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start" class="rv">
-<p style="font-size:clamp(16px,1.8vw,20px);color:var(--w60);line-height:1.85">Kyle has led 8-figure revenue closes across the UK energy sector and served as VP of Sales in a private credit enterprise firm, where he drove a full market pivot and closed $1.3M in new revenue in 4 months.<br><br>He built Kryson after seeing the same pattern across dozens of agencies: strong services, real demand, and a sales process held together with duct tape and good intentions.</p>
-<div><p style="font-size:15px;color:var(--w60);line-height:1.85;margin-bottom:20px">Over <strong style="color:var(--gold)">&pound;3.2M</strong> in additional client revenue generated. Every system we build is designed to run without us once it is installed.</p>
-<a href="about.html"><button class="btn bs" style="font-size:11px;padding:12px 28px">About the Firm &rarr;</button></a></div>
-</div>
-</section>
-<div class="glow-div"></div><section id="cta">
-<canvas id="ctaC"></canvas>
-<div class="cta-glow"></div>
-<div class="cta-decor">KRYSON</div>
-<div class="cta-in">
-<div class="sl">Get Started</div>
-<h2 class="sh">Stop losing revenue you already earned.</h2>
-<p class="sp">90 minutes. Your pipeline, conversion data, and sales process examined and mapped. No pitch. Just diagnosis.</p>
-<a href="javascript:void(0)" onclick="openApplyModal()"><button class="btn bp" style="font-size:13px;padding:16px 40px">Apply for a Revenue Audit</button></a>
-<p class="cta-note">We take a maximum of 5 clients per quarter. If you are a fit, you will hear from us within 24 hours.</p>
-</div>
-</section>
-<div class="kg-band">
-<div class="kg-band-inner">
-<span class="kg-band-text">Kryson Limited is a member of the <strong>Kryson Group</strong></span>
-<span class="kg-band-divider">|</span>
-<span class="kg-band-sub">A privately held group of commercial advisory and service businesses</span>
-</div>
-</div>
-<footer>
-<div class="fg">
-<div class="fb">
-<a href="index.html" class="logo">
-<svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:auto"><text x="0" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="120" fill="#C9A84C" letter-spacing="2">K</text><line x1="62" y1="30" x2="78" y2="10" stroke="#C9A84C" stroke-width="3.5" stroke-linecap="round"/><polygon points="78,2 85,12 76,14" fill="#C9A84C"/><text x="82" y="95" font-family="'Times New Roman','CG Times',Times,serif" font-size="76" fill="#C9A84C" letter-spacing="16">RYSON</text></svg>
-</a>
-<p>Revenue Architecture for Founder-Led B2B Companies</p>
-</div>
-<div class="fc"><h5>Navigate</h5><ul>
-<li><a href="services.html">What We Do</a></li>
-<li><a href="results.html">Results</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="insights.html">Insights</a></li>
-<li><a href="about.html#careers">Careers</a></li>
-<li><a href="faq.html">FAQ</a></li>
-</ul></div>
-<div class="fc"><h5>Contact</h5><ul>
-<li><a href="mailto:Kyle@krysongroup.com" style="color:var(--gold)">Kyle@krysongroup.com</a></li>
-<li><span style="color:var(--w40)">UK &amp; Ireland</span></li>
-</ul></div>
-</div>
-<div class="fbot">
-<span>&copy; 2026 Kryson Limited. All rights reserved.</span>
-<div><a href="#">Privacy</a> &middot; <a href="#">Terms</a></div>
-</div>
-</footer>
-<div class="mob-cta-bar" id="mobCta"><button class="btn bp" onclick="openApplyModal()">Apply for a Revenue Audit</button></div>
-<script>
-
-const lt=document.getElementById('lt'),lb=document.getElementById('lb'),ld=document.getElementById('loader');
-'KRYSON LIMITED'.split('').forEach(c=>{const s=document.createElement('span');s.textContent=c===' '?'\u00A0\u00A0':c;lt.appendChild(s)});
-document.body.style.overflow='hidden';
-setTimeout(()=>{lt.querySelectorAll('span').forEach((s,i)=>{setTimeout(()=>{s.style.transition='opacity .35s ease,transform .35s ease';s.style.opacity='1';s.style.transform='translateY(0)'},i*50)})},300);
-setTimeout(()=>lb.style.width='100px',1200);
-setTimeout(()=>{ld.classList.add('exit');setTimeout(()=>{ld.style.display='none';
-document.body.style.overflow='';
-gsap.to('#nav',{opacity:1,y:0,duration:.5,ease:'power2.out'});
-gsap.to('.ho',{opacity:1,duration:.4,delay:.15});
-document.querySelectorAll('.hh .ln span').forEach((s,i)=>{gsap.to(s,{y:0,duration:.6,delay:.3+i*.12,ease:'power3.out'})});
-gsap.to('.hs',{opacity:1,duration:.4,delay:.9});
-gsap.to('.hb',{opacity:1,duration:.4,delay:1.05});
-gsap.to('.hero-cap-note',{opacity:1,duration:.4,delay:1.25});
-document.querySelectorAll('.st').forEach((s,i)=>{gsap.to(s,{opacity:1,y:0,duration:.4,delay:1.2+i*.08,ease:'power2.out'})});
-},1000)},3000);
-
-
-function initP(id,n){
-const cv=document.getElementById(id);if(!cv)return;
-const pa=cv.parentElement;
-const scene=new THREE.Scene();
-const cam=new THREE.PerspectiveCamera(75,pa.clientWidth/pa.clientHeight,.1,1000);
-const r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:false});
-r.setSize(pa.clientWidth,pa.clientHeight);r.setPixelRatio(1);
-const pos=new Float32Array(n*3);const vel=[];
-for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*20;pos[i*3+1]=(Math.random()-.5)*12;pos[i*3+2]=(Math.random()-.5)*8;vel.push({vx:(Math.random()-.5)*.0015,vy:(Math.random()-.5)*.0015,vz:0});}
-const ptGeo=new THREE.BufferGeometry();const ptBuf=new THREE.BufferAttribute(pos,3);ptBuf.setUsage(THREE.DynamicDrawUsage);ptGeo.setAttribute('position',ptBuf);
-scene.add(new THREE.Points(ptGeo,new THREE.PointsMaterial({color:0xC9A84C,size:.035,transparent:true,opacity:.4,blending:THREE.AdditiveBlending,depthWrite:false})));
-const maxLines=n*(n-1)/2;const lineBuf=new Float32Array(maxLines*6);const lineGeo=new THREE.BufferGeometry();const lineAttr=new THREE.BufferAttribute(lineBuf,3);lineAttr.setUsage(THREE.DynamicDrawUsage);lineGeo.setAttribute('position',lineAttr);lineGeo.setDrawRange(0,0);
-scene.add(new THREE.LineSegments(lineGeo,new THREE.LineBasicMaterial({color:0xC9A84C,transparent:true,opacity:.04,blending:THREE.AdditiveBlending,depthWrite:false})));
-cam.position.z=6;let visible=true;
-const obs=new IntersectionObserver(e=>{visible=e[0].isIntersecting},{threshold:0});obs.observe(pa);
-function tick(){requestAnimationFrame(tick);if(!visible)return;
-for(let i=0;i<n;i++){pos[i*3]+=vel[i].vx;pos[i*3+1]+=vel[i].vy;if(Math.abs(pos[i*3])>10)vel[i].vx*=-1;if(Math.abs(pos[i*3+1])>6)vel[i].vy*=-1;}
-ptBuf.needsUpdate=true;let lc=0;
-for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){const dx=pos[i*3]-pos[j*3],dy=pos[i*3+1]-pos[j*3+1];if(dx*dx+dy*dy<6.25){const b=lc*6;lineBuf[b]=pos[i*3];lineBuf[b+1]=pos[i*3+1];lineBuf[b+2]=pos[i*3+2];lineBuf[b+3]=pos[j*3];lineBuf[b+4]=pos[j*3+1];lineBuf[b+5]=pos[j*3+2];lc++;}}
-lineAttr.needsUpdate=true;lineGeo.setDrawRange(0,lc*2);r.render(scene,cam);}
-tick();window.addEventListener('resize',()=>{cam.aspect=pa.clientWidth/pa.clientHeight;cam.updateProjectionMatrix();r.setSize(pa.clientWidth,pa.clientHeight)},{passive:true});}
-
-gsap.registerPlugin(ScrollTrigger);
-document.querySelectorAll('.rv').forEach(el=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%'},opacity:1,y:0,duration:.5,ease:'power2.out'})});
-document.querySelectorAll('.ctr').forEach(c=>{ScrollTrigger.create({trigger:c,start:'top 90%',once:true,onEnter:()=>{const t=parseFloat(c.dataset.to),pre=c.dataset.pre||'',suf=c.dataset.suf||'';const s=performance.now();!function u(now){const p=Math.min((now-s)/1500,1);c.textContent=pre+(t*(1-Math.pow(1-p,3))).toFixed(1)+suf;if(p<1)requestAnimationFrame(u)}(s)}})});
-const fv=document.querySelector('.funnel-vis');if(fv){ScrollTrigger.create({trigger:fv,start:'top 80%',once:true,onEnter:()=>{document.querySelectorAll('.funnel-fill').forEach((f,i)=>{setTimeout(()=>{f.style.width=f.dataset.width+'%'},i*180)})}})}
-document.querySelectorAll('.sb-item').forEach(s=>{ScrollTrigger.create({trigger:s,start:'top 85%',once:true,onEnter:()=>s.classList.add('vis')})});
-const tl=document.querySelector('.tl');if(tl){ScrollTrigger.create({trigger:tl,start:'top 70%',onEnter:()=>{document.getElementById('tlF')&&(document.getElementById('tlF').style.height='100%');document.querySelectorAll('.ts').forEach((s,i)=>{gsap.to(s,{opacity:1,y:0,duration:.45,delay:.15+i*.12,ease:'power2.out',onComplete:()=>s.classList.add('on')})})}})}
-document.querySelectorAll('.fq-q').forEach(b=>{b.addEventListener('click',()=>{const f=b.parentElement,a=f.querySelector('.fq-a'),o=f.classList.contains('open');document.querySelectorAll('.fq.open').forEach(x=>{x.classList.remove('open');x.querySelector('.fq-a').style.maxHeight='0'});if(!o){f.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}})});
-function toggleCase(top){const c=top.parentElement,b=c.querySelector('.case-body'),o=c.classList.contains('open');document.querySelectorAll('.case.open').forEach(x=>{x.classList.remove('open');x.querySelector('.case-body').style.maxHeight='0'});if(!o){c.classList.add('open');b.style.maxHeight=b.scrollHeight+'px'}}
-function toggleIns(el){const item=el.closest('.ins-item'),body=item.querySelector('.ins-body'),open=item.classList.contains('open');document.querySelectorAll('.ins-item.open').forEach(x=>{x.classList.remove('open');x.querySelector('.ins-body').style.maxHeight='0'});if(!open){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px'}}
-const burg=document.getElementById('burg'),mob=document.getElementById('mob'),mobX=document.getElementById('mobX');
-burg.addEventListener('click',()=>{mob.classList.add('open');document.body.style.overflow='hidden'});
-mobX.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''});
-document.querySelectorAll('.ml').forEach(l=>{l.addEventListener('click',()=>{mob.classList.remove('open');document.body.style.overflow=''})});
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',function(e){const href=this.getAttribute('href');if(href==='#')return;e.preventDefault();const t=document.querySelector(href);if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-64,behavior:'smooth'})});
-});
-var amRev=null,amBottleneck=null,amTimeline=null;
-var progMap={amS1:25,amS2:50,amS3:75,amS4:95,amGo:100,amNo:100,amSending:95};
-function openApplyModal(){setTimeout(function(){var el=document.getElementById('applyModal');if(!el)return;amShow('amS1');el.classList.add('open');document.body.style.overflow='hidden'},20);}
-function closeApplyModal(){var el=document.getElementById('applyModal');if(!el)return;el.classList.remove('open');document.body.style.overflow='';}
-function amShow(id){document.querySelectorAll('.am-step').forEach(function(s){s.classList.remove('active')});var t=document.getElementById(id);if(t)t.classList.add('active');var bar=document.getElementById('amBar');if(bar&&progMap[id])bar.style.width=progMap[id]+'%';}
-function amPick(btn,step){var v=btn.getAttribute('data-val');
-  btn.parentElement.querySelectorAll('.am-opt').forEach(function(b){b.classList.remove('sel')});btn.classList.add('sel');
-  setTimeout(function(){
-    if(step===1){amRev=v;if(v==='low'){amShow('amNo');}else{amShow('amS2');}}
-    else if(step===2){amBottleneck=btn.textContent.trim();amShow('amS3');}
-    else if(step===3){amTimeline=btn.textContent.trim();amShow('amS4');}
-  },280);
-}
-function amSubmit(e){e.preventDefault();
-  var first=document.getElementById('amFirst').value.trim();
-  var last=document.getElementById('amLast').value.trim();
-  var email=document.getElementById('amEmail').value.trim();
-  var phone=document.getElementById('amPhone').value.trim();
-  amShow('amSending');
-  var payload={firstName:first,lastName:last,email:email,phone:phone,monthlyRevenue:amRev,bottleneck:amBottleneck,timeline:amTimeline,submittedAt:new Date().toISOString()};
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Web Design for Irish Health &amp; Wellness Businesses | Kryson</title><meta name="description" content="Kryson builds elite websites and digital systems for Irish gyms, saunas, yoga studios and wellness centres. Starter from 497."><meta property="og:title" content="Web Design for Irish Health &amp; Wellness Businesses | Kryson"><meta property="og:description" content="Kryson builds elite websites and digital systems for Irish gyms, saunas, yoga studios and wellness centres. Starter from 497."><link rel="stylesheet" href="styles.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></head><body><div id="loader"><div class="l-glow"></div><div class="l-glow2"></div><div class="l-half l-top"></div><div class="l-half l-bot"></div><div class="l-center"><div class="l-logo"><span>K</span><span>R</span><span>Y</span><span>S</span><span>O</span><span>N</span></div><div class="l-sub">Web Design for Health &amp; Wellness</div><div class="l-bar" id="lBar"></div></div></div><nav><a href="index.html" class="nav-logo">Kryson</a><ul class="nav-links"><li><a href="work.html">Our Work</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="about.html">About</a></li><li><a href="contact.html" class="nav-cta">Get Started</a></li></ul><button class="nav-burger" onclick="toggleMobNav()" aria-label="Menu"><span></span><span></span><span></span></button></nav><div class="mob-nav" id="mobNav"><a href="work.html" onclick="toggleMobNav()">Our Work</a><a href="pricing.html" onclick="toggleMobNav()">Pricing</a><a href="about.html" onclick="toggleMobNav()">About</a><a href="contact.html" class="mnav-cta">Get Started</a></div><section id="hero"><div class="hero-bg"></div><div class="hero-grid"></div><div class="hero-inner"><div class="hero-tag"><div class="hero-dot"></div>Built for Irish Health &amp; Wellness</div><h1 class="hero-h1">Your studio is elite.<br><span class="gt">Your website</span><br>should be too.</h1><p class="hero-sub">We build stunning websites and full business systems for gyms, saunas, yoga studios, and wellness centres across Ireland. From a sleek 5-page site to a complete member portal &mdash; we do it all.</p><div class="hero-pills"><div class="hero-pill">&#127947; Gyms</div><div class="hero-pill">&#128293; Saunas</div><div class="hero-pill">&#129482; Yoga Studios</div><div class="hero-pill">&#128692; Spinning</div><div class="hero-pill">&#129340; Pilates</div><div class="hero-pill">&#128170; Personal Trainers</div></div><div class="hero-btns"><button class="btn btn-grad" onclick="openModal()">Get a Free Quote &rarr;</button><a href="work.html" class="btn btn-outline">See Our Work</a></div></div><div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div></section><section id="for"><div class="wrap"><div class="reveal"><div class="section-tag">Who We Build For</div><h2 class="section-title">If you&#39;re in the wellness space,<br>we&#39;re your team.</h2><p class="section-sub">We specialise exclusively in health and wellness businesses. We know your industry, your customers, and what converts.</p></div><div class="for-grid"><div class="for-card reveal"><span class="for-icon">&#127947;</span><div class="for-name">Gyms &amp; Fitness</div><div class="for-desc">Class schedules, memberships, online sign-ups</div></div><div class="for-card reveal"><span class="for-icon">&#128293;</span><div class="for-name">Saunas &amp; Spas</div><div class="for-desc">Booking systems, session management, gift cards</div></div><div class="for-card reveal"><span class="for-icon">&#129482;</span><div class="for-name">Yoga Studios</div><div class="for-desc">Class timetables, drop-ins, memberships</div></div><div class="for-card reveal"><span class="for-icon">&#128692;</span><div class="for-name">Spinning Studios</div><div class="for-desc">Bike reservations, package bundles, leaderboards</div></div><div class="for-card reveal"><span class="for-icon">&#129340;</span><div class="for-name">Pilates Studios</div><div class="for-desc">Reformer bookings, waitlists, new client flows</div></div><div class="for-card reveal"><span class="for-icon">&#128170;</span><div class="for-name">Personal Trainers</div><div class="for-desc">Session bookings, client portals, payment links</div></div></div></div></section><section id="why"><div class="wrap"><div class="reveal"><div class="section-tag">Why Kryson</div><h2 class="section-title">Not a template.<br><span class="gt">A proper system.</span></h2><p class="section-sub">We don&#39;t use Wix. We don&#39;t use cookie-cutter builders. Every site we build is custom-designed and built to work as hard as you do.</p></div><div class="why-grid"><div class="why-features reveal-l"><div class="why-feat"><div class="why-feat-icon ic-purple">&#127775;</div><div><div class="why-feat-h">Elite Design</div><div class="why-feat-p">Animations, gradients, and layouts your competitors won&#39;t have. Built to impress from the first second.</div></div></div><div class="why-feat"><div class="why-feat-icon ic-cyan">&#128241;</div><div><div class="why-feat-h">Mobile First</div><div class="why-feat-p">Most of your customers find you on their phone. We build mobile experiences that convert.</div></div></div><div class="why-feat"><div class="why-feat-icon ic-lime">&#128269;</div><div><div class="why-feat-h">Local SEO</div><div class="why-feat-p">We optimise so you rank when people search "gym near me" or "yoga Dublin". Real local customers.</div></div></div><div class="why-feat"><div class="why-feat-icon ic-pink">&#128176;</div><div><div class="why-feat-h">Payments &amp; Bookings</div><div class="why-feat-p">Take payments, manage bookings, and run your business from one place. No third-party logins.</div></div></div><div class="why-feat"><div class="why-feat-icon ic-orange">&#127470;&#127466;</div><div><div class="why-feat-h">Based in Ireland</div><div class="why-feat-p">We understand the Irish market. Euro pricing, Irish business context, always available on the phone.</div></div></div></div><div class="why-visual reveal-r"><div class="why-vis-gradient"></div><div class="why-stat-grid"><div class="why-stat-card"><div class="wsc-num">5&#43;</div><div class="wsc-label">Years building for wellness</div></div><div class="why-stat-card"><div class="wsc-num">&#8364;497</div><div class="wsc-label">Starting price</div></div><div class="why-stat-card"><div class="wsc-num">7 days</div><div class="wsc-label">Starter delivery</div></div><div class="why-stat-card"><div class="wsc-num">100&#37;</div><div class="wsc-label">Custom built</div></div></div></div></div></div></section><section id="case-preview"><div class="wrap"><div class="reveal"><div class="section-tag">Featured Project</div><h2 class="section-title">We built the digital backbone<br>of <span class="gt">pikenhot.ie</span></h2></div></div><div class="wrap" style="margin-top:48px"><div class="cs-wrap reveal"><div class="cs-content"><div class="cs-logo-text"><span class="gt">PIKENHOT.IE</span></div><div class="cs-url">pikenhot.ie &mdash; Irish Gym &amp; Sauna Centre</div><div class="cs-badges"><span class="cs-badge">Website</span><span class="cs-badge">Member Portal</span><span class="cs-badge">CRM</span><span class="cs-badge">Payments</span><span class="cs-badge">Staff Roster</span></div><h3 class="cs-h">A full website, member portal, and business backend &mdash; built from scratch.</h3><p class="cs-p">Pikenhot needed more than a website. We built them a complete digital infrastructure: a custom-designed site, a member portal where customers manage their own memberships, and an admin CRM tracking payments, transactions, staff rosters, opening hours, and reviews.</p><div class="cs-stats"><div><div class="cs-stat-n">&#8364;1,497</div><div class="cs-stat-l">Complete package</div></div><div><div class="cs-stat-n">100&#37;</div><div class="cs-stat-l">Custom built</div></div><div><div class="cs-stat-n">3 wk</div><div class="cs-stat-l">Delivered</div></div></div><a href="work.html" class="btn btn-grad">See Full Case Study &rarr;</a></div><div class="cs-visual"><div class="mockup"><div class="mockup-bar"><div class="mockup-dot m-red"></div><div class="mockup-dot m-yellow"></div><div class="mockup-dot m-green"></div><div class="mockup-url">pikenhot.ie</div></div><div class="mockup-body"><div class="mb-hero"><div class="mb-logo">PIKENHOT</div></div><div class="mb-cards"><div class="mb-card"></div><div class="mb-card"></div><div class="mb-card"></div></div><div class="mb-row w85"></div><div class="mb-row w70"></div><div class="mb-row w50"></div><div class="mb-pill"></div></div></div></div></div></div></section><section id="pricing-preview"><div class="wrap"><div class="reveal"><div class="section-tag">Pricing</div><h2 class="section-title">Transparent pricing.<br><span class="gt">No surprises.</span></h2><p class="section-sub">Three tiers to match where your business is right now. All include custom design, mobile-first build, and full handover.</p></div><div class="price-grid"><div class="price-card reveal"><div class="price-tier">Tier 01</div><div class="price-name">Starter</div><div class="price-amount"><span class="gt">&#8364;497</span></div><div class="price-period">One-time payment</div><div class="price-divider"></div><ul class="price-features"><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Custom website (up to 5 pages)</li><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Mobile responsive &amp; fast</li><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Google Business setup</li><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Basic local SEO</li><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Contact form</li><li class="price-feat"><span class="pf-check pf-purple">&#10003;</span>Delivered in 7 days</li></ul><button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button></div><div class="price-card featured reveal"><div class="price-badge">Most Popular</div><div class="price-tier">Tier 02</div><div class="price-name">Growth</div><div class="price-amount"><span class="gt">&#8364;997</span></div><div class="price-period">One-time payment</div><div class="price-divider"></div><ul class="price-features"><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Everything in Starter</li><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Online payments (Stripe)</li><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Class &amp; appointment booking</li><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Advanced local SEO</li><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Google Analytics 4</li><li class="price-feat"><span class="pf-check pf-pink">&#10003;</span>Delivered in 14 days</li></ul><button class="btn btn-grad" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button></div><div class="price-card reveal"><div class="price-tier">Tier 03</div><div class="price-name">Complete</div><div class="price-amount"><span class="gt2">&#8364;1,497</span></div><div class="price-period">One-time payment</div><div class="price-divider"></div><ul class="price-features"><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Everything in Growth</li><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Member portal</li><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Staff management &amp; roster</li><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Transaction history &amp; CRM</li><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Review management</li><li class="price-feat"><span class="pf-check pf-cyan">&#10003;</span>Delivered in 21 days</li></ul><button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button></div></div><div style="text-align:center;margin-top:40px" class="reveal"><a href="pricing.html" style="font-size:13px;color:var(--w30);text-decoration:none;letter-spacing:2px;text-transform:uppercase">See full pricing details &rarr;</a></div></div></section><section id="process"><div class="wrap"><div class="reveal"><div class="section-tag">How It Works</div><h2 class="section-title">Live in <span class="gt">4 steps.</span></h2></div><div class="process-steps"><div class="process-step reveal"><div class="ps-circle"><div class="ps-n">01</div></div><div class="ps-h">Tell Us About Your Business</div><div class="ps-p">Fill in our quick form. We&#39;ll get back to you within 24 hours.</div></div><div class="process-step reveal"><div class="ps-circle"><div class="ps-n">02</div></div><div class="ps-h">We Design &amp; Build</div><div class="ps-p">We handle everything &mdash; design, copy, development, integrations.</div></div><div class="process-step reveal"><div class="ps-circle"><div class="ps-n">03</div></div><div class="ps-h">Review &amp; Approve</div><div class="ps-p">We send you a preview. You request any changes. We refine until right.</div></div><div class="process-step reveal"><div class="ps-circle"><div class="ps-n">04</div></div><div class="ps-h">Go Live</div><div class="ps-p">We launch, connect your domain, and hand over everything. You&#39;re live.</div></div></div></div></section><section id="testimonials"><div class="wrap"><div class="reveal"><div class="section-tag">What Clients Say</div><h2 class="section-title">Real results.<br><span class="gt">Real businesses.</span></h2></div><div class="testi-grid"><div class="testi-card reveal"><div class="testi-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></div><div class="testi-text">"The website Kryson built us looks absolutely incredible. Our members constantly comment on how easy it is to use. Bookings are up since launch."</div><div class="testi-author"><div class="testi-avatar ta-1">S</div><div><div class="testi-name">Sean O&#39;Brien</div><div class="testi-biz">Evolve Fitness, Dublin</div></div></div></div><div class="testi-card reveal"><div class="testi-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></div><div class="testi-text">"We went with the Complete package and don&#39;t regret it. Members can log in, manage subscriptions, and it looks unreal. Worth every cent."</div><div class="testi-author"><div class="testi-avatar ta-2">A</div><div><div class="testi-name">Aoife Kelly</div><div class="testi-biz">Urban Sauna, Cork</div></div></div></div><div class="testi-card reveal"><div class="testi-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></div><div class="testi-text">"I was getting zero enquiries from my old site. Within two weeks of going live I had 12 new clients reach out. The SEO alone was worth it."</div><div class="testi-author"><div class="testi-avatar ta-3">C</div><div><div class="testi-name">Ciara Brennan</div><div class="testi-biz">Personal Trainer, Galway</div></div></div></div></div></div></section><section class="cta-band"><div class="cta-band-bg"></div><div class="cta-band-inner reveal"><h2>Ready to build something <span class="gt">elite?</span></h2><p>Get a free quote in 24 hours. No commitment, no pressure. Just tell us about your business and we&#39;ll tell you exactly what we can build.</p><div class="cta-btns"><button class="btn btn-grad" onclick="openModal()">Get a Free Quote &rarr;</button><a href="work.html" class="btn btn-outline">See Our Work</a></div></div></section><footer><div class="footer-inner"><div class="footer-top"><div class="footer-brand"><div class="f-logo">Kryson</div><p>We build elite websites and digital systems for gyms, saunas, yoga studios, and wellness centres across Ireland.</p></div><div class="footer-col"><h4>Pages</h4><a href="index.html">Home</a><a href="work.html">Our Work</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="contact.html">Contact</a></div><div class="footer-col"><h4>Get in Touch</h4><a href="mailto:kyle@krysongroup.com">kyle@krysongroup.com</a><a href="contact.html">Start a Project</a></div></div><div class="footer-bottom"><div class="footer-copy">&copy; 2025 Kryson. All rights reserved.</div><div class="footer-ie">&#127470;&#127466; Based in Ireland</div></div></div></footer><div id="cmodal" onclick="if(event.target===this)closeModal()"><div class="cm-box"><div class="cm-head"><div><div class="cm-title">Let&#39;s Build Your Site</div><div class="cm-sub">Tell us about your business</div></div><button class="cm-close" onclick="closeModal()">&#215;</button></div><div id="cm-form"><div class="cm-body"><div class="cm-2col"><div class="cm-field"><label>First Name</label><input type="text" id="cmFirst" placeholder="Ciara" required></div><div class="cm-field"><label>Last Name</label><input type="text" id="cmLast" placeholder="Murphy" required></div></div><div class="cm-field"><label>Email</label><input type="email" id="cmEmail" placeholder="you@yourbusiness.ie" required></div><div class="cm-field"><label>Phone</label><input type="tel" id="cmPhone" placeholder="+353 87 000 0000" required></div><div class="cm-field"><label>Business Type</label><select id="cmBiz"><option value="">Select your business...</option><option>Gym / Fitness Centre</option><option>Sauna / Wellness Centre</option><option>Yoga Studio</option><option>Pilates Studio</option><option>Spinning / Cycling Studio</option><option>Personal Trainer</option><option>Other Health &amp; Wellness</option></select></div><div class="cm-field"><label>Package Interested In</label><select id="cmPackage"><option value="">Select package...</option><option>Starter &#8212; &#8364;497</option><option>Growth &#8212; &#8364;997</option><option>Complete &#8212; &#8364;1,497</option><option>Not sure yet</option></select></div><button class="cm-submit" onclick="submitContact()">Send Enquiry &rarr;</button></div></div><div id="cm-sending"><div class="cm-spin"></div><p style="color:var(--w30);font-size:13px">Sending...</p></div><div id="cm-success"><div class="cm-ok">&#127881;</div><h3>You&#39;re on the list!</h3><p style="color:var(--w30);font-size:13px">We&#39;ll be in touch within 24 hours.</p></div></div></div><div class="mob-cta-bar" id="mobCta"><button class="btn btn-grad" onclick="openModal()">Get a Free Quote &rarr;</button></div><script>
+function toggleMobNav(){var n=document.getElementById('mobNav');n.classList.toggle('open');}
+function openModal(){document.getElementById('cmodal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('cmodal').classList.remove('open');document.body.style.overflow='';}
+function submitContact(){
+  var first=document.getElementById('cmFirst').value.trim();
+  var email=document.getElementById('cmEmail').value.trim();
+  var phone=document.getElementById('cmPhone').value.trim();
+  if(!first||!email||!phone){alert('Please fill in all required fields.');return;}
+  document.getElementById('cm-form').style.display='none';
+  document.getElementById('cm-sending').style.display='block';
+  var last=document.getElementById('cmLast').value.trim();
+  var biz=document.getElementById('cmBiz').value;
+  var pkg=document.getElementById('cmPackage').value;
+  var payload={firstName:first,lastName:last,email:email,phone:phone,businessType:biz,package:pkg,submittedAt:new Date().toISOString()};
   var url='https://script.google.com/macros/s/AKfycbxKAw0elEOZONdurCiWqMFAROxTsIZoq0eqAA9JS1QqP9kfN1GhdkAHQeAJ2RUCzWoU/exec';
   try{fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)});}catch(err){}
-  setTimeout(function(){window.open('https://calendly.com/kyle-krysongroup/introduction','_blank');amShow('amGo');},600);
+  setTimeout(function(){document.getElementById('cm-sending').style.display='none';document.getElementById('cm-success').style.display='block';},700);
 }
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeApplyModal();});
-document.addEventListener('click',function(e){if(e.target&&e.target.id==='applyModal')closeApplyModal();});
-
-initP('pC',30);initP('ctaC',15);
-(function(){var b=document.getElementById("mobCta");if(!b)return;var shown=false;window.addEventListener("scroll",function(){var s=window.pageYOffset>320;if(s!==shown){shown=s;b.classList.toggle("vis",s);document.body.classList.toggle("mob-bar-up",s)}},{passive:true});})();
-</script>
-
-</body></html>
+(function(){
+  var els=document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+  if(!('IntersectionObserver' in window)){els.forEach(function(el){el.classList.add('vis');});return;}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:0.1});
+  els.forEach(function(el){obs.observe(el);});
+})();
+(function(){
+  var b=document.getElementById('mobCta');if(!b)return;
+  var shown=false;
+  window.addEventListener('scroll',function(){var s=window.pageYOffset>320;if(s!==shown){shown=s;b.classList.toggle('vis',s);document.body.classList.toggle('mob-bar-up',s);}},{passive:true});
+})();
+(function(){
+  var loader=document.getElementById('loader');if(!loader)return;
+  var letters=loader.querySelectorAll('.l-logo span');
+  var bar=document.getElementById('lBar');
+  var sub=loader.querySelector('.l-sub');
+  letters.forEach(function(l,i){setTimeout(function(){l.style.opacity='1';l.style.transform='translateY(0)';},i*80+200);});
+  setTimeout(function(){sub.style.opacity='1';},700);
+  setTimeout(function(){bar.style.width='200px';},800);
+  setTimeout(function(){loader.classList.add('split-ready');},1800);
+  setTimeout(function(){loader.classList.add('exit');},2200);
+  setTimeout(function(){loader.classList.add('gone');document.body.style.overflow='';},3100);
+  document.body.style.overflow='hidden';
+})();
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item=this.parentElement;var isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+    if(!isOpen)item.classList.add('open');
+  });
+});
+</script></body></html>
