@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Payment Confirmed &mdash; Kryson</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="styles.css">
+<style>
+.success-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 20px 60px;background:var(--bg)}
+.success-icon{width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,0.1);border:2px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--green);margin:0 auto 24px}
+.success-title{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;color:var(--text);text-align:center}
+.success-sub{font-size:16px;color:var(--text3);line-height:1.7;max-width:480px;text-align:center;margin:0 auto 40px}
+.success-steps{display:flex;flex-direction:column;gap:12px;max-width:440px;width:100%;margin:0 auto 48px}
+.success-step{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:12px}
+.ss-num{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ss-text{font-size:14px;color:var(--text2);line-height:1.5}
+.ss-text strong{color:var(--text);display:block;margin-bottom:2px}
+.cal-wrap{width:100%;max-width:700px;margin:0 auto}
+.cal-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;color:var(--text3);text-align:center;margin-bottom:20px}
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html" class="nav-logo">Kryson</a>
+</nav>
+
+<div class="success-wrap">
+  <div class="success-icon">&#10003;</div>
+  <h1 class="success-title">Payment confirmed. <span class="gt">Let&#39;s get started.</span></h1>
+  <p class="success-sub">Thank you for choosing Kryson. We&#39;re excited to build your website. Here&#39;s what happens next &mdash; book your kick-off call below and we&#39;ll get everything moving.</p>
+
+  <div class="success-steps">
+    <div class="success-step">
+      <div class="ss-num">1</div>
+      <div class="ss-text"><strong>Book your kick-off call</strong>Pick a time below that suits you. The call takes 30&ndash;45 minutes.</div>
+    </div>
+    <div class="success-step">
+      <div class="ss-num">2</div>
+      <div class="ss-text"><strong>We discuss your website</strong>We&#39;ll cover your brand, goals, content, and anything specific you want.</div>
+    </div>
+    <div class="success-step">
+      <div class="ss-num">3</div>
+      <div class="ss-text"><strong>We build &amp; deliver</strong>You&#39;ll receive a live preview link to review before we go live.</div>
+    </div>
+  </div>
+
+  <div class="cal-label">Book your kick-off call</div>
+  <div class="cal-wrap">
+    <div class="calendly-inline-widget" data-url="https://calendly.com/kyle-krysongroup/kryson-limited-website-kick-off-call?hide_gdpr_banner=1&primary_color=5B21B6" style="min-width:320px;height:700px;"></div>
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  </div>
+</div>
+
+</body>
+</html>
