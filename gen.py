@@ -6,7 +6,7 @@
 
 import os
 
-APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzckDOU3iEUEgeQHY-1-EdknLEPYCxLIlfdzFW_TNxmEG27HKa1x-i9aGh9yvs_ydyG/exec'
+APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpyKrwZs0MmqtXVc9MpmT0L2E9sw60ykDx1p88HHQXxn503NFSrRzvtZa85GzhQPVW/exec'
 # Replace these with your actual Stripe payment links from stripe.com/payment-links
 STRIPE_497  = 'https://buy.stripe.com/cNi7sEgeh2Yq1qb0EYgw000'
 STRIPE_997  = 'https://buy.stripe.com/8x228kfad2Yqfh173mgw001'
