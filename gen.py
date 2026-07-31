@@ -6,7 +6,7 @@
 
 import os
 
-APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpyKrwZs0MmqtXVc9MpmT0L2E9sw60ykDx1p88HHQXxn503NFSrRzvtZa85GzhQPVW/exec'
+APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJdvzoi0NBXMrJGpiHKn3ylMkxagH3Rrt81_hyAsnT8JywbrZRLWKTdFez9BZ3b28c/exec'
 # Replace these with your actual Stripe payment links from stripe.com/payment-links
 STRIPE_497  = 'https://buy.stripe.com/cNi7sEgeh2Yq1qb0EYgw000'
 STRIPE_997  = 'https://buy.stripe.com/8x228kfad2Yqfh173mgw001'
@@ -124,8 +124,9 @@ NAV = (
     '<ul class="nav-links">'
     '<li><a href="work.html">Our Work</a></li>'
     '<li><a href="pricing.html">Pricing</a></li>'
+    '<li><a href="insights.html">Insights</a></li>'
     '<li><a href="about.html">About</a></li>'
-    '<li><a href="contact.html" class="nav-cta">Get Started</a></li>'
+    '<li><a href="pricing.html" class="nav-cta">Buy Now</a></li>'
     '</ul>'
     '<button class="nav-burger" onclick="toggleMobNav()" aria-label="Menu">'
     '<span></span><span></span><span></span>'
@@ -134,8 +135,9 @@ NAV = (
     '<div class="mob-nav" id="mobNav">'
     '<a href="work.html" onclick="toggleMobNav()">Our Work</a>'
     '<a href="pricing.html" onclick="toggleMobNav()">Pricing</a>'
+    '<a href="insights.html" onclick="toggleMobNav()">Insights</a>'
     '<a href="about.html" onclick="toggleMobNav()">About</a>'
-    '<a href="contact.html" class="mnav-cta">Get Started</a>'
+    '<a href="pricing.html" class="mnav-cta">Buy Now</a>'
     '</div>'
 )
 
@@ -404,7 +406,7 @@ def build_index():
         'We build professional websites and digital systems for gyms, saunas, yoga studios, and wellness businesses across Ireland. Custom-built from scratch. No templates, ever.'
         '</p>'
         '<div class="hero-btns">'
-        '<button class="btn btn-grad" onclick="openModal()">Get a Free Quote &rarr;</button>'
+        '<a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a>'
         '<a href="work.html" class="btn btn-outline">See Our Work</a>'
         '</div>'
         '<div class="hero-trust">'
@@ -592,7 +594,8 @@ def build_index():
         '<li class="price-feat">' + check('pf-1') + 'Contact form</li>'
         '<li class="price-feat">' + check('pf-1') + 'Delivered in 7 days</li>'
         '</ul>'
-        '<button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button>'
+        '<a href="' + STRIPE_497 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center">Buy Now &mdash; &euro;497 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure payment via Stripe</div>'
         '</div>'
 
         '<div class="price-card featured reveal">'
@@ -610,7 +613,8 @@ def build_index():
         '<li class="price-feat">' + check('pf-2') + 'Google Analytics 4</li>'
         '<li class="price-feat">' + check('pf-2') + 'Delivered in 14 days</li>'
         '</ul>'
-        '<button class="btn btn-grad" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button>'
+        '<a href="' + STRIPE_997 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center">Buy Now &mdash; &euro;997 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure payment via Stripe</div>'
         '</div>'
 
         '<div class="price-card reveal">'
@@ -627,7 +631,8 @@ def build_index():
         '<li class="price-feat">' + check('pf-3') + 'Review management</li>'
         '<li class="price-feat">' + check('pf-3') + 'Delivered in 21 days</li>'
         '</ul>'
-        '<button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center">Get Started &rarr;</button>'
+        '<a href="' + STRIPE_1497 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center">Buy Now &mdash; &euro;1,497 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure payment via Stripe</div>'
         '</div>'
 
         '</div>'
@@ -730,8 +735,9 @@ def build_pricing():
         '<li class="fpc-feat">' + fpc_check('fpc-i1') + '1 round of revisions</li>'
         '</ul>'
         '<div class="fpc-timeline">Delivered in 7 days</div>'
-        '<button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center;margin-bottom:8px">Get Started &rarr;</button>'
-        '<a href="' + STRIPE_497 + '" class="fpc-stripe" target="_blank" rel="noopener">Ready to proceed? Pay &euro;497 securely &#8599;</a>'
+        '<a href="' + STRIPE_497 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-bottom:10px">Buy Now &mdash; &euro;497 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure checkout via Stripe</div>'
+        '<button class="fpc-enquire" onclick="openModal()">Have questions first? Get a free quote</button>'
         '</div>'
 
         # GROWTH
@@ -756,8 +762,9 @@ def build_pricing():
         '<li class="fpc-feat">' + fpc_check('fpc-i2') + '2 rounds of revisions</li>'
         '</ul>'
         '<div class="fpc-timeline">Delivered in 14 days</div>'
-        '<button class="btn btn-grad" onclick="openModal()" style="width:100%;justify-content:center;margin-bottom:8px">Get Started &rarr;</button>'
-        '<a href="' + STRIPE_997 + '" class="fpc-stripe" target="_blank" rel="noopener">Ready to proceed? Pay &euro;997 securely &#8599;</a>'
+        '<a href="' + STRIPE_997 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-bottom:10px">Buy Now &mdash; &euro;997 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure checkout via Stripe</div>'
+        '<button class="fpc-enquire" onclick="openModal()">Have questions first? Get a free quote</button>'
         '</div>'
 
         # COMPLETE
@@ -780,8 +787,9 @@ def build_pricing():
         '<li class="fpc-feat">' + fpc_check('fpc-i3') + '3 rounds of revisions</li>'
         '</ul>'
         '<div class="fpc-timeline">Delivered in 21 days</div>'
-        '<button class="btn btn-outline" onclick="openModal()" style="width:100%;justify-content:center;margin-bottom:8px">Get Started &rarr;</button>'
-        '<a href="' + STRIPE_1497 + '" class="fpc-stripe" target="_blank" rel="noopener">Ready to proceed? Pay &euro;1,497 securely &#8599;</a>'
+        '<a href="' + STRIPE_1497 + '" class="btn btn-grad" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-bottom:10px">Buy Now &mdash; &euro;1,497 &rarr;</a>'
+        '<div class="stripe-safe">' + icon('payment') + ' Secure checkout via Stripe</div>'
+        '<button class="fpc-enquire" onclick="openModal()">Have questions first? Get a free quote</button>'
         '</div>'
 
         '</div>'
@@ -1046,6 +1054,13 @@ def build_sitemap():
         (SITE_URL + '/work', '0.8', 'monthly'),
         (SITE_URL + '/about', '0.7', 'monthly'),
         (SITE_URL + '/contact', '0.8', 'monthly'),
+        (SITE_URL + '/insights', '0.8', 'weekly'),
+        (SITE_URL + '/insight-gym-website-cost-ireland', '0.7', 'monthly'),
+        (SITE_URL + '/insight-yoga-studio-website', '0.7', 'monthly'),
+        (SITE_URL + '/insight-local-seo-fitness-ireland', '0.7', 'monthly'),
+        (SITE_URL + '/insight-personal-trainer-website', '0.7', 'monthly'),
+        (SITE_URL + '/insight-wellness-website-mistakes', '0.7', 'monthly'),
+        (SITE_URL + '/insight-online-booking-wellness', '0.7', 'monthly'),
     ]
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
@@ -1061,6 +1076,452 @@ def build_sitemap():
     return '\n'.join(lines)
 
 # ============================================================
+# INSIGHT PAGES
+# ============================================================
+
+def insight_head(title, desc, canonical, date):
+    schema = (
+        '<script type="application/ld+json">'
+        '{"@context":"https://schema.org","@type":"Article",'
+        '"headline":"' + title + '",'
+        '"description":"' + desc + '",'
+        '"datePublished":"' + date + '",'
+        '"author":{"@type":"Person","name":"Kyle","url":"' + SITE_URL + '/about"},'
+        '"publisher":{"@type":"Organization","name":"Kryson","url":"' + SITE_URL + '"},'
+        '"mainEntityOfPage":"' + canonical + '"}'
+        '</script>'
+    )
+    return page_head(title, desc, canonical, schema)
+
+def insight_cta():
+    return (
+        '<div class="insight-cta-box">'
+        '<div class="icta-tag">Ready to get started?</div>'
+        '<h3>Get a professional wellness website.<br><span class="gt">Starting from &euro;497.</span></h3>'
+        '<p>Custom-built, mobile-first, and fully optimised for local search. Delivered in as little as 7 days.</p>'
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px">'
+        '<a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a>'
+        '<a href="work.html" class="btn btn-outline">View Our Work</a>'
+        '</div>'
+        '<div class="stripe-safe" style="justify-content:center;margin-top:12px">' + icon('payment') + ' Secure checkout via Stripe</div>'
+        '</div>'
+    )
+
+def build_insights():
+    articles = [
+        ('insight-gym-website-cost-ireland.html',  'How Much Does a Gym Website Cost in Ireland? (2025 Guide)',          'gym-cost'),
+        ('insight-yoga-studio-website.html',        'What Every Yoga Studio Website Needs to Convert Visitors',           'yoga'),
+        ('insight-local-seo-fitness-ireland.html',  'Local SEO for Gyms &amp; Fitness Studios in Ireland',               'seo'),
+        ('insight-personal-trainer-website.html',   'Do Personal Trainers in Ireland Need a Website? Yes &mdash; Here&#39;s Why', 'pt'),
+        ('insight-wellness-website-mistakes.html',  '7 Website Mistakes Irish Wellness Businesses Make',                  'mistakes'),
+        ('insight-online-booking-wellness.html',    'Online Booking for Wellness Businesses: What Actually Works',        'booking'),
+    ]
+    cards = ''
+    for slug, title, _ in articles:
+        cards += (
+            '<a href="' + slug + '" class="insight-card">'
+            '<div class="ic-tag">Guide</div>'
+            '<div class="ic-title">' + title + '</div>'
+            '<div class="ic-read">Read guide &rarr;</div>'
+            '</a>'
+        )
+    return (
+        page_head(
+            'Web Design Insights for Health &amp; Wellness Businesses in Ireland | Kryson',
+            'Guides, tips, and expert advice on web design, local SEO, and online booking for gyms, yoga studios, and wellness businesses across Ireland.',
+            SITE_URL + '/insights'
+        ) +
+        NAV +
+        '<div class="inner-hero-wrap">'
+        '<div class="inner-hero">'
+        '<div class="section-tag reveal">Insights &amp; Guides</div>'
+        '<h1 class="inner-h1 reveal">Web design knowledge<br><span class="gt">for wellness businesses.</span></h1>'
+        '<p class="inner-sub reveal">Practical guides on websites, SEO, and online booking for Irish gyms, studios, and wellness businesses.</p>'
+        '</div>'
+        '</div>'
+        '<div class="page-body">'
+        '<div class="insight-grid reveal">' + cards + '</div>'
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Ready to build your <span class="gt">website?</span></h2>'
+        '<p>Custom wellness websites from &euro;497. Delivered in 7 days.</p>'
+        '<div class="cta-btns">'
+        '<a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a>'
+        '<a href="work.html" class="btn btn-outline">View Our Work</a>'
+        '</div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_gym_cost():
+    body = (
+        '<p class="insight-intro">If you run a gym or fitness centre in Ireland and you&#39;re thinking about getting a website, the first question is usually the same: <strong>how much is this going to cost?</strong> The honest answer depends on what you actually need &mdash; and what you&#39;re willing to sacrifice.</p>'
+
+        '<h2>DIY Website Builders (Wix, Squarespace): &euro;0&ndash;&euro;30/month</h2>'
+        '<p>Tools like Wix and Squarespace let you build a site yourself using drag-and-drop templates. On the surface they look affordable. In practice, the problems compound quickly.</p>'
+        '<p>Template designs are used by thousands of other businesses. Your gym looks like every other gym. Load times are slow because the platforms are bloated. SEO is limited &mdash; you can&#39;t add proper schema markup, you&#39;re restricted to basic meta tags, and your rankings suffer. There&#39;s also an ongoing monthly fee that adds up to &euro;360+ per year, forever, for something you don&#39;t own.</p>'
+        '<p>For a gym with a serious reputation, a Wix site undermines trust before a prospective member has even read a word.</p>'
+
+        '<h2>Freelance Developers: &euro;500&ndash;&euro;3,000</h2>'
+        '<p>Hiring a freelance developer gives you more flexibility but comes with risk. Quality varies enormously. Timelines slip. Communication breaks down. And you rarely get the local SEO knowledge that&#39;s critical for a gym trying to rank in their area.</p>'
+
+        '<h2>Agencies (General): &euro;3,000&ndash;&euro;10,000+</h2>'
+        '<p>A general web agency will build you something, but they&#39;re not specialists in health and wellness. You&#39;ll spend time educating them about your industry, your members, and what your customers actually search for. The price reflects their overheads, not necessarily better results for you.</p>'
+
+        '<h2>Kryson: &euro;497&ndash;&euro;1,497 (One-Time)</h2>'
+        '<p>We build exclusively for health and wellness businesses in Ireland. No monthly fees, no templates, no lock-in. Our three packages cover every stage of business:</p>'
+        '<ul class="insight-list">'
+        '<li><strong>Starter (&euro;497)</strong> &mdash; Custom website up to 5 pages, mobile-first, Google Business setup, on-page SEO, JSON-LD schema. Delivered in 7 days.</li>'
+        '<li><strong>Growth (&euro;997)</strong> &mdash; Everything in Starter plus Stripe payments, class booking system, advanced local SEO, Google Analytics 4. Delivered in 14 days.</li>'
+        '<li><strong>Complete (&euro;1,497)</strong> &mdash; Everything in Growth plus a member portal, admin CRM, staff roster, transaction history, and review management. Delivered in 21 days.</li>'
+        '</ul>'
+        '<p>It&#39;s a one-time payment. You own everything outright. No ongoing fees to us.</p>'
+
+        '<h2>What Should a Gym Website Actually Include?</h2>'
+        '<p>Regardless of how you build it, a gym website in Ireland needs at minimum:</p>'
+        '<ul class="insight-list">'
+        '<li>A clear homepage with your location, class types, and pricing</li>'
+        '<li>Mobile-responsive design (over 70% of searches are on mobile)</li>'
+        '<li>A contact form or online booking system</li>'
+        '<li>Google Business Profile integration</li>'
+        '<li>Local SEO targeting your town/city (e.g. "gym in Galway", "fitness centre Dublin")</li>'
+        '<li>Fast load times &mdash; under 3 seconds on mobile</li>'
+        '</ul>'
+
+        '<h2>The Real Cost of a Bad Website</h2>'
+        '<p>A gym website that doesn&#39;t rank in local search, doesn&#39;t load on mobile, or looks outdated is actively costing you members every month. If even one new member signs up as a result of a professional website &mdash; at &euro;50&ndash;&euro;80/month &mdash; it pays for itself within a year. Most gyms see a return on their website investment within the first 2&ndash;3 months.</p>'
+    )
+    return (
+        insight_head(
+            'How Much Does a Gym Website Cost in Ireland? (2025 Guide) | Kryson',
+            'A complete breakdown of gym website costs in Ireland &mdash; from Wix to custom builds. Understand what you&#39;re paying for and what actually gets results.',
+            SITE_URL + '/insight-gym-website-cost-ireland',
+            '2025-01-15'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Cost Guide</div>'
+        '<h1 class="insight-h1">How Much Does a Gym Website<br>Cost in Ireland? <span class="gt">(2025 Guide)</span></h1>'
+        '<div class="insight-meta">5 min read &bull; Web Design &bull; Ireland</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Ready to get <span class="gt">started?</span></h2>'
+        '<p>Custom gym website from &euro;497. One-time payment. No monthly fees.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_yoga():
+    body = (
+        '<p class="insight-intro">Most yoga studio websites in Ireland have the same problems: they&#39;re built on a generic template, they don&#39;t show up in local search, and there&#39;s no easy way for visitors to actually book a class. Here&#39;s what a proper yoga studio website needs &mdash; and why it matters.</p>'
+
+        '<h2>1. A Clear Class Timetable</h2>'
+        '<p>Your class schedule should be front and centre. Visitors want to know immediately: when are your classes, what styles do you teach, and where are you located? A cluttered or hidden timetable loses potential students before they&#39;ve even considered booking.</p>'
+        '<p>The timetable should update without you needing a developer every time something changes. Ideally it connects to your booking system so class availability is shown in real time.</p>'
+
+        '<h2>2. Online Booking and Payment</h2>'
+        '<p>If students can&#39;t book and pay directly on your site, you&#39;re losing a significant portion of the people who visit. People make decisions in the moment. A "call us to book" instruction adds friction that kills conversions.</p>'
+        '<p>Drop-in passes, class bundles, and monthly memberships should all be purchasable online via Stripe &mdash; directly on your website, without redirecting to a third-party platform.</p>'
+
+        '<h2>3. Mobile-First Design</h2>'
+        '<p>Over 75% of yoga studio searches in Ireland happen on a phone. If your website isn&#39;t optimised for mobile &mdash; fast loading, large tap targets, readable text without zooming &mdash; you&#39;re turning away the majority of potential students.</p>'
+        '<p>Mobile-first means the mobile experience is designed first, not adapted from a desktop layout as an afterthought.</p>'
+
+        '<h2>4. Local SEO</h2>'
+        '<p>When someone searches "yoga classes Dublin" or "yoga studio near me", your site needs to appear. This requires:</p>'
+        '<ul class="insight-list">'
+        '<li>A fully optimised Google Business Profile with your address, hours, and reviews</li>'
+        '<li>Page titles and meta descriptions targeting local keywords</li>'
+        '<li>LocalBusiness JSON-LD schema markup</li>'
+        '<li>Your studio listed in Irish business directories (Golden Pages, Yelp IE, etc.)</li>'
+        '</ul>'
+
+        '<h2>5. Your Story and Instructors</h2>'
+        '<p>Yoga is personal. Students want to know who will be teaching them before they walk through the door. An About page with real photos of your instructors &mdash; their experience, styles, and personality &mdash; builds the trust that converts a curious visitor into a paying student.</p>'
+
+        '<h2>6. Social Proof</h2>'
+        '<p>Reviews and testimonials from real students are highly persuasive. A dedicated section with genuine Google reviews, or a curated wall of testimonials, can be the deciding factor for someone choosing between your studio and a competitor&#39;s.</p>'
+
+        '<h2>What Does a Yoga Studio Website Cost in Ireland?</h2>'
+        '<p>A professionally built yoga studio website starts at &euro;497 with Kryson &mdash; custom designed, mobile-first, with local SEO and Google Business setup included. If you need online booking and Stripe payments, that&#39;s our &euro;997 Growth package.</p>'
+    )
+    return (
+        insight_head(
+            'What Every Yoga Studio Website Needs to Convert Visitors | Kryson',
+            'Six things every yoga studio website in Ireland needs to turn visitors into paying students &mdash; from class timetables to local SEO and mobile-first design.',
+            SITE_URL + '/insight-yoga-studio-website',
+            '2025-02-01'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Yoga Studios</div>'
+        '<h1 class="insight-h1">What Every Yoga Studio Website<br>Needs to <span class="gt">Convert Visitors</span></h1>'
+        '<div class="insight-meta">4 min read &bull; Web Design &bull; Yoga Studios</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Ready to build your <span class="gt">yoga studio website?</span></h2>'
+        '<p>Custom-designed, mobile-first, with booking and payments built in. From &euro;497.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_seo():
+    body = (
+        '<p class="insight-intro">If you run a gym, sauna, or fitness studio in Ireland, local SEO is the single highest-return investment you can make in your marketing. When someone searches "gym near me" or "pilates classes Cork", appearing at the top of those results sends you customers who are already ready to buy &mdash; for free.</p>'
+
+        '<h2>What Is Local SEO?</h2>'
+        '<p>Local SEO is the process of optimising your online presence so your business appears when people nearby search for what you offer. Unlike paid advertising, local SEO drives ongoing organic traffic &mdash; you pay once to set it up properly, and it keeps working indefinitely.</p>'
+
+        '<h2>Step 1: Your Google Business Profile</h2>'
+        '<p>Your Google Business Profile (GBP) is the most important local SEO asset you have. It&#39;s the listing that appears in Google Maps and the "local pack" (the three businesses shown at the top of local search results).</p>'
+        '<p>To optimise your GBP:</p>'
+        '<ul class="insight-list">'
+        '<li>Verify your business with a postcode</li>'
+        '<li>Add accurate opening hours (and update them for bank holidays)</li>'
+        '<li>Upload high-quality photos of your facilities &mdash; at least 10</li>'
+        '<li>Write a keyword-rich business description (e.g. "CrossFit box in Limerick...")</li>'
+        '<li>Choose the right primary and secondary categories</li>'
+        '<li>Post updates at least once per week</li>'
+        '</ul>'
+
+        '<h2>Step 2: On-Page SEO for Your Website</h2>'
+        '<p>Your website needs to signal to Google exactly what you do and where you are. Every page should have:</p>'
+        '<ul class="insight-list">'
+        '<li>A title tag containing your main keyword and location (e.g. "Yoga Classes in Dublin | Studio Name")</li>'
+        '<li>A meta description that includes your city and a clear benefit</li>'
+        '<li>Your address and phone number in the footer (matching your Google Business Profile exactly)</li>'
+        '<li>An embedded Google Map on your contact page</li>'
+        '<li>LocalBusiness JSON-LD schema markup &mdash; this tells Google your name, address, hours, and service area in structured form</li>'
+        '</ul>'
+
+        '<h2>Step 3: Local Keywords in Your Content</h2>'
+        '<p>Write content that targets the phrases your customers actually search. For an Irish fitness business, that includes:</p>'
+        '<ul class="insight-list">'
+        '<li>"[your service] in [your city]" &mdash; e.g. "personal trainer in Galway"</li>'
+        '<li>"[your service] near me" pages targeting your area</li>'
+        '<li>Blog posts answering local questions ("best gyms in Cork", "how to start yoga in Dublin")</li>'
+        '</ul>'
+
+        '<h2>Step 4: Local Citations</h2>'
+        '<p>Citations are mentions of your business name, address, and phone number on other websites. Consistent citations on directories like Golden Pages, Yelp Ireland, and local business directories tell Google you&#39;re a legitimate local business &mdash; which boosts your Maps ranking.</p>'
+
+        '<h2>Step 5: Reviews</h2>'
+        '<p>Google reviews directly influence your local ranking. Businesses with more reviews and higher ratings rank higher. Build a simple process for asking satisfied members to leave a review &mdash; a follow-up text, an email, or a card handed out after their session. Even getting from 3 reviews to 15 can move you from page 2 to the top 3.</p>'
+
+        '<h2>How Long Does Local SEO Take?</h2>'
+        '<p>You&#39;ll typically see movement in Google Maps rankings within 4&ndash;8 weeks of properly optimising your GBP and website. Organic search results take 3&ndash;6 months. The businesses that invest in SEO early and maintain it consistently dominate their local area for years.</p>'
+    )
+    return (
+        insight_head(
+            'Local SEO for Gyms &amp; Fitness Studios in Ireland: A Practical Guide | Kryson',
+            'How to rank higher in local search for your gym, yoga studio, or wellness business in Ireland. Google Business Profile, on-page SEO, citations, and reviews explained.',
+            SITE_URL + '/insight-local-seo-fitness-ireland',
+            '2025-02-15'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Local SEO</div>'
+        '<h1 class="insight-h1">Local SEO for Gyms &amp; Fitness<br>Studios in <span class="gt">Ireland</span></h1>'
+        '<div class="insight-meta">6 min read &bull; Local SEO &bull; Ireland</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Want local SEO <span class="gt">built in?</span></h2>'
+        '<p>Every Kryson website includes schema markup, Google Business setup, and on-page SEO targeting your area.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_pt():
+    body = (
+        '<p class="insight-intro">A lot of personal trainers in Ireland rely entirely on Instagram and word of mouth. It works &mdash; until it doesn&#39;t. A website isn&#39;t just a nice-to-have. For a PT serious about building a sustainable client base, it&#39;s essential.</p>'
+
+        '<h2>Instagram Followers Don&#39;t Equal Clients</h2>'
+        '<p>Social media is great for visibility and engagement, but it&#39;s a platform you don&#39;t own. The algorithm changes. Reach drops. Your account could be restricted or compromised. And critically &mdash; Instagram isn&#39;t where people go when they&#39;re ready to book a session.</p>'
+        '<p>When someone decides they want a personal trainer in Dublin or Cork, they search Google. If you don&#39;t have a website, you don&#39;t exist in that moment. The client goes to someone who does.</p>'
+
+        '<h2>What a PT Website Should Do</h2>'
+        '<p>A good personal trainer website isn&#39;t just a digital business card. It should actively convert visitors into paying clients. That means:</p>'
+        '<ul class="insight-list">'
+        '<li><strong>Clear service pages</strong> &mdash; 1-on-1 sessions, online coaching, nutrition plans. Each with pricing.</li>'
+        '<li><strong>Online booking</strong> &mdash; Let clients book a consultation or their first session without picking up the phone.</li>'
+        '<li><strong>Payment links</strong> &mdash; Take session packages and monthly retainer payments directly online via Stripe.</li>'
+        '<li><strong>Transformation results</strong> &mdash; Before/after results (with client permission) and testimonials build trust fast.</li>'
+        '<li><strong>About page with a real photo</strong> &mdash; People hire PTs they connect with. Your qualifications, your story, and your training philosophy matter.</li>'
+        '</ul>'
+
+        '<h2>Local SEO for Personal Trainers</h2>'
+        '<p>The highest-intent searches for a PT look like this: "personal trainer Dublin 2", "online personal trainer Ireland", "personal trainer near Dundrum". Ranking for these terms puts you in front of people who are actively looking to hire &mdash; not just browse.</p>'
+        '<p>A properly built website with local SEO can generate a consistent flow of inbound enquiries. Even one new long-term client per month from your website at &euro;200&ndash;&euro;400/month pays for the site many times over in year one.</p>'
+
+        '<h2>What About Just Using a Booking App?</h2>'
+        '<p>Apps like Calendly, Acuity, or Mindbody are useful tools &mdash; but they don&#39;t replace a website. They don&#39;t rank in Google. They don&#39;t tell your story. And they send clients to a generic platform rather than your brand. A proper website integrates booking and payment directly, keeping clients on your domain.</p>'
+
+        '<h2>How Much Does a Personal Trainer Website Cost?</h2>'
+        '<p>A custom PT website with Kryson starts at &euro;497 for the Starter package &mdash; a fully designed, mobile-first site with local SEO. If you want Stripe payments and online booking built in, that&#39;s the &euro;997 Growth package. Both are one-time payments. No monthly fees to us.</p>'
+    )
+    return (
+        insight_head(
+            'Do Personal Trainers in Ireland Need a Website? Yes &mdash; Here&#39;s Why | Kryson',
+            'Why Instagram and word of mouth aren&#39;t enough for Irish personal trainers &mdash; and what a proper PT website should include to generate consistent clients.',
+            SITE_URL + '/insight-personal-trainer-website',
+            '2025-03-01'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Personal Trainers</div>'
+        '<h1 class="insight-h1">Do Personal Trainers in Ireland<br>Need a Website? <span class="gt">Yes.</span></h1>'
+        '<div class="insight-meta">4 min read &bull; Web Design &bull; Personal Trainers</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Build your PT website <span class="gt">today.</span></h2>'
+        '<p>From &euro;497. Custom design, booking, payments, and local SEO. Delivered in 7 days.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_mistakes():
+    mistakes = [
+        ('No Mobile Optimisation',
+         'More than 70% of health and wellness searches in Ireland happen on a phone. If your website isn&#39;t designed mobile-first &mdash; fast, readable, easy to navigate on a small screen &mdash; you&#39;re turning away the majority of your potential customers before they&#39;ve seen anything about your business.'),
+        ('Slow Load Times',
+         'Google research shows that 53% of mobile visitors leave a page that takes longer than 3 seconds to load. Template-built sites loaded with stock photos and unused plugins regularly take 6&ndash;10 seconds. Every extra second costs you members and ranking.'),
+        ('No Local SEO',
+         'Having a website and being findable in local search are two different things. Without proper Google Business Profile setup, location-targeted title tags, and LocalBusiness schema markup, your site won&#39;t appear when people search "gym near me" or "yoga Dublin" &mdash; the searches with the highest buying intent.'),
+        ('No Online Booking or Payment',
+         'Making people call or email to book a class introduces friction that kills conversions. In 2025, customers expect to book and pay online in under 60 seconds. If your competitors offer this and you don&#39;t, you&#39;re losing clients who never even contact you.'),
+        ('Generic Template Design',
+         'Wix and Squarespace templates are used by thousands of businesses. When your gym or studio looks identical to every other wellness business online, you fail to build trust or differentiate your brand. Custom design builds credibility before anyone reads a single word.'),
+        ('No Social Proof',
+         'Real Google reviews, member testimonials, and before/after transformations (where relevant) are highly persuasive. A wellness website with zero reviews or testimonials looks like an unestablished business. Building social proof into your site &mdash; and making it easy for members to leave reviews &mdash; is one of the highest-return changes you can make.'),
+        ('No Clear Call to Action',
+         'Many wellness websites bury the most important action: join, book, or buy. Every page should have one primary call to action that&#39;s visible without scrolling. "View Membership Options", "Book a Free Trial", "Buy a Class Pack" &mdash; clear, prominent, and linked directly to the action.'),
+    ]
+    body = '<p class="insight-intro">After building websites for health and wellness businesses across Ireland, we&#39;ve seen the same mistakes repeatedly. Here are the seven that cost Irish wellness businesses the most customers &mdash; and how to fix them.</p>'
+    for i, (title, text) in enumerate(mistakes, 1):
+        body += (
+            '<h2>' + str(i) + '. ' + title + '</h2>'
+            '<p>' + text + '</p>'
+        )
+    body += '<p>If your website has any of these issues, they&#39;re actively costing you members every month. A professional rebuild pays for itself when even one additional client signs up as a result.</p>'
+    return (
+        insight_head(
+            '7 Website Mistakes Irish Wellness Businesses Make (And How to Fix Them) | Kryson',
+            'The seven most common website mistakes made by gyms, yoga studios, and wellness businesses in Ireland &mdash; and exactly how to fix each one.',
+            SITE_URL + '/insight-wellness-website-mistakes',
+            '2025-03-15'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Web Design</div>'
+        '<h1 class="insight-h1">7 Website Mistakes Irish Wellness<br><span class="gt">Businesses Make</span></h1>'
+        '<div class="insight-meta">5 min read &bull; Web Design &bull; Ireland</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>None of these mistakes<br>on <span class="gt">your website.</span></h2>'
+        '<p>Every Kryson site is custom-built, mobile-first, and optimised for local search from day one.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+def build_insight_booking():
+    body = (
+        '<p class="insight-intro">Online booking is one of the highest-impact additions you can make to a wellness business website. But not all booking solutions are created equal. Here&#39;s what actually works for Irish gyms, studios, and wellness businesses &mdash; and what to avoid.</p>'
+
+        '<h2>Why Online Booking Matters</h2>'
+        '<p>Clients make decisions in moments. If someone is on your website at 10pm on a Tuesday thinking about joining your yoga class, and they can&#39;t book immediately, the moment passes. They&#39;ll either forget or find a competitor who lets them book instantly.</p>'
+        '<p>Businesses that add online booking typically see a 20&ndash;40% increase in new client conversions. Not because they&#39;re getting more traffic &mdash; but because they&#39;re converting the traffic they already have.</p>'
+
+        '<h2>Option 1: Direct Stripe Payment Links (Simplest)</h2>'
+        '<p>For wellness businesses just starting out, Stripe Payment Links are the fastest path to taking online payments. You create a link for each product (e.g. "10-class bundle &mdash; &euro;120") and embed it directly on your website. Customers pay in 30 seconds. Money lands in your account.</p>'
+        '<p>This works well for class bundles, membership sign-ups, personal training packages, and gift vouchers. It doesn&#39;t handle class scheduling, but it removes the biggest barrier &mdash; payment friction.</p>'
+
+        '<h2>Option 2: Integrated Booking + Payment (Recommended)</h2>'
+        '<p>For businesses with a regular class timetable, an integrated booking system lets customers see available slots and book (and pay) in real time. Built into your website via Stripe, this means:</p>'
+        '<ul class="insight-list">'
+        '<li>Customers select a class and time directly on your site</li>'
+        '<li>They pay immediately via Stripe</li>'
+        '<li>You receive a booking notification</li>'
+        '<li>Class capacity is tracked automatically</li>'
+        '</ul>'
+        '<p>This is included in Kryson&#39;s Growth package (&euro;997).</p>'
+
+        '<h2>Option 3: Member Portal (Full Infrastructure)</h2>'
+        '<p>For established wellness businesses with a significant member base, a member portal takes booking to the next level. Members log in, view their membership status, manage their subscription, and book classes &mdash; all within your branded website. No third-party app. No redirects. Everything under your control.</p>'
+        '<p>This is what we built for Pikenhot.ie &mdash; a gym and sauna centre in Ireland. Members self-manage their accounts, payment history is tracked, and the admin has a full CRM dashboard. This is our Complete package (&euro;1,497).</p>'
+
+        '<h2>What to Avoid</h2>'
+        '<ul class="insight-list">'
+        '<li><strong>Generic booking apps bolted on as iframes</strong> &mdash; They break the design, load slowly, and send customers to a third-party domain.</li>'
+        '<li><strong>Facebook-only booking</strong> &mdash; You don&#39;t own your audience. A platform change or account issue can cut off your bookings entirely.</li>'
+        '<li><strong>Email-only enquiry forms</strong> &mdash; These introduce unnecessary delay. Every hour between a customer&#39;s enquiry and your reply is a chance for them to book elsewhere.</li>'
+        '</ul>'
+
+        '<h2>The Simple Recommendation</h2>'
+        '<p>Start with Stripe payment links on your website. If you have a class timetable, add integrated booking (Growth package). If you have 50+ members, invest in a member portal (Complete package). Each step pays for itself quickly.</p>'
+    )
+    return (
+        insight_head(
+            'Online Booking for Wellness Businesses: What Actually Works | Kryson',
+            'A practical guide to online booking systems for Irish gyms, yoga studios, and wellness businesses &mdash; Stripe links, integrated booking, and member portals explained.',
+            SITE_URL + '/insight-online-booking-wellness',
+            '2025-04-01'
+        ) +
+        NAV +
+        '<div class="insight-hero-wrap">'
+        '<div class="insight-hero-inner">'
+        '<div class="section-tag"><a href="insights.html">Insights</a> &rsaquo; Booking Systems</div>'
+        '<h1 class="insight-h1">Online Booking for Wellness<br>Businesses: <span class="gt">What Works</span></h1>'
+        '<div class="insight-meta">5 min read &bull; Bookings &amp; Payments &bull; Ireland</div>'
+        '</div>'
+        '</div>'
+        '<div class="insight-body">'
+        '<div class="insight-article">' + body + '</div>'
+        + insight_cta() +
+        '</div>'
+        '<section class="cta-band"><div class="cta-band-inner reveal">'
+        '<h2>Get booking &amp; payments<br><span class="gt">built into your site.</span></h2>'
+        '<p>Stripe-integrated. No third-party apps. Starts at &euro;997.</p>'
+        '<div class="cta-btns"><a href="pricing.html" class="btn btn-grad">See Packages &amp; Buy &rarr;</a></div>'
+        '</div></section>'
+        + page_foot()
+    )
+
+# ============================================================
 # BUILD ALL
 # ============================================================
 
@@ -1071,6 +1532,13 @@ def main():
         'work.html':    build_work(),
         'about.html':   build_about(),
         'contact.html': build_contact(),
+        'insights.html':                        build_insights(),
+        'insight-gym-website-cost-ireland.html': build_insight_gym_cost(),
+        'insight-yoga-studio-website.html':      build_insight_yoga(),
+        'insight-local-seo-fitness-ireland.html':build_insight_seo(),
+        'insight-personal-trainer-website.html': build_insight_pt(),
+        'insight-wellness-website-mistakes.html':build_insight_mistakes(),
+        'insight-online-booking-wellness.html':  build_insight_booking(),
     }
     for filename, html in pages.items():
         path = os.path.join(BASE_DIR, filename)

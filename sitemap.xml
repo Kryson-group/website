@@ -30,4 +30,46 @@
 <priority>0.8</priority>
 <xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/contact"/>
 </url>
+<url>
+<loc>https://krysonlimited.com/insights</loc>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insights"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-gym-website-cost-ireland</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-gym-website-cost-ireland"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-yoga-studio-website</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-yoga-studio-website"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-local-seo-fitness-ireland</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-local-seo-fitness-ireland"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-personal-trainer-website</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-personal-trainer-website"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-wellness-website-mistakes</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-wellness-website-mistakes"/>
+</url>
+<url>
+<loc>https://krysonlimited.com/insight-online-booking-wellness</loc>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+<xhtml:link rel="alternate" hreflang="en-IE" href="https://krysonlimited.com/insight-online-booking-wellness"/>
+</url>
 </urlset>
